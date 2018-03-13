@@ -15,7 +15,7 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public Boolean write(String filename, Semester semester)
+        public Boolean write(string filename, Semester semester)
         {
             StreamWriter file = null;
 

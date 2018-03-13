@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Scheduler
 {
     class CoTaughtCourses
     {
 
-
-        private String filename = "cotaughtCourses.csv";
+        private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string filename = "cotaughtCourses.csv";
         private Scheduler gui;
         private char DEFAULT_SEPARATOR = ',';
         private char DEFAULT_QUOTE = '"';
@@ -20,79 +22,64 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public String coTaughtCourse(String c1)
+        public string coTaughtCourse(string course)
         {
-
-            Scanner scanner;
+            StreamReader readFile;
             try
             {
-                scanner = new Scanner(new File(filename));
+                readFile = new StreamReader(filename);
             }
             catch (Exception e)
             {
-                gui.printMessage(" File " + filename + " not found.");
+                MessageBox.Show(e.Message);
                 return "";
             }
 
-            while (scanner.hasNext())
+            List<string> data;
+            string line;
+            while ((line = readFile.ReadLine()) != null)
             {
-                List<String> data = parseLine(scanner.nextLine());
-                if (c1.contentEquals(data.get(0)))
+                data = ParseLine(line);
+                
+                if (course.Equals(data.ElementAt(0)))
                 {
-                    scanner.close();
-                    return data.get(1);
+                    readFile.Close();
+                    return data.ElementAt(1);
                 }
-                else if (c1.contentEquals(data.get(1)))
+                else if (course.Equals(data.ElementAt(1)))
                 {
-                    scanner.close();
-                    return data.get(0);
+                    readFile.Close();
+                    return data.ElementAt(0);
                 }
             }
 
-            scanner.close();
+            readFile.Close();
             return "";
         }
 
-        public bool isCotaught(String c1, String c2)
+        public bool isCotaught(string course1, string course2)
         {
-            Scanner scanner;
-            try
-            {
-                scanner = new Scanner(new File(filename));
-            }
-            catch (Exception e)
-            {
-                gui.printMessage(" File " + filename + " not found.");
-                return false;
-            }
-
-            while (scanner.hasNext())
-            {
-                List<String> data = parseLine(scanner.nextLine());
-                if ((c1.contentEquals(data.get(0)) && c2.contentEquals(data.get(1)))
-                        || (c1.contentEquals(data.get(1)) && c2.contentEquals(data.get(0))))
-                {
-                    scanner.close();
-                    return true;
-                }
-
-            }
-            scanner.close();
-            return false;
+            return coTaughtCourse(course1).Equals(course2);
         }
 
-        private List<String> parseLine(String cvsLine)
+        private List<string> ParseLine(string cvsLine)
         {
-            return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+            return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
         }
 
-    private List<String> parseLine(String cvsLine, char separators, char customQuote)
+        private List<string> ParseLine(string cvsLine, char separators)
+        {
+            return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
+        }
+
+
+        private List<string> ParseLine(string cvsLine, char separators, char customQuote)
         {
 
-            List<String> result = new ArrayList<>();
+            List<string> result = new List<string>();
 
-            //if empty, return!
-            if (cvsLine == null && cvsLine.isEmpty())
+            // if empty, return!
+            if (cvsLine == null && !cvsLine.Any())
             {
                 return result;
             }
@@ -107,14 +94,14 @@ namespace Scheduler
                 separators = DEFAULT_SEPARATOR;
             }
 
-            StringBuffer curVal = new StringBuffer();
-            boolean inQuotes = false;
-            boolean startCollectChar = false;
-            boolean doubleQuotesInColumn = false;
+            StringBuilder curVal = new StringBuilder();
+            bool inQuotes = false;
+            bool startCollectChar = false;
+            bool doubleQuotesInColumn = false;
 
-            char[] chars = cvsLine.toCharArray();
+            char[] chars = cvsLine.ToCharArray();
 
-            for (char ch : chars)
+            foreach (char ch in chars)
             {
 
                 if (inQuotes)
@@ -127,19 +114,17 @@ namespace Scheduler
                     }
                     else
                     {
-
-                        //Fixed : allow "" in custom quote enclosed
                         if (ch == '\"')
                         {
                             if (!doubleQuotesInColumn)
                             {
-                                curVal.append(ch);
+                                curVal.Append(ch);
                                 doubleQuotesInColumn = true;
                             }
                         }
                         else
                         {
-                            curVal.append(ch);
+                            curVal.Append(ch);
                         }
 
                     }
@@ -151,50 +136,50 @@ namespace Scheduler
 
                         inQuotes = true;
 
-                        //Fixed : allow "" in empty quote enclosed
+                        // Fixed : allow "" in empty quote enclosed
                         if (chars[0] != '"' && customQuote == '\"')
                         {
-                            curVal.append('"');
+                            curVal.Append('"');
                         }
 
-                        //double quotes in column will hit this!
+                        // double quotes in column will hit this!
                         if (startCollectChar)
                         {
-                            curVal.append('"');
+                            curVal.Append('"');
                         }
 
                     }
                     else if (ch == separators)
                     {
 
-                        result.add(curVal.toString());
+                        result.Add(curVal.ToString());
 
-                        curVal = new StringBuffer();
+                        curVal = new StringBuilder();
                         startCollectChar = false;
 
                     }
                     else if (ch == '\r')
                     {
-                        //ignore LF characters
+                        // ignore LF characters
                         continue;
                     }
                     else if (ch == '\n')
                     {
-                        //the end, break!
+                        // the end, break!
                         break;
                     }
                     else
                     {
-                        curVal.append(ch);
+                        curVal.Append(ch);
                     }
                 }
 
             }
 
-            result.Add(curVal.toString());
+            result.Add(curVal.ToString());
 
             return result;
         }
-
     }
+
 }

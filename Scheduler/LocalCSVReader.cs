@@ -42,7 +42,7 @@ namespace Scheduler
                 return semester;
             }
 
-            List<String> data = ParseLine(readFile.ReadLine()); //get first line with semester name
+            List<string> data = ParseLine(readFile.ReadLine()); //get first line with semester name
             semester.SetName(data.ElementAt(0)); // save name of semester
              
             readFile.ReadLine(); // skip the next line - data headers
@@ -87,21 +87,21 @@ namespace Scheduler
             return semester;
         }
 
-        private List<String> ParseLine(String cvsLine)
+        private List<string> ParseLine(string cvsLine)
         {
             return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
         }
 
-        private List<String> ParseLine(String cvsLine, char separators)
+        private List<string> ParseLine(string cvsLine, char separators)
         {
             return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
         }
 
 
-        private List<String> ParseLine(String cvsLine, char separators, char customQuote)
+        private List<string> ParseLine(string cvsLine, char separators, char customQuote)
         {
 
-            List<String> result = new List<String>();
+            List<string> result = new List<string>();
 
             // if empty, return!
             if (cvsLine == null && !cvsLine.Any())

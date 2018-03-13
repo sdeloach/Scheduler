@@ -8,103 +8,103 @@ namespace Scheduler
     public class Section
     {
 
-        private String Name = "";
-        private String CourseID = "";
-        private String ClassNbr = "";
-        private String OfferNbr = "";
-        private String STRM = "";
-        private String Session = "";
-        private String AcadGroup = "";
-        private String Subject = "";
-        private String CatalogNbr = "";
-        private String ClassDescr = "";
-        private String AcadCareer = "";
-        private String Component = "";
-        private String EnrlStatus = "";
-        private String ClassStatus = "";
-        private String ClassType = "";
-        private String SectionName = "";
-        private String AssociatedClass = "";
-        private String AutoEnroll1 = "";
-        private String AutoEnroll2 = "";
-        private String SchedulePrint = "";
-        private String Consent = "";
-        private String RoomCapRequest = "";
-        private String EnrlCap = "";
-        private String EnrlTotal = "";
-        private String WaitCap = "";
-        private String WaitTotal = "";
-        private String MinEnrl = "";
-        private String TopicId = "";
-        private String TopicDescr = "";
-        private String PrintTopic = "";
-        private String AcadOrg = "";
-        private String NextStdntPosition = "";
-        private String Location = "";
-        private String RoomEventNbr = "";
-        private String InstructionMode = "";
-        private String StartDt = "";
-        private String EndDt = "";
-        private String MeetingStartDt = "";
-        private String MeetingEndDt = "";
-        private String CancelDt = "";
-        private String CombinedSection = "";
-        private String ClassMtgNbr1 = "";
-        private String FacilityId = "";
-        private String MeetingTimeStart = "";
-        private String MeetingTimeEnd = "";
-        private String Mon = "";
-        private String Tues = "";
-        private String Wed = "";
-        private String Thurs = "";
-        private String Fri = "";
-        private String Sat = "";
-        private String Sun = "";
-        private String Instructor = "";
-        private String InstreID = "";
-        private String ClassMtgNbr2 = "";
-        private String InstrRole = "";
-        private String SchedPrintInstr = "";
-        private String RoomChrstc1 = "";
-        private String RoomChrstc2 = "";
-        private String ClassNotesSeq = "";
-        private String PrintAt = "";
-        private String ClassNoteNbr = "";
-        private String PrintNoteWOCls = "";
-        private String ClassNoteLong = "";
-        private String ClassNote = "";
-        private String RsrvCapNbr = "";
-        private String ResCapEnrlCap = "";
-        private String ResCapEnrlTot = "";
-        private String RqrmntGroup1 = "";
-        private String RqrmntGroupDesc = "";
-        private String RoomChrstcQty = "";
-        private String UnitsMin = "";
-        private String UnitsMax = "";
-        private String UnitsAcadProg = "";
-        private String GradingBasis = "";
-        private String GradeRosterPrint = "";
-        private String ClassAssnComponent = "";
-        private String RqrmntGroup2 = "";
-        private String UseCatlgRqs = "";
-        private String SctnCombinedId = "";
-        private String CombSecClassNbr = "";
-        private String CombSecDescription = "";
-        private String ClassTableDescr = "";
-        private String CmbndSubject = "";
-        private String CmbndCatNbr = "";
-        private String RqmntDesigntn = "";
-        private String RqmntDesigDescr = "";
-        private String RqmntDesigDescrformal = "";
-        private String ClassAttr = "";
-        private String ClassAttrDescr = "";
-        private String AttrValue = "";
-        private String AttrValueDescr = "";
-        private String ReportDate = "";
-        private String myNotes = ""; // holds local notes only
-        private String Hidden = ""; // determines if we should hide section - local only
+        private string Name = "";
+        private string CourseID = "";
+        private string ClassNbr = "";
+        private string OfferNbr = "";
+        private string STRM = "";
+        private string Session = "";
+        private string AcadGroup = "";
+        private string Subject = "";
+        private string CatalogNbr = "";
+        private string ClassDescr = "";
+        private string AcadCareer = "";
+        private string Component = "";
+        private string EnrlStatus = "";
+        private string ClassStatus = "";
+        private string ClassType = "";
+        private string SectionName = "";
+        private string AssociatedClass = "";
+        private string AutoEnroll1 = "";
+        private string AutoEnroll2 = "";
+        private string SchedulePrint = "";
+        private string Consent = "";
+        private string RoomCapRequest = "";
+        private string EnrlCap = "";
+        private string EnrlTotal = "";
+        private string WaitCap = "";
+        private string WaitTotal = "";
+        private string MinEnrl = "";
+        private string TopicId = "";
+        private string TopicDescr = "";
+        private string PrintTopic = "";
+        private string AcadOrg = "";
+        private string NextStdntPosition = "";
+        private string Location = "";
+        private string RoomEventNbr = "";
+        private string InstructionMode = "";
+        private string StartDt = "";
+        private string EndDt = "";
+        private string MeetingStartDt = "";
+        private string MeetingEndDt = "";
+        private string CancelDt = "";
+        private string CombinedSection = "";
+        private string ClassMtgNbr1 = "";
+        private string FacilityId = "";
+        private string MeetingTimeStart = "";
+        private string MeetingTimeEnd = "";
+        private string Mon = "";
+        private string Tues = "";
+        private string Wed = "";
+        private string Thurs = "";
+        private string Fri = "";
+        private string Sat = "";
+        private string Sun = "";
+        private string Instructor = "";
+        private string InstreID = "";
+        private string ClassMtgNbr2 = "";
+        private string InstrRole = "";
+        private string SchedPrintInstr = "";
+        private string RoomChrstc1 = "";
+        private string RoomChrstc2 = "";
+        private string ClassNotesSeq = "";
+        private string PrintAt = "";
+        private string ClassNoteNbr = "";
+        private string PrintNoteWOCls = "";
+        private string ClassNoteLong = "";
+        private string ClassNote = "";
+        private string RsrvCapNbr = "";
+        private string ResCapEnrlCap = "";
+        private string ResCapEnrlTot = "";
+        private string RqrmntGroup1 = "";
+        private string RqrmntGroupDesc = "";
+        private string RoomChrstcQty = "";
+        private string UnitsMin = "";
+        private string UnitsMax = "";
+        private string UnitsAcadProg = "";
+        private string GradingBasis = "";
+        private string GradeRosterPrint = "";
+        private string ClassAssnComponent = "";
+        private string RqrmntGroup2 = "";
+        private string UseCatlgRqs = "";
+        private string SctnCombinedId = "";
+        private string CombSecClassNbr = "";
+        private string CombSecDescription = "";
+        private string ClassTableDescr = "";
+        private string CmbndSubject = "";
+        private string CmbndCatNbr = "";
+        private string RqmntDesigntn = "";
+        private string RqmntDesigDescr = "";
+        private string RqmntDesigDescrformal = "";
+        private string ClassAttr = "";
+        private string ClassAttrDescr = "";
+        private string AttrValue = "";
+        private string AttrValueDescr = "";
+        private string ReportDate = "";
+        private string myNotes = ""; // holds local notes only
+        private string Hidden = ""; // determines if we should hide section - local only
 
-        private Boolean KSISVerified = false;
+        private Boolean HasBeenDeleted = false;
         private Boolean CourseIDVer = true;
         private Boolean ClassNbrVer = true;
         private Boolean OfferNbrVer = true;
@@ -204,25 +204,25 @@ namespace Scheduler
         }
 
         // constructor for creating KSIS version of sections with all attributes
-        public Section(String courseID, String classNbr, String offerNbr, String sTRM, String session, String acadGroup,
-                String subject, String catalogNbr, String classDescr, String acadCareer, String component,
-                String enrlStatus, String classStatus, String classType, String section, String associatedClass,
-                String autoEnroll1, String autoEnroll2, String schedulePrint, String consent, String roomCapRequest,
-                String enrlCap, String enrlTotal, String waitCap, String waitTotal, String minEnrl, String topicId,
-                String topicDescr, String printTopic, String acadOrg, String nextStdntPosition, String location,
-                String roomEventNbr, String instructionMode, String startDt, String endDt, String meetingStartDt,
-                String meetingEndDt, String cancelDt, String combinedSection, String classMtgNbr1, String facilityId,
-                String meetingTimeStart, String meetingTimeEnd, String mon, String tues, String wed, String thurs,
-                String fri, String sat, String sun, String instructor, String instreID, String classMtgNbr2,
-                String instrRole, String schedPrintInstr, String roomChrstc1, String roomChrstc2, String classNotesSeq,
-                String printAt, String classNoteNbr, String printNoteWOCls, String classNoteLong, String classNote,
-                String rsrvCapNbr, String resCapEnrlCap, String resCapEnrlTot, String rqrmntGroup1, String rqrmntGroupDesc,
-                String roomChrstcQty, String unitsMin, String unitsMax, String unitsAcadProg, String gradingBasis,
-                String gradeRosterPrint, String classAssnComponent, String rqrmntGroup2, String useCatlgRqs,
-                String sctnCombinedId, String combSecClassNbr, String combSecDescription, String classTableDescr,
-                String cmbndSubject, String cmbndCatNbr, String rqmntDesigntn, String rqmntDesigDescr,
-                String rqmntDesigDescrformal, String classAttr, String classAttrDescr, String attrValue,
-                String attrValueDescr, String reportDate)
+        public Section(string courseID, string classNbr, string offerNbr, string sTRM, string session, string acadGroup,
+                string subject, string catalogNbr, string classDescr, string acadCareer, string component,
+                string enrlStatus, string classStatus, string classType, string section, string associatedClass,
+                string autoEnroll1, string autoEnroll2, string schedulePrint, string consent, string roomCapRequest,
+                string enrlCap, string enrlTotal, string waitCap, string waitTotal, string minEnrl, string topicId,
+                string topicDescr, string printTopic, string acadOrg, string nextStdntPosition, string location,
+                string roomEventNbr, string instructionMode, string startDt, string endDt, string meetingStartDt,
+                string meetingEndDt, string cancelDt, string combinedSection, string classMtgNbr1, string facilityId,
+                string meetingTimeStart, string meetingTimeEnd, string mon, string tues, string wed, string thurs,
+                string fri, string sat, string sun, string instructor, string instreID, string classMtgNbr2,
+                string instrRole, string schedPrintInstr, string roomChrstc1, string roomChrstc2, string classNotesSeq,
+                string printAt, string classNoteNbr, string printNoteWOCls, string classNoteLong, string classNote,
+                string rsrvCapNbr, string resCapEnrlCap, string resCapEnrlTot, string rqrmntGroup1, string rqrmntGroupDesc,
+                string roomChrstcQty, string unitsMin, string unitsMax, string unitsAcadProg, string gradingBasis,
+                string gradeRosterPrint, string classAssnComponent, string rqrmntGroup2, string useCatlgRqs,
+                string sctnCombinedId, string combSecClassNbr, string combSecDescription, string classTableDescr,
+                string cmbndSubject, string cmbndCatNbr, string rqmntDesigntn, string rqmntDesigDescr,
+                string rqmntDesigDescrformal, string classAttr, string classAttrDescr, string attrValue,
+                string attrValueDescr, string reportDate)
         {
             setName(sTRM);
             CourseID = courseID;
@@ -278,7 +278,8 @@ namespace Scheduler
             Fri = fri;
             Sat = sat;
             Sun = sun;
-            Instructor = instructor;
+            //strip " at beginning/end if needed
+            Instructor = instructor.Trim('\"');
             InstreID = instreID;
             ClassMtgNbr2 = classMtgNbr2;
             InstrRole = instrRole;
@@ -324,11 +325,11 @@ namespace Scheduler
 
         // constructor for creating local version of section that do not include values
         // for all attributes
-        public Section(String subject, String catalogNbr, String classDescr, String section, String instructor,
-                String consent, String enrlCap, String topicDescr, String meetingStartDt, String meetingEndDt,
-                String facilityId, String meetingTimeStart, String meetingTimeEnd, String mon, String tues, String wed,
-                String thurs, String fri, String sat, String sun, String unitsMin, String unitsMax,
-                String classAssnComponent, String hidden, String mynotes)
+        public Section(string subject, string catalogNbr, string classDescr, string section, string instructor,
+                string consent, string enrlCap, string topicDescr, string meetingStartDt, string meetingEndDt,
+                string facilityId, string meetingTimeStart, string meetingTimeEnd, string mon, string tues, string wed,
+                string thurs, string fri, string sat, string sun, string unitsMin, string unitsMax,
+                string classAssnComponent, string hidden, string mynotes)
         {
             Subject = subject;
             while (catalogNbr.Length < 3)
@@ -351,7 +352,8 @@ namespace Scheduler
             Fri = fri;
             Sat = sat;
             Sun = sun;
-            Instructor = instructor;
+            //strip " at beginning/end if needed
+            Instructor = instructor.Trim('\"');
             UnitsMin = unitsMin;
             UnitsMax = unitsMax;
             ClassAssnComponent = classAssnComponent;
@@ -395,7 +397,18 @@ namespace Scheduler
                     && this.GetClassAssnComponentVer();
         }
 
-        public String toString()
+        public bool HasBeenChanged()
+        {
+            return !(GetSubjectVer() && GetCatalogNbrVer() && GetClassDescrVer() && GetSectionVer()
+                    && GetConsentVer() && GetEnrlCapVer() && GetTopicDescrVer()
+                    && GetMeetingStartDtVer() && GetMeetingEndDtVer() && GetFacilityIdVer()
+                    && GetMeetingTimeStartVer() && GetMeetingTimeEndVer() && GetMonVer() && GetTuesVer()
+                    && GetWedVer() && GetThursVer() && GetFriVer() && GetSatVer() && GetSunVer()
+                    && GetInstructorVer() && GetUnitsMinVer() && GetUnitsMaxVer()
+                    && GetClassAssnComponentVer());
+        }
+
+        public override string ToString()
         {
             return "Section \n     Subject= [" + Subject + "] - " + SubjectVer
                     + "\n    CatalogNbr= [" + CatalogNbr + "] - " + CatalogNbrVer
@@ -409,932 +422,932 @@ namespace Scheduler
                     + "\n    myNotes=" + myNotes;
         }
 
-        public String GetCourseID()
+        public string GetCourseID()
         {
             return CourseID;
         }
 
-        public void setCourseID(String courseID)
+        public void setCourseID(string courseID)
         {
             CourseID = courseID;
         }
 
-        public String GetClassNbr()
+        public string GetClassNbr()
         {
             return ClassNbr;
         }
 
-        public void setClassNbr(String classNbr)
+        public void setClassNbr(string classNbr)
         {
             ClassNbr = classNbr;
         }
 
-        public String GetOfferNbr()
+        public string GetOfferNbr()
         {
             return OfferNbr;
         }
 
-        public void setOfferNbr(String offerNbr)
+        public void setOfferNbr(string offerNbr)
         {
             OfferNbr = offerNbr;
         }
 
-        public String GetSTRM()
+        public string GetSTRM()
         {
             return STRM;
         }
 
-        public void setSTRM(String sTRM)
+        public void setSTRM(string sTRM)
         {
             STRM = sTRM;
         }
 
-        public String GetSession()
+        public string GetSession()
         {
             return Session;
         }
 
-        public void setSession(String session)
+        public void setSession(string session)
         {
             Session = session;
         }
 
-        public String GetAcadGroup()
+        public string GetAcadGroup()
         {
             return AcadGroup;
         }
 
-        public void setAcadGroup(String acadGroup)
+        public void setAcadGroup(string acadGroup)
         {
             AcadGroup = acadGroup;
         }
 
-        public String GetSubject()
+        public string GetSubject()
         {
             return Subject;
         }
 
-        public void setSubject(String subject)
+        public void setSubject(string subject)
         {
             Subject = subject;
         }
 
-        public String GetCatalogNbr()
+        public string GetCatalogNbr()
         {
             return CatalogNbr;
         }
 
-        public void setCatalogNbr(String catalogNbr)
+        public void setCatalogNbr(string catalogNbr)
         {
             CatalogNbr = catalogNbr;
         }
 
-        public String GetClassDescr()
+        public string GetClassDescr()
         {
             return ClassDescr;
         }
 
-        public void setClassDescr(String classDescr)
+        public void setClassDescr(string classDescr)
         {
             ClassDescr = classDescr;
         }
 
-        public String GetAcadCareer()
+        public string GetAcadCareer()
         {
             return AcadCareer;
         }
 
-        public void setAcadCareer(String acadCareer)
+        public void setAcadCareer(string acadCareer)
         {
             AcadCareer = acadCareer;
         }
 
-        public String GetComponent()
+        public string GetComponent()
         {
             return Component;
         }
 
-        public void setComponent(String component)
+        public void setComponent(string component)
         {
             Component = component;
         }
 
-        public String GetEnrlStatus()
+        public string GetEnrlStatus()
         {
             return EnrlStatus;
         }
 
-        public void setEnrlStatus(String enrlStatus)
+        public void setEnrlStatus(string enrlStatus)
         {
             EnrlStatus = enrlStatus;
         }
 
-        public String GetClassStatus()
+        public string GetClassStatus()
         {
             return ClassStatus;
         }
 
-        public void setClassStatus(String classStatus)
+        public void setClassStatus(string classStatus)
         {
             ClassStatus = classStatus;
         }
 
-        public String GetClassType()
+        public string GetClassType()
         {
             return ClassType;
         }
 
-        public void setClassType(String classType)
+        public void setClassType(string classType)
         {
             ClassType = classType;
         }
 
-        public String GetSection()
+        public string GetSection()
         {
             return SectionName;
         }
 
-        public void setSection(String section)
+        public void setSection(string section)
         {
             SectionName = section;
         }
 
-        public String GetAssociatedClass()
+        public string GetAssociatedClass()
         {
             return AssociatedClass;
         }
 
-        public void setAssociatedClass(String associatedClass)
+        public void setAssociatedClass(string associatedClass)
         {
             AssociatedClass = associatedClass;
         }
 
-        public String GetAutoEnroll1()
+        public string GetAutoEnroll1()
         {
             return AutoEnroll1;
         }
 
-        public void setAutoEnroll1(String autoEnroll1)
+        public void setAutoEnroll1(string autoEnroll1)
         {
             AutoEnroll1 = autoEnroll1;
         }
 
-        public String GetAutoEnroll2()
+        public string GetAutoEnroll2()
         {
             return AutoEnroll2;
         }
 
-        public void setAutoEnroll2(String autoEnroll2)
+        public void setAutoEnroll2(string autoEnroll2)
         {
             AutoEnroll2 = autoEnroll2;
         }
 
-        public String GetSchedulePrint()
+        public string GetSchedulePrint()
         {
             return SchedulePrint;
         }
 
-        public void setSchedulePrint(String schedulePrint)
+        public void setSchedulePrint(string schedulePrint)
         {
             SchedulePrint = schedulePrint;
         }
 
-        public String GetConsent()
+        public string GetConsent()
         {
             return Consent;
         }
 
-        public void setConsent(String consent)
+        public void setConsent(string consent)
         {
             Consent = consent;
         }
 
-        public String GetRoomCapRequest()
+        public string GetRoomCapRequest()
         {
             return RoomCapRequest;
         }
 
-        public void setRoomCapRequest(String roomCapRequest)
+        public void setRoomCapRequest(string roomCapRequest)
         {
             RoomCapRequest = roomCapRequest;
         }
 
-        public String GetEnrlCap()
+        public string GetEnrlCap()
         {
             return EnrlCap;
         }
 
-        public void setEnrlCap(String enrlCap)
+        public void setEnrlCap(string enrlCap)
         {
             EnrlCap = enrlCap;
         }
 
-        public String GetEnrlTotal()
+        public string GetEnrlTotal()
         {
             return EnrlTotal;
         }
 
-        public void setEnrlTotal(String enrlTotal)
+        public void setEnrlTotal(string enrlTotal)
         {
             EnrlTotal = enrlTotal;
         }
 
-        public String GetWaitCap()
+        public string GetWaitCap()
         {
             return WaitCap;
         }
 
-        public void setWaitCap(String waitCap)
+        public void setWaitCap(string waitCap)
         {
             WaitCap = waitCap;
         }
 
-        public String GetWaitTotal()
+        public string GetWaitTotal()
         {
             return WaitTotal;
         }
 
-        public void setWaitTotal(String waitTotal)
+        public void setWaitTotal(string waitTotal)
         {
             WaitTotal = waitTotal;
         }
 
-        public String GetMinEnrl()
+        public string GetMinEnrl()
         {
             return MinEnrl;
         }
 
-        public void setMinEnrl(String minEnrl)
+        public void setMinEnrl(string minEnrl)
         {
             MinEnrl = minEnrl;
         }
 
-        public String GetTopicId()
+        public string GetTopicId()
         {
             return TopicId;
         }
 
-        public void setTopicId(String topicId)
+        public void setTopicId(string topicId)
         {
             TopicId = topicId;
         }
 
-        public String GetTopicDescr()
+        public string GetTopicDescr()
         {
             return TopicDescr;
         }
 
-        public void setTopicDescr(String topicDescr)
+        public void setTopicDescr(string topicDescr)
         {
             TopicDescr = topicDescr;
         }
 
-        public String GetPrintTopic()
+        public string GetPrintTopic()
         {
             return PrintTopic;
         }
 
-        public void setPrintTopic(String printTopic)
+        public void setPrintTopic(string printTopic)
         {
             PrintTopic = printTopic;
         }
 
-        public String GetAcadOrg()
+        public string GetAcadOrg()
         {
             return AcadOrg;
         }
 
-        public void setAcadOrg(String acadOrg)
+        public void setAcadOrg(string acadOrg)
         {
             AcadOrg = acadOrg;
         }
 
-        public String GetNextStdntPosition()
+        public string GetNextStdntPosition()
         {
             return NextStdntPosition;
         }
 
-        public void setNextStdntPosition(String nextStdntPosition)
+        public void setNextStdntPosition(string nextStdntPosition)
         {
             NextStdntPosition = nextStdntPosition;
         }
 
-        public String GetLocation()
+        public string GetLocation()
         {
             return Location;
         }
 
-        public void setLocation(String location)
+        public void setLocation(string location)
         {
             Location = location;
         }
 
-        public String GetRoomEventNbr()
+        public string GetRoomEventNbr()
         {
             return RoomEventNbr;
         }
 
-        public void setRoomEventNbr(String roomEventNbr)
+        public void setRoomEventNbr(string roomEventNbr)
         {
             RoomEventNbr = roomEventNbr;
         }
 
-        public String GetInstructionMode()
+        public string GetInstructionMode()
         {
             return InstructionMode;
         }
 
-        public void setInstructionMode(String instructionMode)
+        public void setInstructionMode(string instructionMode)
         {
             InstructionMode = instructionMode;
         }
 
-        public String GetStartDt()
+        public string GetStartDt()
         {
             return StartDt;
         }
 
-        public void setStartDt(String startDt)
+        public void setStartDt(string startDt)
         {
             StartDt = startDt;
         }
 
-        public String GetEndDt()
+        public string GetEndDt()
         {
             return EndDt;
         }
 
-        public void setEndDt(String endDt)
+        public void setEndDt(string endDt)
         {
             EndDt = endDt;
         }
 
-        public String GetMeetingStartDt()
+        public string GetMeetingStartDt()
         {
             return MeetingStartDt;
         }
 
-        public void setMeetingStartDt(String meetingStartDt)
+        public void setMeetingStartDt(string meetingStartDt)
         {
             MeetingStartDt = meetingStartDt;
         }
 
-        public String GetMeetingEndDt()
+        public string GetMeetingEndDt()
         {
             return MeetingEndDt;
         }
 
-        public void setMeetingEndDt(String meetingEndDt)
+        public void setMeetingEndDt(string meetingEndDt)
         {
             MeetingEndDt = meetingEndDt;
         }
 
-        public String GetCancelDt()
+        public string GetCancelDt()
         {
             return CancelDt;
         }
 
-        public void setCancelDt(String cancelDt)
+        public void setCancelDt(string cancelDt)
         {
             CancelDt = cancelDt;
         }
 
-        public String GetCombinedSection()
+        public string GetCombinedSection()
         {
             return CombinedSection;
         }
 
-        public void setCombinedSection(String combinedSection)
+        public void setCombinedSection(string combinedSection)
         {
             CombinedSection = combinedSection;
         }
 
-        public String GetClassMtgNbr1()
+        public string GetClassMtgNbr1()
         {
             return ClassMtgNbr1;
         }
 
-        public void setClassMtgNbr1(String classMtgNbr1)
+        public void setClassMtgNbr1(string classMtgNbr1)
         {
             ClassMtgNbr1 = classMtgNbr1;
         }
 
-        public String GetFacilityId()
+        public string GetFacilityId()
         {
             return FacilityId;
         }
 
-        public void setFacilityId(String facilityId)
+        public void setFacilityId(string facilityId)
         {
             FacilityId = facilityId;
         }
 
-        public String GetMeetingTimeStart()
+        public string GetMeetingTimeStart()
         {
             return MeetingTimeStart;
         }
 
-        public void setMeetingTimeStart(String meetingTimeStart)
+        public void setMeetingTimeStart(string meetingTimeStart)
         {
             MeetingTimeStart = meetingTimeStart;
         }
 
-        public String GetMeetingTimeEnd()
+        public string GetMeetingTimeEnd()
         {
             return MeetingTimeEnd;
         }
 
-        public void setMeetingTimeEnd(String meetingTimeEnd)
+        public void setMeetingTimeEnd(string meetingTimeEnd)
         {
             MeetingTimeEnd = meetingTimeEnd;
         }
 
-        public String GetMon()
+        public string GetMon()
         {
             return Mon;
         }
 
-        public void setMon(String mon)
+        public void setMon(string mon)
         {
             Mon = mon;
         }
 
-        public String GetTues()
+        public string GetTues()
         {
             return Tues;
         }
 
-        public void setTues(String tues)
+        public void setTues(string tues)
         {
             Tues = tues;
         }
 
-        public String GetWed()
+        public string GetWed()
         {
             return Wed;
         }
 
-        public void setWed(String wed)
+        public void setWed(string wed)
         {
             Wed = wed;
         }
 
-        public String GetThurs()
+        public string GetThurs()
         {
             return Thurs;
         }
 
-        public void setThurs(String thurs)
+        public void setThurs(string thurs)
         {
             Thurs = thurs;
         }
 
-        public String GetFri()
+        public string GetFri()
         {
             return Fri;
         }
 
-        public void setFri(String fri)
+        public void setFri(string fri)
         {
             Fri = fri;
         }
 
-        public String GetSat()
+        public string GetSat()
         {
             return Sat;
         }
 
-        public void setSat(String sat)
+        public void setSat(string sat)
         {
             Sat = sat;
         }
 
-        public String GetSun()
+        public string GetSun()
         {
             return Sun;
         }
 
-        public void setSun(String sun)
+        public void setSun(string sun)
         {
             Sun = sun;
         }
 
-        public String GetInstructor()
+        public string GetInstructor()
         {
             return Instructor;
         }
 
-        public void setInstructor(String instructor)
+        public void setInstructor(string instructor)
         {
             Instructor = instructor;
         }
 
-        public String GetInstreID()
+        public string GetInstreID()
         {
             return InstreID;
         }
 
-        public void setInstreID(String instreID)
+        public void setInstreID(string instreID)
         {
             InstreID = instreID;
         }
 
-        public String GetClassMtgNbr2()
+        public string GetClassMtgNbr2()
         {
             return ClassMtgNbr2;
         }
 
-        public void setClassMtgNbr2(String classMtgNbr2)
+        public void setClassMtgNbr2(string classMtgNbr2)
         {
             ClassMtgNbr2 = classMtgNbr2;
         }
 
-        public String GetInstrRole()
+        public string GetInstrRole()
         {
             return InstrRole;
         }
 
-        public void setInstrRole(String instrRole)
+        public void setInstrRole(string instrRole)
         {
             InstrRole = instrRole;
         }
 
-        public String GetSchedPrintInstr()
+        public string GetSchedPrintInstr()
         {
             return SchedPrintInstr;
         }
 
-        public void setSchedPrintInstr(String schedPrintInstr)
+        public void setSchedPrintInstr(string schedPrintInstr)
         {
             SchedPrintInstr = schedPrintInstr;
         }
 
-        public String GetRoomChrstc1()
+        public string GetRoomChrstc1()
         {
             return RoomChrstc1;
         }
 
-        public void setRoomChrstc1(String roomChrstc1)
+        public void setRoomChrstc1(string roomChrstc1)
         {
             RoomChrstc1 = roomChrstc1;
         }
 
-        public String GetRoomChrstc2()
+        public string GetRoomChrstc2()
         {
             return RoomChrstc2;
         }
 
-        public void setRoomChrstc2(String roomChrstc2)
+        public void setRoomChrstc2(string roomChrstc2)
         {
             RoomChrstc2 = roomChrstc2;
         }
 
-        public String GetClassNotesSeq()
+        public string GetClassNotesSeq()
         {
             return ClassNotesSeq;
         }
 
-        public void setClassNotesSeq(String classNotesSeq)
+        public void setClassNotesSeq(string classNotesSeq)
         {
             ClassNotesSeq = classNotesSeq;
         }
 
-        public String GetPrintAt()
+        public string GetPrintAt()
         {
             return PrintAt;
         }
 
-        public void setPrintAt(String printAt)
+        public void setPrintAt(string printAt)
         {
             PrintAt = printAt;
         }
 
-        public String GetClassNoteNbr()
+        public string GetClassNoteNbr()
         {
             return ClassNoteNbr;
         }
 
-        public void setClassNoteNbr(String classNoteNbr)
+        public void setClassNoteNbr(string classNoteNbr)
         {
             ClassNoteNbr = classNoteNbr;
         }
 
-        public String GetPrintNoteWOCls()
+        public string GetPrintNoteWOCls()
         {
             return PrintNoteWOCls;
         }
 
-        public void setPrintNoteWOCls(String printNoteWOCls)
+        public void setPrintNoteWOCls(string printNoteWOCls)
         {
             PrintNoteWOCls = printNoteWOCls;
         }
 
-        public String GetClassNoteLong()
+        public string GetClassNoteLong()
         {
             return ClassNoteLong;
         }
 
-        public void setClassNoteLong(String classNoteLong)
+        public void setClassNoteLong(string classNoteLong)
         {
             ClassNoteLong = classNoteLong;
         }
 
-        public String GetClassNote()
+        public string GetClassNote()
         {
             return ClassNote;
         }
 
-        public void setClassNote(String classNote)
+        public void setClassNote(string classNote)
         {
             ClassNote = classNote;
         }
 
-        public String GetRsrvCapNbr()
+        public string GetRsrvCapNbr()
         {
             return RsrvCapNbr;
         }
 
-        public void setRsrvCapNbr(String rsrvCapNbr)
+        public void setRsrvCapNbr(string rsrvCapNbr)
         {
             RsrvCapNbr = rsrvCapNbr;
         }
 
-        public String GetResCapEnrlCap()
+        public string GetResCapEnrlCap()
         {
             return ResCapEnrlCap;
         }
 
-        public void setResCapEnrlCap(String resCapEnrlCap)
+        public void setResCapEnrlCap(string resCapEnrlCap)
         {
             ResCapEnrlCap = resCapEnrlCap;
         }
 
-        public String GetResCapEnrlTot()
+        public string GetResCapEnrlTot()
         {
             return ResCapEnrlTot;
         }
 
-        public void setResCapEnrlTot(String resCapEnrlTot)
+        public void setResCapEnrlTot(string resCapEnrlTot)
         {
             ResCapEnrlTot = resCapEnrlTot;
         }
 
-        public String GetRqrmntGroup1()
+        public string GetRqrmntGroup1()
         {
             return RqrmntGroup1;
         }
 
-        public void setRqrmntGroup1(String rqrmntGroup1)
+        public void setRqrmntGroup1(string rqrmntGroup1)
         {
             RqrmntGroup1 = rqrmntGroup1;
         }
 
-        public String GetRqrmntGroupDesc()
+        public string GetRqrmntGroupDesc()
         {
             return RqrmntGroupDesc;
         }
 
-        public void setRqrmntGroupDesc(String rqrmntGroupDesc)
+        public void setRqrmntGroupDesc(string rqrmntGroupDesc)
         {
             RqrmntGroupDesc = rqrmntGroupDesc;
         }
 
-        public String GetRoomChrstcQty()
+        public string GetRoomChrstcQty()
         {
             return RoomChrstcQty;
         }
 
-        public void setRoomChrstcQty(String roomChrstcQty)
+        public void setRoomChrstcQty(string roomChrstcQty)
         {
             RoomChrstcQty = roomChrstcQty;
         }
 
-        public String GetUnitsMin()
+        public string GetUnitsMin()
         {
             return UnitsMin;
         }
 
-        public void setUnitsMin(String unitsMin)
+        public void setUnitsMin(string unitsMin)
         {
             UnitsMin = unitsMin;
         }
 
-        public String GetUnitsMax()
+        public string GetUnitsMax()
         {
             return UnitsMax;
         }
 
-        public void setUnitsMax(String unitsMax)
+        public void setUnitsMax(string unitsMax)
         {
             UnitsMax = unitsMax;
         }
 
-        public String GetUnitsAcadProg()
+        public string GetUnitsAcadProg()
         {
             return UnitsAcadProg;
         }
 
-        public void setUnitsAcadProg(String unitsAcadProg)
+        public void setUnitsAcadProg(string unitsAcadProg)
         {
             UnitsAcadProg = unitsAcadProg;
         }
 
-        public String GetGradingBasis()
+        public string GetGradingBasis()
         {
             return GradingBasis;
         }
 
-        public void setGradingBasis(String gradingBasis)
+        public void setGradingBasis(string gradingBasis)
         {
             GradingBasis = gradingBasis;
         }
 
-        public String GetGradeRosterPrint()
+        public string GetGradeRosterPrint()
         {
             return GradeRosterPrint;
         }
 
-        public void setGradeRosterPrint(String gradeRosterPrint)
+        public void setGradeRosterPrint(string gradeRosterPrint)
         {
             GradeRosterPrint = gradeRosterPrint;
         }
 
-        public String GetClassAssnComponent()
+        public string GetClassAssnComponent()
         {
             return ClassAssnComponent;
         }
 
-        public void setClassAssnComponent(String classAssnComponent)
+        public void setClassAssnComponent(string classAssnComponent)
         {
             ClassAssnComponent = classAssnComponent;
         }
 
-        public String GetRqrmntGroup2()
+        public string GetRqrmntGroup2()
         {
             return RqrmntGroup2;
         }
 
-        public void setRqrmntGroup2(String rqrmntGroup2)
+        public void setRqrmntGroup2(string rqrmntGroup2)
         {
             RqrmntGroup2 = rqrmntGroup2;
         }
 
-        public String GetUseCatlgRqs()
+        public string GetUseCatlgRqs()
         {
             return UseCatlgRqs;
         }
 
-        public void setUseCatlgRqs(String useCatlgRqs)
+        public void setUseCatlgRqs(string useCatlgRqs)
         {
             UseCatlgRqs = useCatlgRqs;
         }
 
-        public String GetSctnCombinedId()
+        public string GetSctnCombinedId()
         {
             return SctnCombinedId;
         }
 
-        public void setSctnCombinedId(String sctnCombinedId)
+        public void setSctnCombinedId(string sctnCombinedId)
         {
             SctnCombinedId = sctnCombinedId;
         }
 
-        public String GetCombSecClassNbr()
+        public string GetCombSecClassNbr()
         {
             return CombSecClassNbr;
         }
 
-        public void setCombSecClassNbr(String combSecClassNbr)
+        public void setCombSecClassNbr(string combSecClassNbr)
         {
             CombSecClassNbr = combSecClassNbr;
         }
 
-        public String GetCombSecDescription()
+        public string GetCombSecDescription()
         {
             return CombSecDescription;
         }
 
-        public void setCombSecDescription(String combSecDescription)
+        public void setCombSecDescription(string combSecDescription)
         {
             CombSecDescription = combSecDescription;
         }
 
-        public String GetClassTableDescr()
+        public string GetClassTableDescr()
         {
             return ClassTableDescr;
         }
 
-        public void setClassTableDescr(String classTableDescr)
+        public void setClassTableDescr(string classTableDescr)
         {
             ClassTableDescr = classTableDescr;
         }
 
-        public String GetCmbndSubject()
+        public string GetCmbndSubject()
         {
             return CmbndSubject;
         }
 
-        public void setCmbndSubject(String cmbndSubject)
+        public void setCmbndSubject(string cmbndSubject)
         {
             CmbndSubject = cmbndSubject;
         }
 
-        public String GetCmbndCatNbr()
+        public string GetCmbndCatNbr()
         {
             return CmbndCatNbr;
         }
 
-        public void setCmbndCatNbr(String cmbndCatNbr)
+        public void setCmbndCatNbr(string cmbndCatNbr)
         {
             CmbndCatNbr = cmbndCatNbr;
         }
 
-        public String GetRqmntDesigntn()
+        public string GetRqmntDesigntn()
         {
             return RqmntDesigntn;
         }
 
-        public void setRqmntDesigntn(String rqmntDesigntn)
+        public void setRqmntDesigntn(string rqmntDesigntn)
         {
             RqmntDesigntn = rqmntDesigntn;
         }
 
-        public String GetRqmntDesigDescr()
+        public string GetRqmntDesigDescr()
         {
             return RqmntDesigDescr;
         }
 
-        public void setRqmntDesigDescr(String rqmntDesigDescr)
+        public void setRqmntDesigDescr(string rqmntDesigDescr)
         {
             RqmntDesigDescr = rqmntDesigDescr;
         }
 
-        public String GetRqmntDesigDescrformal()
+        public string GetRqmntDesigDescrformal()
         {
             return RqmntDesigDescrformal;
         }
 
-        public void setRqmntDesigDescrformal(String rqmntDesigDescrformal)
+        public void setRqmntDesigDescrformal(string rqmntDesigDescrformal)
         {
             RqmntDesigDescrformal = rqmntDesigDescrformal;
         }
 
-        public String GetClassAttr()
+        public string GetClassAttr()
         {
             return ClassAttr;
         }
 
-        public void setClassAttr(String classAttr)
+        public void setClassAttr(string classAttr)
         {
             ClassAttr = classAttr;
         }
 
-        public String GetClassAttrDescr()
+        public string GetClassAttrDescr()
         {
             return ClassAttrDescr;
         }
 
-        public void setClassAttrDescr(String classAttrDescr)
+        public void setClassAttrDescr(string classAttrDescr)
         {
             ClassAttrDescr = classAttrDescr;
         }
 
-        public String GetAttrValue()
+        public string GetAttrValue()
         {
             return AttrValue;
         }
 
-        public void setAttrValue(String attrValue)
+        public void setAttrValue(string attrValue)
         {
             AttrValue = attrValue;
         }
 
-        public String GetAttrValueDescr()
+        public string GetAttrValueDescr()
         {
             return AttrValueDescr;
         }
 
-        public void setAttrValueDescr(String attrValueDescr)
+        public void setAttrValueDescr(string attrValueDescr)
         {
             AttrValueDescr = attrValueDescr;
         }
 
-        public String GetMyNotes()
+        public string GetMyNotes()
         {
             return myNotes;
         }
 
-        public void GetMyNotes(String mynotes)
+        public void GetMyNotes(string mynotes)
         {
             myNotes = mynotes;
         }
 
-        public String GetHidden()
+        public string GetHidden()
         {
             return Hidden;
         }
 
-        public void setHidden(String hidden)
+        public void setHidden(string hidden)
         {
             if (hidden.Equals("") || hidden.ToLower().Equals("false"))
                 Hidden = "FALSE";
@@ -1342,24 +1355,24 @@ namespace Scheduler
                 Hidden = "TRUE";
         }
 
-        public String GetReportDate()
+        public string GetReportDate()
         {
             return ReportDate;
         }
 
-        public void setReportDate(String reportDate)
+        public void setReportDate(string reportDate)
         {
             ReportDate = reportDate;
         }
 
-        public Boolean GetKSISVerified()
+        public Boolean GetHasBeenDeleted()
         {
-            return KSISVerified;
+            return this.HasBeenDeleted;
         }
 
-        public void setKSISVerified(Boolean kSISVerified)
+        public void SetHasBeenDeleted(Boolean kSISVerified)
         {
-            KSISVerified = kSISVerified;
+            HasBeenDeleted = kSISVerified;
         }
 
         public Boolean GetCourseIDVer()
@@ -2282,12 +2295,12 @@ namespace Scheduler
             ReportDateVer = reportDateVer;
         }
 
-        public String GetName()
+        public string GetName()
         {
             return Name;
         }
 
-        public void setName(String name)
+        public void setName(string name)
         {
             Name = name;
         }

@@ -9,7 +9,8 @@ namespace Scheduler
     public class IntervalList
     {
         private List<Interval> list = new List<Interval>(0);
-        private String filename = "cotaughtCourses.csv";
+        private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\";
+        private string filename = "cotaughtCourses.csv";
         private Scheduler gui;
 
         private char DEFAULT_SEPARATOR = ',';
@@ -179,13 +180,12 @@ namespace Scheduler
             return sortedList;
         }
 
-        public bool IsCotaught(String c1, String c2)
+        public bool IsCotaught(string c1, string c2)
         {
             StreamReader readFile;
             try
             {
-                //TODO: get path to directory
-                readFile = new StreamReader(filename);
+                readFile = new StreamReader(path + filename);
             }
             catch (Exception e)
             {
@@ -196,7 +196,7 @@ namespace Scheduler
             string line;
             while ((line = readFile.ReadLine()) != null)
             {
-                List<String> data = ParseLine(line);
+                List<string> data = ParseLine(line);
 
                 if ((c1.Equals(data.ElementAt(0)) && c2.Equals(data.ElementAt(1)))
                         || (c1.Equals(data.ElementAt(1)) && c2.Equals(data.ElementAt(0))))
@@ -210,21 +210,21 @@ namespace Scheduler
         }
 
 
-        private List<String> ParseLine(String cvsLine)
+        private List<string> ParseLine(string cvsLine)
         {
             return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
         }
 
 
-        private List<String> ParseLine(String cvsLine, char separators)
+        private List<string> ParseLine(string cvsLine, char separators)
         {
             return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
         }
 
-        private List<String> ParseLine(String cvsLine, char separators, char customQuote)
+        private List<string> ParseLine(string cvsLine, char separators, char customQuote)
         {
 
-            List<String> result = new List<String>();
+            List<string> result = new List<string>();
 
             // if empty, return!
             if (cvsLine == null && !cvsLine.Any())

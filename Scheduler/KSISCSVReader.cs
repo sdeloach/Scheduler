@@ -43,19 +43,19 @@ namespace Scheduler
             string line = readFile.ReadLine(); // skip first line
             while ((line = readFile.ReadLine()) != null)
             {
-                List<String> data = ParseLine(line);
+                List<string> data = ParseLine(line);
 
                 // skip lines without instructors
                 if (data.ElementAt(51).Equals(" ") || !data.ElementAt(51).Any())
                 {
                     continue;
                 }
-                else // instructor fields have a quote (") at beginning that must be stripped out
-                {
-                    string temp = data.ElementAt(51).Substring(1);
-                    data.RemoveAt(51);
-                    data.Insert(51, temp);
-                }
+                //else // instructor fields have a quote (") at beginning that must be stripped out
+                //{
+                //    string temp = data.ElementAt(51).Substring(1);
+                //    data.RemoveAt(51);
+                //    data.Insert(51, temp);
+                //}
                 
                 // TODO: only use the data elements that map to section attributes of interest - delete extra section attributes
                 // create a new section object with current line
@@ -70,6 +70,10 @@ namespace Scheduler
                         data.ElementAt(70), data.ElementAt(71), data.ElementAt(72), data.ElementAt(73), data.ElementAt(74), data.ElementAt(75), data.ElementAt(76), data.ElementAt(77), data.ElementAt(78), data.ElementAt(79),
                         data.ElementAt(80), data.ElementAt(81), data.ElementAt(82), data.ElementAt(83), data.ElementAt(84), data.ElementAt(85), data.ElementAt(86), data.ElementAt(87), data.ElementAt(88), data.ElementAt(89),
                         data.ElementAt(90), data.ElementAt(91));
+
+// need to use this constructor
+//                section = new Section(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
+//                          facilityId, meetingTimeStart, meetingTimeEnd, mon, tues, wed, thurs, fri, sat, sun, unitsMin, unitsMax, classAssnComponent, hidden, mynotes);
 
                 // add section to the list of sections
                 int size = semester.Size();
@@ -100,21 +104,21 @@ namespace Scheduler
             return (semester);
         }
 
-        private List<String> ParseLine(String cvsLine)
+        private List<string> ParseLine(string cvsLine)
         {
             return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
         }
         
 
-        private List<String> ParseLine(String cvsLine, char separators)
+        private List<string> ParseLine(string cvsLine, char separators)
         {
             return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
         }
 
-        private List<String> ParseLine(String cvsLine, char separators, char customQuote)
+        private List<string> ParseLine(string cvsLine, char separators, char customQuote)
         {
 
-            List<String> result = new List<String>();
+            List<string> result = new List<string>();
 
             // if empty, return!
             if (cvsLine == null && !cvsLine.Any())

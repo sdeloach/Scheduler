@@ -46,7 +46,7 @@ namespace Scheduler
                 return -1;
         }
 
-        public string tostring()
+        public string ToString()
         {
             return (entity + " " + catalogNbr + " " + section + " " + "{" + start + "," + end + "} [" + meetingStart + "-"
                     + meetingEnd + "] " + mon + tues + wed + thurs + fri);
