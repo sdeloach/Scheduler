@@ -62,7 +62,7 @@ namespace Scheduler
                         sec.GetMeetingEndDt(), sec.GetMon(), sec.GetTues(), sec.GetWed(), sec.GetThurs(), sec.GetFri());
 
                 // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files
-                if (interval.GetStart() != interval.GetEnd() && !sec.GetHasBeenDeleted() && !sec.GetHidden().ToLower().Equals("true"))
+                if (interval.GetStart() != interval.GetEnd() && !sec.GetHasBeenDeleted() && !sec.IsHidden())
                 {
                     list.Add(interval);
                 }
@@ -84,7 +84,7 @@ namespace Scheduler
                 // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files, and classes not assigned to rooms
                 if (interval.GetStart() != interval.GetEnd() && !sec.GetHasBeenDeleted() && interval.GetEntity().Any()
                         && !interval.GetEntity().StartsWith("zz")
-                        && !sec.GetHidden().Equals("true", StringComparison.InvariantCultureIgnoreCase))
+                        && !sec.IsHidden())
                 {
                     list.Add(interval);
                 }
@@ -119,7 +119,7 @@ namespace Scheduler
                 string faculty = padEnd(sec.GetInstructor().Substring(0, sec.GetInstructor().Length > 17 ? 17 : sec.GetInstructor().Length - 1), 18);
                 string facility = padEnd(sec.GetFacilityId(), 8);
 
-                Console.Write(sec.GetSubject() + " " + sec.GetCatalogNbr() + "  " + sec.GetClassDescr() + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
+                Console.Write(sec.Subject + " " + sec.GetCatalogNbr() + "  " + sec.GetClassDescr() + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
                 Console.WriteLine(section + " " + enrlCap + " " + component + " " + credits + " " + days + " " + times + " " + facility + " " + faculty + " ");
             }
         }
@@ -131,10 +131,17 @@ namespace Scheduler
             return semesterCopy;
         }
 
-        private Semester sortByFacilityId()
+        public Semester sortByFacilityId()
         {
             var semesterCopy = this.ShallowDuplicate();
             semesterCopy.semesterList.Sort((x, y) => x.GetFacilityId().CompareTo(y.GetFacilityId()));
+            return semesterCopy;
+        }
+
+        public Semester sortByCatalogNbr()
+        {
+            var semesterCopy = this.ShallowDuplicate();
+            semesterCopy.semesterList.Sort((x, y) => x.GetCatalogNbr().CompareTo(y.GetCatalogNbr()));
             return semesterCopy;
         }
 
@@ -165,7 +172,7 @@ namespace Scheduler
                 // add section to semester to denote problem
                 if (!found)
                 {
-                    Section sec = new Section(s.ElementAt(j).GetSubject(), s.ElementAt(j).GetCatalogNbr(), s.ElementAt(j).GetClassDescr(),
+                    Section sec = new Section(s.ElementAt(j).Subject, s.ElementAt(j).GetCatalogNbr(), s.ElementAt(j).GetClassDescr(),
                             s.ElementAt(j).GetSection(), s.ElementAt(j).GetInstructor(), s.ElementAt(j).GetConsent(), s.ElementAt(j).GetEnrlCap(),
                             s.ElementAt(j).GetTopicDescr(), s.ElementAt(j).GetMeetingStartDt(), s.ElementAt(j).GetMeetingEndDt(),
                             s.ElementAt(j).GetFacilityId(), s.ElementAt(j).GetMeetingTimeStart(), s.ElementAt(j).GetMeetingTimeEnd(),

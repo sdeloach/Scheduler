@@ -11,7 +11,7 @@ namespace Scheduler
         Semester localSemester;
         Semester KSISsemester;
 
-        private Configuration config;
+        private readonly Configuration config;
 
         // 1.0 - initial version
         // 1.1 - added ics calendar output
@@ -26,6 +26,7 @@ namespace Scheduler
         public Scheduler()
         {
             InitializeComponent();
+            this.config = new Configuration();
         }
 
         public void printMessage(string s)
@@ -33,7 +34,9 @@ namespace Scheduler
             textBox1.AppendText(s + '\n');
         }
 
-        private void openLocalToolStripMenuItem_Click(object sender, EventArgs e)
+// File Submenu
+
+        private void OpenLocalFile(object sender, EventArgs e)
         {
             localSemester = new Semester(this);
             OpenFileDialog ofd = new OpenFileDialog();
@@ -53,7 +56,7 @@ namespace Scheduler
             }
         }
 
-        private void verifyLocalToolStripMenuItem_Click(object sender, EventArgs e)
+        private void VerifyLocalFile(object sender, EventArgs e)
         {
             KSISsemester = new Semester(this);
             OpenFileDialog ofd = new OpenFileDialog();
@@ -75,77 +78,7 @@ namespace Scheduler
             }
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            printMessage("Scheduler version " + version + "  " + verdate);
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void lineScheduleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            HTMLSchedulePrinter schedulePrinter = new HTMLSchedulePrinter(this, config);
-            string outputFilename = localFilename.Substring(0, localFilename.Length - 4) + "_schedule.html";
-            schedulePrinter.print(localSemester, outputFilename, false);
-            try
-            {
-                schedulePrinter.View(outputFilename);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void instructorScheduleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            HTMLInstructorSchedulePrinter schedulePrinter = new HTMLInstructorSchedulePrinter(this, config);
-            string outputFilename = localFilename.Substring(0, localFilename.Length - 4) + "_instructor.html";
-            schedulePrinter.print(localSemester, outputFilename, false);
-            try
-            {
-                schedulePrinter.Open(outputFilename);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void inBrowserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Open HTML file";
-            ofd.Filter = "HTML Files|*.html";
-
-            try
-            {
-                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string filename = ofd.FileName;
-
-                    // Prepare the process to run
-                    ProcessStartInfo start = new ProcessStartInfo();
-                    // Enter in the command line arguments, everything you would enter after the executable name itself
-                    start.Arguments = filename;
-                    // Enter the executable to run, including the complete path
-                    start.FileName = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe ";
-                    // Do you want to show a console window?
-                    start.WindowStyle = ProcessWindowStyle.Hidden;
-                    start.CreateNoWindow = true;
-                    Process proc = Process.Start(start);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void convertKSISToLocalToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ConvertToKSISFile(object sender, EventArgs e)
         {
             KSISsemester = new Semester(this);
             var ofd = new OpenFileDialog();
@@ -163,13 +96,167 @@ namespace Scheduler
                     sfd.Title = "Save to new local file";
                     sfd.Filter = "CSV Files|*.csv";
                     sfd.ShowDialog();
-                    if (sfd.FileName != "")  KSISsemester.save(sfd.FileName);
+                    if (sfd.FileName != "") KSISsemester.save(sfd.FileName);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void Exit(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        // Produce submenu
+
+        private void ProduceLineSchedule(object sender, EventArgs e)
+        {
+            if (localFilename == null)
+            {
+                MessageBox.Show("No semester loaded.");
+                return;
+            }
+            
+            HTMLLineSchedulePrinter schedulePrinter = new HTMLLineSchedulePrinter(this, config);
+            string outputFilename = localFilename.Substring(0, localFilename.Length - 4) + "_schedule.html";
+            schedulePrinter.print(localSemester, outputFilename, false);
+            try
+            {
+                schedulePrinter.ViewInWebbrowser(outputFilename);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ProduceInstructorSchedule(object sender, EventArgs e)
+        {
+            if (localFilename == null)
+            {
+                MessageBox.Show("No semester loaded.");
+                return;
+            }
+
+            HTMLInstructorSchedulePrinter schedulePrinter = new HTMLInstructorSchedulePrinter(this, config);
+            string outputFilename = localFilename.Substring(0, localFilename.Length - 4) + "_instructor.html";
+            schedulePrinter.print(localSemester, outputFilename, false);
+            try
+            {
+                ViewInWebbrowser(outputFilename);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // Open Submenu
+
+        private void OpenInWord(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Open HTML file";
+            ofd.Filter = "HTML Files|*.html";
+
+            try
+            {
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string filename = ofd.FileName;
+
+                    // Prepare the process to run
+                    ProcessStartInfo start = new ProcessStartInfo();
+                    // Enter in the command line arguments, everything you would enter after the executable name itself
+                    start.Arguments = filename;
+                    // Enter the executable to run, including the complete path
+                    start.FileName = config.getMSWORD();
+                    // Do you want to show a console window?
+                    start.WindowStyle = ProcessWindowStyle.Normal;
+                    start.CreateNoWindow = true;
+                    Process proc = Process.Start(start);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void OpenInWebbrowser(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Open HTML file";
+            ofd.Filter = "HTML Files|*.html";
+
+            try
+            {
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string filename = ofd.FileName;
+
+                    ViewInWebbrowser(filename);
+                    //// Prepare the process to run
+                    //ProcessStartInfo start = new ProcessStartInfo();
+                    //// Enter in the command line arguments, everything you would enter after the executable name itself
+                    //start.Arguments = filename;
+                    //// Enter the executable to run, including the complete path
+                    //start.FileName = config.getWEBBROWSER();
+                    //// Do you want to show a console window?
+                    //start.WindowStyle = ProcessWindowStyle.Hidden;
+                    //start.CreateNoWindow = true;
+                    //Process proc = Process.Start(start);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void OpenDataFolder(object sender, EventArgs e)
+        {
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "/ select," + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler";
+            // Enter the executable to run, including the complete path
+            start.FileName = "explorer.exe";
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Normal;
+            start.CreateNoWindow = true;
+            Process proc = Process.Start(start);
+        }
+        // About Menu Item
+
+        private void ShowAbout(object sender, EventArgs e)
+        {
+            printMessage("\nScheduler version " + version + "  " + verdate + "\n");
+        }
+
+// Helper methods
+
+        public void ViewInWebbrowser(string document)
+        {
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = document;
+            // Enter the executable to run, including the complete path
+            start.FileName = config.getWEBBROWSER();
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            Process proc = Process.Start(start);
+        }
+
+        private void calendarEventsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalendarPrinter calendarPrinter = new CalendarPrinter(this, config);
+            calendarPrinter.print(localSemester);
         }
     }
 }

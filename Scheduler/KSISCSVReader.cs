@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Scheduler
 {
@@ -36,7 +37,7 @@ namespace Scheduler
             }
             catch (Exception e)
             {
-                gui.printMessage(e.Message);
+                MessageBox.Show(e.Message);
                 return semester;
             }
 
@@ -50,12 +51,6 @@ namespace Scheduler
                 {
                     continue;
                 }
-                //else // instructor fields have a quote (") at beginning that must be stripped out
-                //{
-                //    string temp = data.ElementAt(51).Substring(1);
-                //    data.RemoveAt(51);
-                //    data.Insert(51, temp);
-                //}
                 
                 // TODO: only use the data elements that map to section attributes of interest - delete extra section attributes
                 // create a new section object with current line
@@ -80,7 +75,6 @@ namespace Scheduler
                 if (size == 0)
                 {
                     semester.Add(section);
-                    semester.SetName(section.GetSTRM());
                 }
                 else
                 {

@@ -11,8 +11,7 @@ namespace Scheduler
     class CoTaughtCourses
     {
 
-        private string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private string filename = "cotaughtCourses.csv";
+        private string filename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\cotaughtCourses.csv";
         private Scheduler gui;
         private char DEFAULT_SEPARATOR = ',';
         private char DEFAULT_QUOTE = '"';

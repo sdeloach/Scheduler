@@ -37,7 +37,6 @@ namespace Scheduler
             }
             catch (Exception e)
             {
-                //gui.printMessage(e.Message);
                 MessageBox.Show(e.Message);
                 return semester;
             }
@@ -51,10 +50,7 @@ namespace Scheduler
             while ((line = readFile.ReadLine()) != null)
             {
                 data = ParseLine(line);
-
-                // instructor fields has a quote (") at beginning that must be stripped out
-                if (data.ElementAt(4).Any()) data.Insert(4, data.ElementAt(4).Substring(1));
-
+                
                 // create a new section object with current line
                 section = new Section(data.ElementAt(00), data.ElementAt(01), data.ElementAt(02), data.ElementAt(03), //data.ElementAt(04),
                         data.ElementAt(05), data.ElementAt(06), data.ElementAt(07), data.ElementAt(8), data.ElementAt(9), data.ElementAt(10), data.ElementAt(11),
