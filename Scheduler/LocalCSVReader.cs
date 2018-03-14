@@ -37,6 +37,7 @@ namespace Scheduler
             }
             catch (Exception e)
             {
+                gui.printMessage(e.StackTrace);
                 MessageBox.Show(e.Message);
                 return semester;
             }
@@ -50,12 +51,13 @@ namespace Scheduler
             while ((line = readFile.ReadLine()) != null)
             {
                 data = ParseLine(line);
-                
+
                 // create a new section object with current line
-                section = new Section(data.ElementAt(00), data.ElementAt(01), data.ElementAt(02), data.ElementAt(03), //data.ElementAt(04),
-                        data.ElementAt(05), data.ElementAt(06), data.ElementAt(07), data.ElementAt(8), data.ElementAt(9), data.ElementAt(10), data.ElementAt(11),
-                        data.ElementAt(12), data.ElementAt(13), data.ElementAt(14), data.ElementAt(15), data.ElementAt(16), data.ElementAt(17),
-                        data.ElementAt(18), data.ElementAt(19), data.ElementAt(20), data.ElementAt(21), data.ElementAt(22), data.ElementAt(23), data.ElementAt(24), data.ElementAt(25));
+                section = new Section(data.ElementAt(00), data.ElementAt(01), data.ElementAt(02), data.ElementAt(03), data.ElementAt(04),
+                        data.ElementAt(05), data.ElementAt(06), data.ElementAt(07), data.ElementAt(8), data.ElementAt(9), data.ElementAt(10),
+                        data.ElementAt(11), data.ElementAt(12), data.ElementAt(13), data.ElementAt(14), data.ElementAt(15), data.ElementAt(16),
+                        data.ElementAt(17), data.ElementAt(18), data.ElementAt(19), data.ElementAt(20), data.ElementAt(21), data.ElementAt(22),
+                        data.ElementAt(23), data.ElementAt(24));
 
                 // add section to the list of sections
                 int size = semester.Size();

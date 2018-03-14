@@ -52,6 +52,7 @@ namespace Scheduler
             }
             catch (Exception ex)
             {
+                printMessage(ex.StackTrace);
                 MessageBox.Show(ex.Message);
             }
         }
