@@ -11,8 +11,8 @@ namespace Scheduler
     {
 
         Scheduler gui;
-        private char DEFAULT_SEPARATOR = ',';
-        private char DEFAULT_QUOTE = '"';
+        //private char DEFAULT_SEPARATOR = ',';
+        //private char DEFAULT_QUOTE = '"';
 
         public KSISCSVReader(Scheduler gui)
         {
@@ -44,7 +44,7 @@ namespace Scheduler
             string line = readFile.ReadLine(); // skip first line
             while ((line = readFile.ReadLine()) != null)
             {
-                List<string> data = ParseLine(line);
+                List<string> data = Utility.ParseLine(line);
 
                 // skip lines without instructors
                 if (data.ElementAt(51).Equals(" ") || !data.ElementAt(51).Any())
@@ -66,9 +66,9 @@ namespace Scheduler
                         data.ElementAt(80), data.ElementAt(81), data.ElementAt(82), data.ElementAt(83), data.ElementAt(84), data.ElementAt(85), data.ElementAt(86), data.ElementAt(87), data.ElementAt(88), data.ElementAt(89),
                         data.ElementAt(90), data.ElementAt(91));
 
-// need to use this constructor
-//                section = new Section(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
-//                          facilityId, meetingTimeStart, meetingTimeEnd, mon, tues, wed, thurs, fri, sat, sun, unitsMin, unitsMax, classAssnComponent, hidden, mynotes);
+                // need to use this constructor
+                //                section = new Section(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
+                //                          facilityId, meetingTimeStart, meetingTimeEnd, mon, tues, wed, thurs, fri, sat, sun, unitsMin, unitsMax, classAssnComponent, hidden, mynotes);
 
                 // add section to the list of sections
                 int size = semester.Size();
@@ -98,123 +98,123 @@ namespace Scheduler
             return (semester);
         }
 
-        private List<string> ParseLine(string cvsLine)
-        {
-            return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
-        }
+        //private List<string> ParseLine(string cvsLine)
+        //{
+        //    return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+        //}
         
 
-        private List<string> ParseLine(string cvsLine, char separators)
-        {
-            return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
-        }
+        //private List<string> ParseLine(string cvsLine, char separators)
+        //{
+        //    return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
+        //}
 
-        private List<string> ParseLine(string cvsLine, char separators, char customQuote)
-        {
+        //private List<string> ParseLine(string cvsLine, char separators, char customQuote)
+        //{
 
-            List<string> result = new List<string>();
+        //    List<string> result = new List<string>();
 
-            // if empty, return!
-            if (cvsLine == null && !cvsLine.Any())
-            {
-                return result;
-            }
+        //    // if empty, return!
+        //    if (cvsLine == null && !cvsLine.Any())
+        //    {
+        //        return result;
+        //    }
 
-            if (customQuote == ' ')
-            {
-                customQuote = DEFAULT_QUOTE;
-            }
+        //    if (customQuote == ' ')
+        //    {
+        //        customQuote = DEFAULT_QUOTE;
+        //    }
 
-            if (separators == ' ')
-            {
-                separators = DEFAULT_SEPARATOR;
-            }
+        //    if (separators == ' ')
+        //    {
+        //        separators = DEFAULT_SEPARATOR;
+        //    }
 
-            StringBuilder curVal = new StringBuilder();
-            bool inQuotes = false;
-            bool startCollectChar = false;
-            bool doubleQuotesInColumn = false;
+        //    StringBuilder curVal = new StringBuilder();
+        //    bool inQuotes = false;
+        //    bool startCollectChar = false;
+        //    bool doubleQuotesInColumn = false;
 
-            char[] chars = cvsLine.ToCharArray();
+        //    char[] chars = cvsLine.ToCharArray();
 
-            foreach (char ch in chars)
-            {
+        //    foreach (char ch in chars)
+        //    {
 
-                if (inQuotes)
-                {
-                    startCollectChar = true;
-                    if (ch == customQuote)
-                    {
-                        inQuotes = false;
-                        doubleQuotesInColumn = false;
-                    }
-                    else
-                    {
-                        if (ch == '\"')
-                        {
-                            if (!doubleQuotesInColumn)
-                            {
-                                curVal.Append(ch);
-                                doubleQuotesInColumn = true;
-                            }
-                        }
-                        else
-                        {
-                            curVal.Append(ch);
-                        }
+        //        if (inQuotes)
+        //        {
+        //            startCollectChar = true;
+        //            if (ch == customQuote)
+        //            {
+        //                inQuotes = false;
+        //                doubleQuotesInColumn = false;
+        //            }
+        //            else
+        //            {
+        //                if (ch == '\"')
+        //                {
+        //                    if (!doubleQuotesInColumn)
+        //                    {
+        //                        curVal.Append(ch);
+        //                        doubleQuotesInColumn = true;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    curVal.Append(ch);
+        //                }
 
-                    }
-                }
-                else
-                {
-                    if (ch == customQuote)
-                    {
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (ch == customQuote)
+        //            {
 
-                        inQuotes = true;
+        //                inQuotes = true;
 
-                        // Fixed : allow "" in empty quote enclosed
-                        if (chars[0] != '"' && customQuote == '\"')
-                        {
-                            curVal.Append('"');
-                        }
+        //                // Fixed : allow "" in empty quote enclosed
+        //                if (chars[0] != '"' && customQuote == '\"')
+        //                {
+        //                    curVal.Append('"');
+        //                }
 
-                        // double quotes in column will hit this!
-                        if (startCollectChar)
-                        {
-                            curVal.Append('"');
-                        }
+        //                // double quotes in column will hit this!
+        //                if (startCollectChar)
+        //                {
+        //                    curVal.Append('"');
+        //                }
 
-                    }
-                    else if (ch == separators)
-                    {
+        //            }
+        //            else if (ch == separators)
+        //            {
 
-                        result.Add(curVal.ToString());
+        //                result.Add(curVal.ToString());
 
-                        curVal = new StringBuilder();
-                        startCollectChar = false;
+        //                curVal = new StringBuilder();
+        //                startCollectChar = false;
 
-                    }
-                    else if (ch == '\r')
-                    {
-                        // ignore LF characters
-                        continue;
-                    }
-                    else if (ch == '\n')
-                    {
-                        // the end, break!
-                        break;
-                    }
-                    else
-                    {
-                        curVal.Append(ch);
-                    }
-                }
+        //            }
+        //            else if (ch == '\r')
+        //            {
+        //                // ignore LF characters
+        //                continue;
+        //            }
+        //            else if (ch == '\n')
+        //            {
+        //                // the end, break!
+        //                break;
+        //            }
+        //            else
+        //            {
+        //                curVal.Append(ch);
+        //            }
+        //        }
 
-            }
+        //    }
 
-            result.Add(curVal.ToString());
+        //    result.Add(curVal.ToString());
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }

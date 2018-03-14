@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Section.cs" />
     <Compile Include="Semester.cs" />
+    <Compile Include="Utility.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
