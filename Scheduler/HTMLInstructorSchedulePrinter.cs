@@ -187,21 +187,8 @@ namespace Scheduler
             }
         }
 
-        // displays a file in the default web browser
-        public void ViewInWebbrowser(string filename)
-        {
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = filename;
-            // Enter the executable to run, including the complete path
-            start.FileName = config.getWEBBROWSER();
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            Process proc = Process.Start(start);
-        }
-
+        // these two helper functions cannot be replace with .PadRight/.PadLeft
+        // since we are padding with strings "&nbsp;" instead of characters
         private String padEnd(String str, int length)
         {
             for (int i = str.Length; i < length; i++)

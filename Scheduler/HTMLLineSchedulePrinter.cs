@@ -190,7 +190,7 @@ namespace Scheduler
                     }
                     printer.WriteLine("</body>");
                     printer.WriteLine("</html>");
-
+                    printer.Close();
                 }
             }
             catch (Exception e)
@@ -199,20 +199,8 @@ namespace Scheduler
             }
         }
 
-        public void ViewInWebbrowser(string document)
-        {
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = document;
-            // Enter the executable to run, including the complete path
-            start.FileName = config.getWEBBROWSER();
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            Process proc = Process.Start(start);
-        }
-
+        // these two helper functions cannot be replace with .PadRight/.PadLeft
+        // since we are padding with strings "&nbsp;" instead of characters
         private String padEnd(String str, int length)
         {
             for (int i = str.Length; i < length; i++)

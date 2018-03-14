@@ -21,7 +21,7 @@ namespace Scheduler
         // 1.1.4 - added text decoration for "hidden" files so they show up in line schedule
 
         private const string version = "1.1.4";
-	    private const string verdate = "March 8, 2018";
+        private const string verdate = "March 8, 2018";
 
         public Scheduler()
         {
@@ -34,7 +34,7 @@ namespace Scheduler
             textBox1.AppendText(s + '\n');
         }
 
-// File Submenu
+        // File Submenu
 
         private void OpenLocalFile(object sender, EventArgs e)
         {
@@ -48,7 +48,7 @@ namespace Scheduler
                 {
                     localFilename = ofd.FileName;
                     localSemester.localRead(localFilename);
-                } 
+                }
             }
             catch (Exception ex)
             {
@@ -119,18 +119,12 @@ namespace Scheduler
                 MessageBox.Show("No semester loaded.");
                 return;
             }
-            
+
             HTMLLineSchedulePrinter schedulePrinter = new HTMLLineSchedulePrinter(this, config);
             string outputFilename = localFilename.Substring(0, localFilename.Length - 4) + "_schedule.html";
             schedulePrinter.print(localSemester, outputFilename, false);
-            try
-            {
-                schedulePrinter.ViewInWebbrowser(outputFilename);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
+            ViewInWebbrowser(outputFilename);
         }
 
         private void ProduceInstructorSchedule(object sender, EventArgs e)
@@ -144,14 +138,8 @@ namespace Scheduler
             HTMLInstructorSchedulePrinter schedulePrinter = new HTMLInstructorSchedulePrinter(this, config);
             string outputFilename = localFilename.Substring(0, localFilename.Length - 4) + "_instructor.html";
             schedulePrinter.print(localSemester, outputFilename, false);
-            try
-            {
-                ViewInWebbrowser(outputFilename);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
+            ViewInWebbrowser(outputFilename);
         }
 
         // Open Submenu
@@ -166,18 +154,18 @@ namespace Scheduler
             {
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    string filename = ofd.FileName;
-
-                    // Prepare the process to run
-                    ProcessStartInfo start = new ProcessStartInfo();
-                    // Enter in the command line arguments, everything you would enter after the executable name itself
-                    start.Arguments = filename;
-                    // Enter the executable to run, including the complete path
-                    start.FileName = config.getMSWORD();
-                    // Do you want to show a console window?
-                    start.WindowStyle = ProcessWindowStyle.Normal;
-                    start.CreateNoWindow = true;
-                    Process proc = Process.Start(start);
+                    Utility.RunProcess(config.getMSWORD(), ofd.FileName);
+                    //string filename = ofd.FileName;
+                    //// Prepare the process to run
+                    //ProcessStartInfo start = new ProcessStartInfo();
+                    //// Enter in the command line arguments, everything you would enter after the executable name itself
+                    //start.Arguments = filename;
+                    //// Enter the executable to run, including the complete path
+                    //start.FileName = config.getMSWORD();
+                    //// Do you want to show a console window?
+                    //start.WindowStyle = ProcessWindowStyle.Normal;
+                    //start.CreateNoWindow = true;
+                    //Process proc = Process.Start(start);
                 }
             }
             catch (Exception ex)
@@ -195,21 +183,7 @@ namespace Scheduler
             try
             {
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string filename = ofd.FileName;
-
-                    ViewInWebbrowser(filename);
-                    //// Prepare the process to run
-                    //ProcessStartInfo start = new ProcessStartInfo();
-                    //// Enter in the command line arguments, everything you would enter after the executable name itself
-                    //start.Arguments = filename;
-                    //// Enter the executable to run, including the complete path
-                    //start.FileName = config.getWEBBROWSER();
-                    //// Do you want to show a console window?
-                    //start.WindowStyle = ProcessWindowStyle.Hidden;
-                    //start.CreateNoWindow = true;
-                    //Process proc = Process.Start(start);
-                }
+                    ViewInWebbrowser(ofd.FileName);
             }
             catch (Exception ex)
             {
@@ -219,16 +193,17 @@ namespace Scheduler
 
         private void OpenDataFolder(object sender, EventArgs e)
         {
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "/ select," + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler";
-            // Enter the executable to run, including the complete path
-            start.FileName = "explorer.exe";
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Normal;
-            start.CreateNoWindow = true;
-            Process proc = Process.Start(start);
+            Utility.RunProcess("explorer.exe", "/ select," + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler");
+            //// Prepare the process to run
+            //ProcessStartInfo start = new ProcessStartInfo();
+            //// Enter in the command line arguments, everything you would enter after the executable name itself
+            //start.Arguments = "/ select," + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler";
+            //// Enter the executable to run, including the complete path
+            //start.FileName = "explorer.exe";
+            //// Do you want to show a console window?
+            //start.WindowStyle = ProcessWindowStyle.Normal;
+            //start.CreateNoWindow = true;
+            //Process proc = Process.Start(start);
         }
         // About Menu Item
 
@@ -237,20 +212,21 @@ namespace Scheduler
             printMessage("\nScheduler version " + version + "  " + verdate + "\n");
         }
 
-// Helper methods
+        // Helper methods
 
         public void ViewInWebbrowser(string document)
         {
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = document;
-            // Enter the executable to run, including the complete path
-            start.FileName = config.getWEBBROWSER();
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            Process proc = Process.Start(start);
+            Utility.RunProcess(config.getWEBBROWSER(), document);
+            //// Prepare the process to run
+            //ProcessStartInfo start = new ProcessStartInfo();
+            //// Enter in the command line arguments, everything you would enter after the executable name itself
+            //start.Arguments = document;
+            //// Enter the executable to run, including the complete path
+            //start.FileName = config.getWEBBROWSER();
+            //// Do you want to show a console window?
+            //start.WindowStyle = ProcessWindowStyle.Hidden;
+            //start.CreateNoWindow = true;
+            //Process proc = Process.Start(start);
         }
 
         private void calendarEventsToolStripMenuItem_Click(object sender, EventArgs e)

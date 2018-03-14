@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,20 @@ namespace Scheduler
 {
     static class Utility
     {
+        static public void RunProcess(string filename, string arguments)
+        {
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = arguments;
+            // Enter the executable to run, including the complete path
+            start.FileName = filename;
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Normal;
+            start.CreateNoWindow = true;
+            Process proc = Process.Start(start);
+        }
+
         static private char DEFAULT_SEPARATOR = ',';
         static private char DEFAULT_QUOTE = '"';
 
