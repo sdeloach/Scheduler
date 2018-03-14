@@ -2,170 +2,170 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Scheduler
 {
     class CalendarPrinter
     {
-        private IConfiguration config;
         private Scheduler gui;
         private string[] roomList = { "DUE1114", "DUE1116", "DUE1117", "other", "graduate", "undergraduate", "service" };
 
-        public CalendarPrinter(Scheduler gui, IConfiguration config)
+        public CalendarPrinter(Scheduler gui)
         {
             this.gui = gui;
-            this.config = config;
         }
 
         public void print(Semester semester)
         {
-
-            string lastCatalogNbr = "";
-            string lastSection = "";
-
-            if (semester.Size() <= 0)
+            if (semester == null)
             {
-                gui.printMessage("No file loaded for printing.");
-                return;
+                MessageBox.Show("No semester loaded.");
             }
-
-            // open file for each room in roomList array defined above
-            //open file
-            try
+            else
             {
-                for (int iRoom = 0; iRoom < roomList.Length; iRoom++)
+
+                // open file for each room in roomList array defined above
+                //open file
+                try
                 {
-                    string filename = config.getICSDIRECTORY() + semester.GetName() + " - " + roomList[iRoom] + ".ics";
-                    using (System.IO.StreamWriter printer = new System.IO.StreamWriter(filename, false))
+                    string lastCatalogNbr = "";
+                    string lastSection = "";
+
+                    for (int iRoom = 0; iRoom < roomList.Length; iRoom++)
                     {
-                        // print header
-                        printer.WriteLine("BEGIN:VCALENDAR");
-                        printer.WriteLine("PRODID:-//Microsoft Corporation//Outlook 16.0 MIMEDIR//EN");
-                        printer.WriteLine("VERSION:2.0");
-                        printer.WriteLine("METHOD:PUBLISH");
-                        printer.WriteLine("X-MS-OLK-FORCEINSPECTOROPEN:TRUE");
-                        printer.WriteLine("BEGIN:VTIMEZONE");
-                        printer.WriteLine("TZID:Central Standard Time");
-                        printer.WriteLine("BEGIN:STANDARD");
-                        printer.WriteLine("DTSTART:16011104T020000"); //
-                        printer.WriteLine("RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11");
-                        printer.WriteLine("TZOFFSETFROM:-0500");
-                        printer.WriteLine("TZOFFSETTO:-0600");
-                        printer.WriteLine("END:STANDARD");
-                        printer.WriteLine("BEGIN:DAYLIGHT");
-                        printer.WriteLine("DTSTART:16010311T020000");
-                        printer.WriteLine("RRULE:FREQ=YEARLY;BYDAY=2SU;BYMONTH=3");
-                        printer.WriteLine("TZOFFSETFROM:-0600");
-                        printer.WriteLine("TZOFFSETTO:-0500");
-                        printer.WriteLine("END:DAYLIGHT");
-                        printer.WriteLine("END:VTIMEZONE");
-
-                        // start processing courses as calendar events
-                        for (int x = 0; x < semester.Size(); x++)
+                        string filename = Configuration.ICSDIRECTORY + semester.GetName() + " - " + roomList[iRoom] + ".ics";
+                        using (System.IO.StreamWriter printer = new System.IO.StreamWriter(filename, false))
                         {
-                            Section sec = semester.ElementAt(x);
-                            string catNumber = sec.CatalogNbr;
+                            // print header
+                            printer.WriteLine("BEGIN:VCALENDAR");
+                            printer.WriteLine("PRODID:-//Microsoft Corporation//Outlook 16.0 MIMEDIR//EN");
+                            printer.WriteLine("VERSION:2.0");
+                            printer.WriteLine("METHOD:PUBLISH");
+                            printer.WriteLine("X-MS-OLK-FORCEINSPECTOROPEN:TRUE");
+                            printer.WriteLine("BEGIN:VTIMEZONE");
+                            printer.WriteLine("TZID:Central Standard Time");
+                            printer.WriteLine("BEGIN:STANDARD");
+                            printer.WriteLine("DTSTART:16011104T020000"); //
+                            printer.WriteLine("RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11");
+                            printer.WriteLine("TZOFFSETFROM:-0500");
+                            printer.WriteLine("TZOFFSETTO:-0600");
+                            printer.WriteLine("END:STANDARD");
+                            printer.WriteLine("BEGIN:DAYLIGHT");
+                            printer.WriteLine("DTSTART:16010311T020000");
+                            printer.WriteLine("RRULE:FREQ=YEARLY;BYDAY=2SU;BYMONTH=3");
+                            printer.WriteLine("TZOFFSETFROM:-0600");
+                            printer.WriteLine("TZOFFSETTO:-0500");
+                            printer.WriteLine("END:DAYLIGHT");
+                            printer.WriteLine("END:VTIMEZONE");
 
-                            // don't add event for second/third instructors of same section
-                            if (catNumber.Equals(lastCatalogNbr) && sec.GetSection().Equals(lastSection))
-                                continue;
-                            else
+                            // start processing courses as calendar events
+                            for (int x = 0; x < semester.Size(); x++)
                             {
-                                lastCatalogNbr = catNumber;
-                                lastSection = sec.GetSection();
-                            }
+                                Section sec = semester.ElementAt(x);
+                                string catNumber = sec.CatalogNbr;
 
-                            // combine courses with co-taught numbers into a single event, but only create event for lowest catalog number
-                            CoTaughtCourses cotaught = new CoTaughtCourses(gui);
-                            string ctc = cotaught.coTaughtCourse(catNumber);
-                            if (ctc.Any())
-                            {
-                                int cNum = int.Parse(catNumber);
-                                int ctcNum = int.Parse(ctc);
-                                if ((!roomList[iRoom].Equals("graduate") && !roomList[iRoom].Equals("undergraduate"))
-                                        || (roomList[iRoom].Equals("graduate") && isGraduate(cNum) && isGraduate(ctcNum))
-                                        || (roomList[iRoom].Equals("undergraduate") && isUnderGraduate(cNum) && isUnderGraduate(ctcNum)))
+                                // don't add event for second/third instructors of same section
+                                if (catNumber.Equals(lastCatalogNbr) && sec.GetSection().Equals(lastSection))
+                                    continue;
+                                else
                                 {
-                                    if (cNum > ctcNum)
-                                        continue; // skip courses whose number is greater than their cotaught course
-                                    else
-                                        catNumber += "/" + ctc;
+                                    lastCatalogNbr = catNumber;
+                                    lastSection = sec.GetSection();
+                                }
+
+                                // combine courses with co-taught numbers into a single event, but only create event for lowest catalog number
+                                CoTaughtCourses cotaught = new CoTaughtCourses(gui);
+                                string ctc = cotaught.coTaughtCourse(catNumber);
+                                if (ctc.Any())
+                                {
+                                    int cNum = int.Parse(catNumber);
+                                    int ctcNum = int.Parse(ctc);
+                                    if ((!roomList[iRoom].Equals("graduate") && !roomList[iRoom].Equals("undergraduate"))
+                                            || (roomList[iRoom].Equals("graduate") && isGraduate(cNum) && isGraduate(ctcNum))
+                                            || (roomList[iRoom].Equals("undergraduate") && isUnderGraduate(cNum) && isUnderGraduate(ctcNum)))
+                                    {
+                                        if (cNum > ctcNum)
+                                            continue; // skip courses whose number is greater than their cotaught course
+                                        else
+                                            catNumber += "/" + ctc;
+                                    }
+                                }
+
+                                // skip sections we are not interested in scheduling
+                                int catNbr = int.Parse(sec.CatalogNbr);
+                                if (sec.IsHidden()
+                                        || !sec.GetInstructor().Any()
+                                        || catNbr == 497 || catNbr == 999 || catNbr == 990 || catNbr == 899 || catNbr == 897 || catNbr == 898 || catNbr == 895
+                                        || (catNbr == 690 && sec.GetTopicDescr().Equals(" "))
+                                        || (catNbr == 798 && sec.GetTopicDescr().Equals("Top/Vary By Student"))
+                                        || (catNbr == 890 && sec.GetTopicDescr().Equals("Top/Vary By Student"))
+                                        || (sec.GetMeetingTimeStart().Equals("12:00 AM") && sec.GetMeetingTimeEnd().Equals("12:00 AM"))
+                                        || (sec.GetSection().StartsWith("Z"))
+                                        || (!roomList[iRoom].Equals(sec.GetFacilityId()) && !isOtherRoom(sec.GetFacilityId(), iRoom))
+                                        // For graduate, undergraduate, and service listings
+                                        && !((roomList[iRoom].Equals("graduate") && isGraduate(catNbr))
+                                                || (roomList[iRoom].Equals("undergraduate") && isUnderGraduate(catNbr) && !isService(catNbr))
+                                                || (roomList[iRoom].Equals("service") && isService(catNbr))
+                                                )
+                                        )
+                                    continue; // do not print these rooms
+                                else
+                                {
+                                    // format values for event
+
+                                    string today = icsToday();
+
+                                    string startDate = icsDate(sec.GetMeetingStartDt());
+                                    string endDate = icsDate(addDaysToDate(sec.GetMeetingEndDt(), 1)); // add 1 day to last class date
+                                    string startTime = icsTime(sec.GetMeetingTimeStart());
+                                    string endTime = icsTime(sec.GetMeetingTimeEnd());
+
+                                    string daysOfWeek = icsDaysOfWeek(sec);
+
+                                    startDate = icsDate(calculateActualStartDate(sec.GetMeetingStartDt(), daysOfWeek));
+
+                                    // print out lines for sections of interest
+                                    printer.WriteLine("BEGIN:VEVENT");
+                                    printer.WriteLine("CATEGORIES:Student/Teaching");
+                                    printer.WriteLine("CLASS:PUBLIC");
+                                    printer.WriteLine("CREATED:" + today);
+                                    printer.WriteLine("DESCRIPTION:" + sec.Subject + " " + catNumber + "  " + sec.GetClassDescr()
+                                    + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
+                                    printer.WriteLine("DTEND;TZID=\"Central Standard Time\":" + startDate + endTime + "00");
+                                    printer.WriteLine("DTSTAMP:" + today);
+                                    printer.WriteLine("DTSTART;TZID=\"Central Standard Time\":" + startDate + startTime + "00");
+                                    printer.WriteLine("LAST-MODIFIED:" + today);
+                                    printer.WriteLine("LOCATION:" + sec.GetFacilityId());
+                                    printer.WriteLine("PRIORITY:5");
+                                    printer.WriteLine("RRULE:FREQ=WEEKLY;UNTIL=" + endDate + "000000" + ";" + daysOfWeek);
+                                    printer.WriteLine("SEQUENCE:0");
+                                    printer.WriteLine("SUMMARY;LANGUAGE=en-us:" + sec.Subject + " " + catNumber + " - "
+                                            + sec.GetSection() + " (" + sec.GetInstructor() + ")");
+                                    printer.WriteLine("TRANSP:OPAQUE");
+                                    printer.WriteLine("UID:" + Guid.NewGuid());
+                                    printer.WriteLine("X-ALT-DESC;");
+                                    printer.WriteLine("X-MICROSOFT-CDO-BUSYSTATUS:BUSY");
+                                    printer.WriteLine("X-MICROSOFT-CDO-IMPORTANCE:1");
+                                    printer.WriteLine("X-MICROSOFT-DISALLOW-COUNTER:FALSE");
+                                    printer.WriteLine("X-MS-OLK-AUTOFILLLOCATION:FALSE");
+                                    printer.WriteLine("X-MS-OLK-AUTOSTARTCHECK:FALSE");
+                                    printer.WriteLine("X-MS-OLK-CONFTYPE:0");
+                                    printer.WriteLine("END:VEVENT");
                                 }
                             }
-
-                            // skip sections we are not interested in scheduling
-                            int catNbr = int.Parse(sec.CatalogNbr);
-                            if (sec.IsHidden()
-                                    || !sec.GetInstructor().Any() 
-                                    || catNbr == 497 || catNbr == 999 || catNbr == 990 || catNbr == 899 || catNbr == 897 || catNbr == 898 || catNbr == 895
-                                    || (catNbr == 690 && sec.GetTopicDescr().Equals(" "))
-                                    || (catNbr == 798 && sec.GetTopicDescr().Equals("Top/Vary By Student"))
-                                    || (catNbr == 890 && sec.GetTopicDescr().Equals("Top/Vary By Student"))
-                                    || (sec.GetMeetingTimeStart().Equals("12:00 AM") && sec.GetMeetingTimeEnd().Equals("12:00 AM"))
-                                    || (sec.GetSection().StartsWith("Z"))
-                                    || (!roomList[iRoom].Equals(sec.GetFacilityId()) && !isOtherRoom(sec.GetFacilityId(), iRoom))
-                                    // For graduate, undergraduate, and service listings
-                                    && !((roomList[iRoom].Equals("graduate") && isGraduate(catNbr))
-                                            || (roomList[iRoom].Equals("undergraduate") && isUnderGraduate(catNbr) && !isService(catNbr))
-                                            || (roomList[iRoom].Equals("service") && isService(catNbr))
-                                            )
-                                    )
-                                continue; // do not print these rooms
-                            else
-                            {
-                                // format values for event
-
-                                string today = icsToday();
-
-                                string startDate = icsDate(sec.GetMeetingStartDt());
-                                string endDate = icsDate(addDaysToDate(sec.GetMeetingEndDt(), 1)); // add 1 day to last class date
-                                string startTime = icsTime(sec.GetMeetingTimeStart());
-                                string endTime = icsTime(sec.GetMeetingTimeEnd());
-
-                                string daysOfWeek = icsDaysOfWeek(sec);
-
-                                startDate = icsDate(calculateActualStartDate(sec.GetMeetingStartDt(), daysOfWeek));
-
-                                // print out lines for sections of interest
-                                printer.WriteLine("BEGIN:VEVENT");
-                                printer.WriteLine("CATEGORIES:Student/Teaching");
-                                printer.WriteLine("CLASS:PUBLIC");
-                                printer.WriteLine("CREATED:" + today);
-                                printer.WriteLine("DESCRIPTION:" + sec.Subject + " " + catNumber + "  " + sec.GetClassDescr()
-                                + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
-                                printer.WriteLine("DTEND;TZID=\"Central Standard Time\":" + startDate + endTime + "00");
-                                printer.WriteLine("DTSTAMP:" + today);
-                                printer.WriteLine("DTSTART;TZID=\"Central Standard Time\":" + startDate + startTime + "00");
-                                printer.WriteLine("LAST-MODIFIED:" + today);
-                                printer.WriteLine("LOCATION:" + sec.GetFacilityId());
-                                printer.WriteLine("PRIORITY:5");
-                                printer.WriteLine("RRULE:FREQ=WEEKLY;UNTIL=" + endDate + "000000" + ";" + daysOfWeek);
-                                printer.WriteLine("SEQUENCE:0");
-                                printer.WriteLine("SUMMARY;LANGUAGE=en-us:" + sec.Subject + " " + catNumber + " - "
-                                        + sec.GetSection() + " (" + sec.GetInstructor() + ")");
-                                printer.WriteLine("TRANSP:OPAQUE");
-                                printer.WriteLine("UID:" + Guid.NewGuid());
-                                printer.WriteLine("X-ALT-DESC;");
-                                printer.WriteLine("X-MICROSOFT-CDO-BUSYSTATUS:BUSY");
-                                printer.WriteLine("X-MICROSOFT-CDO-IMPORTANCE:1");
-                                printer.WriteLine("X-MICROSOFT-DISALLOW-COUNTER:FALSE");
-                                printer.WriteLine("X-MS-OLK-AUTOFILLLOCATION:FALSE");
-                                printer.WriteLine("X-MS-OLK-AUTOSTARTCHECK:FALSE");
-                                printer.WriteLine("X-MS-OLK-CONFTYPE:0");
-                                printer.WriteLine("END:VEVENT");
-                            }
+                            printer.WriteLine("END:VCALENDAR");
+                            printer.Close();
                         }
-                        printer.WriteLine("END:VCALENDAR");
-                        printer.Close();
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                gui.printMessage(e.Message + "\n" + e.StackTrace);
-            }
+                catch (Exception e)
+                {
+                    gui.printMessage(e.Message + "\n" + e.StackTrace);
+                }
 
-            gui.printMessage("Calendar events generated.");
+                gui.printMessage("Calendar events generated.");
+            }
         }
 
 
@@ -177,7 +177,7 @@ namespace Scheduler
             // Enter in the command line arguments, everything you would enter after the executable name itself
             start.Arguments = filename;
             // Enter the executable to run, including the complete path
-            start.FileName = config.getWEBBROWSER();
+            start.FileName = Configuration.WEBBROWSER;
             // Do you want to show a console window?
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;

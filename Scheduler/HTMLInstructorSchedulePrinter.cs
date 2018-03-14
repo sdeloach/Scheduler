@@ -8,7 +8,6 @@ namespace Scheduler
     {
 
         private IGui gui;
-        private IConfiguration config;
         private bool PrintFullSchedule = true;
         
         const string OneSpace = "&nbsp;";
@@ -18,10 +17,9 @@ namespace Scheduler
         const string Tab = "&emsp;";
 
 
-        public HTMLInstructorSchedulePrinter(IGui gui, IConfiguration config)
+        public HTMLInstructorSchedulePrinter(IGui gui)
         {
             this.gui = gui;
-            this.config = config;
         }
 
         public void print(Semester semester, string filename, bool full)

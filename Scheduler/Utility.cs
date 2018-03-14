@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Scheduler
 {
     static class Utility
     {
+        static public string test { get; set; }
+
         static public void RunProcess(string filename, string arguments)
         {
             // Prepare the process to run

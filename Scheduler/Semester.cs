@@ -11,6 +11,7 @@ namespace Scheduler
         private List<Section> semesterList = new List<Section>(0);
         private string name = "";
         private bool verified = false;
+        public string filename { get; set; }
 
         public Semester(IGui gui)
         {
@@ -42,12 +43,10 @@ namespace Scheduler
         public void verify(Semester KSISsemester)
         {
             // compare against KSIS data to set verification flags in each section
-            // use verification flags to highlight when printing line schedules
             this.compareToSemester(KSISsemester);
 
-            // create two semesters, one sorted by instructor, the other by room
-            // sort semesters by instructor and facility
-            // note - semesters hold sections by reference, thus they "share" the sections
+            // create a semester sorted by instructor, the other by room
+            // since semesters hold sections by reference, they "share" the sections
             Semester semesterByInstructor = this.sortByInstructor();
             Semester semesterByFacility = this.sortByFacilityId();
 
