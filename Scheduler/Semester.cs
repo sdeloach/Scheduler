@@ -76,18 +76,16 @@ namespace Scheduler
 
             for (int i = 0; i < semesterByFacility.Count(); i++)
             {
+                // create an interval for each section in the semester
                 Section sec = semesterByFacility.ElementAt(i);
                 Interval interval = new Interval(sec.GetFacilityId(), sec.CatalogNbr, sec.GetSection(),
                         convertToInt(sec.GetMeetingTimeStart()), convertToInt(sec.GetMeetingTimeEnd()), sec.GetMeetingStartDt(),
                         sec.GetMeetingEndDt(), sec.GetMon(), sec.GetTues(), sec.GetWed(), sec.GetThurs(), sec.GetFri());
 
-                // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files, and classes not assigned to rooms
-                if (interval.Start != interval.End && !sec.GetHasBeenDeleted() && interval.GetEntity().Any()
-                        && !interval.GetEntity().StartsWith("zz")
-                        && !sec.IsHidden())
-                {
+                // ignore sections with intervals of {0,0} and (2400,2400) as well as sections that are deleted, hidden, or not assigned to a room yet
+                if (interval.Start != interval.End && !sec.GetHasBeenDeleted() && interval.Entity.Any() 
+                            && !interval.Entity.StartsWith("zz") && !sec.IsHidden())
                     list.Add(interval);
-                }
             }
 
             // verify room schedules do not overlap
@@ -108,18 +106,23 @@ namespace Scheduler
             for (int x = 0; x < semester.Count(); x++)
             {
                 Section sec = semester.ElementAt(x);
-                
+
                 string section = padEnd(sec.GetSection(), 3);
                 string enrlCap = padFront(sec.GetEnrlCap(), 3);
                 string component = padEnd(sec.GetClassAssnComponent(), 4);
                 string credits = padFront(((sec.GetUnitsMin().Equals(sec.GetUnitsMax()) ? sec.GetUnitsMin() : sec.GetUnitsMin() + "-" + sec.GetUnitsMax())), 5);
-                string days = ((sec.GetMon().Equals("Y")) ? "M" : " ") + ((sec.GetTues().Equals("Y")) ? "T" : " ") + ((sec.GetWed().Equals("Y")) ? "W" : " ") + ((sec.GetThurs().Equals("Y")) ? "U" : " ") + ((sec.GetFri().Equals("Y")) ? "F" : " ");
+                string days = ((sec.GetMon().Equals("Y")) ? "M" : " ") 
+                                + ((sec.GetTues().Equals("Y")) ? "T" : " ") 
+                                + ((sec.GetWed().Equals("Y")) ? "W" : " ") 
+                                + ((sec.GetThurs().Equals("Y")) ? "U" : " ") 
+                                + ((sec.GetFri().Equals("Y")) ? "F" : " ");
                 string times = padFront(sec.GetMeetingTimeStart(), 8) + "-" + padFront(sec.GetMeetingTimeEnd(), 8);
                 if (times.Equals("12:00 AM-12:00 AM")) times = "  By Appointment  ";
                 string faculty = padEnd(sec.GetInstructor().Substring(0, sec.GetInstructor().Length > 17 ? 17 : sec.GetInstructor().Length - 1), 18);
                 string facility = padEnd(sec.GetFacilityId(), 8);
 
-                Console.Write(sec.Subject + " " + sec.CatalogNbr + "  " + sec.GetClassDescr() + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
+                Console.Write(sec.Subject + " " + sec.CatalogNbr + "  " + sec.GetClassDescr() 
+                                + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
                 Console.WriteLine(section + " " + enrlCap + " " + component + " " + credits + " " + days + " " + times + " " + facility + " " + faculty + " ");
             }
         }

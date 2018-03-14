@@ -121,17 +121,17 @@ namespace Scheduler
                         }
 
                         // we have found the place to insert a new entity
-                        if (sortedList.ElementAt(i).GetEntity().CompareTo(interval.GetEntity()) > 0)
+                        if (sortedList.ElementAt(i).Entity.CompareTo(interval.Entity) > 0)
                         {
                             sortedList.Insert(i, interval);
                             break;
                         }
 
                         // we have found the entity already in the list
-                        if (sortedList.ElementAt(i).GetEntity().Equals(interval.GetEntity()))
+                        if (sortedList.ElementAt(i).Entity.Equals(interval.Entity))
                         {
                             // skip to the end of the instructor's intervals
-                            while (i < size && sortedList.ElementAt(i).GetEntity().Equals(interval.GetEntity()))
+                            while (i < size && sortedList.ElementAt(i).Entity.Equals(interval.Entity))
                                 i++;
                             sortedList.Insert(i, interval);
                             break;

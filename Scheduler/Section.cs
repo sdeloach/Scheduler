@@ -199,16 +199,6 @@ namespace Scheduler
                     + "\n    myNotes=" + myNotes;
         }
 
-        //public string GetCatalogNbr()
-        //{
-        //    return CatalogNbr;
-        //}
-
-        //public void setCatalogNbr(string catalogNbr)
-        //{
-        //    CatalogNbr = catalogNbr;
-        //}
-
         public string GetClassDescr()
         {
             return ClassDescr;

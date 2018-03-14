@@ -23,40 +23,30 @@ namespace Scheduler
         public Interval(string entity, string catalogNbr, string section, int start, int end, string meetingStart,
                 string meetingEnd, string mon, string tues, string wed, string thurs, string fri)
         {
-            this.Entity = entity;
-            this.CatalogNbr = catalogNbr;
-            this.Section = section;
-            this.Start = start;
-            this.End = end;
-            this.MeetingStart = meetingStart;
-            this.MeetingEnd = meetingEnd;
-            this.Mon = mon;
-            this.Tues = tues;
-            this.Wed = wed;
-            this.Thurs = thurs;
-            this.Fri = fri;
+            Entity = entity;
+            CatalogNbr = catalogNbr;
+            Section = section;
+            Start = start;
+            End = end;
+            MeetingStart = meetingStart;
+            MeetingEnd = meetingEnd;
+            Mon = mon;
+            Tues = tues;
+            Wed = wed;
+            Thurs = thurs;
+            Fri = fri;
         }
 
         public int compareTo(Interval o)
         {
             /* For Ascending order */
-            return (this.Start > o.Start ? 1 : -1);
+            return (Start > o.Start ? 1 : -1);
         }
 
         public override string ToString()
         {
             return (Entity + " " + CatalogNbr + " " + Section + " " + "{" + Start + "," + End + "} [" + MeetingStart + "-"
                     + MeetingEnd + "] " + Mon + Tues + Wed + Thurs + Fri);
-        }
-
-        public string GetEntity()
-        {
-            return Entity;
-        }
-
-        public void setEntity(string entity)
-        {
-            this.Entity = entity;
         }
     }
 }
