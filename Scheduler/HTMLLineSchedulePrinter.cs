@@ -86,24 +86,24 @@ namespace Scheduler
                         {
                             if ((!semester.isVerified() && sec.IsHidden())
                                     || !sec.GetInstructor().Any()
-                                    || sec.GetCatalogNbr().Equals("999") || sec.GetCatalogNbr().Equals("990")
-                                    || sec.GetCatalogNbr().Equals("899") || sec.GetCatalogNbr().Equals("897")
-                                    || sec.GetCatalogNbr().Equals("898") || sec.GetCatalogNbr().Equals("895")
-                                    || (sec.GetCatalogNbr().Equals("690") && sec.GetTopicDescr().Equals(" "))
-                                    || (sec.GetCatalogNbr().Equals("798") && sec.GetTopicDescr().Equals("Top/Vary By Student"))
-                                    || (sec.GetCatalogNbr().Equals("890") && sec.GetTopicDescr().Equals("Top/Vary By Student")))
+                                    || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
+                                    || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
+                                    || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
+                                    || (sec.CatalogNbr.Equals("690") && sec.GetTopicDescr().Equals(" "))
+                                    || (sec.CatalogNbr.Equals("798") && sec.GetTopicDescr().Equals("Top/Vary By Student"))
+                                    || (sec.CatalogNbr.Equals("890") && sec.GetTopicDescr().Equals("Top/Vary By Student")))
                                 continue; //skip
                         }
                         
                         // print out lines for sections of interest
-                        if (!sec.GetCatalogNbr().Equals(lastCatalogNbr) || (sec.GetCatalogNbr().Equals(lastCatalogNbr) && !sec.GetTopicDescr().Equals(lastTopicDescr)))
+                        if (!sec.CatalogNbr.Equals(lastCatalogNbr) || (sec.CatalogNbr.Equals(lastCatalogNbr) && !sec.GetTopicDescr().Equals(lastTopicDescr)))
                         {
                             printer.WriteLine("</p>");
                             printer.WriteLine();
                             printer.Write("<p style=\"font-family:monospace;\"><strong>");
-                            lastCatalogNbr = sec.GetCatalogNbr();
+                            lastCatalogNbr = sec.CatalogNbr;
                             lastTopicDescr = sec.GetTopicDescr();
-                            printer.Write(sec.Subject + OneSpace + sec.GetCatalogNbr() + TwoSpaces + sec.GetClassDescr() +
+                            printer.Write(sec.Subject + OneSpace + sec.CatalogNbr + TwoSpaces + sec.GetClassDescr() +
                             (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
                             printer.WriteLine("</strong><br>");
                         }

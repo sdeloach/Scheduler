@@ -64,7 +64,7 @@ namespace Scheduler
                         for (int x = 0; x < semester.Size(); x++)
                         {
                             Section sec = semester.ElementAt(x);
-                            string catNumber = sec.GetCatalogNbr();
+                            string catNumber = sec.CatalogNbr;
 
                             // don't add event for second/third instructors of same section
                             if (catNumber.Equals(lastCatalogNbr) && sec.GetSection().Equals(lastSection))
@@ -94,7 +94,7 @@ namespace Scheduler
                             }
 
                             // skip sections we are not interested in scheduling
-                            int catNbr = int.Parse(sec.GetCatalogNbr());
+                            int catNbr = int.Parse(sec.CatalogNbr);
                             if (sec.IsHidden()
                                     || !sec.GetInstructor().Any() 
                                     || catNbr == 497 || catNbr == 999 || catNbr == 990 || catNbr == 899 || catNbr == 897 || catNbr == 898 || catNbr == 895

@@ -40,7 +40,7 @@ namespace Scheduler
                 for (int x = 0; x < semester.Size(); x++)
                 {
                     Section sec = semester.ElementAt(x);
-                    file.WriteLine(sec.Subject + "," + sec.GetCatalogNbr() + "," + sec.GetClassDescr() + ","
+                    file.WriteLine(sec.Subject + "," + sec.CatalogNbr + "," + sec.GetClassDescr() + ","
                             + sec.GetSection() + ",\"" + sec.GetInstructor() + "\"," + sec.GetConsent() + ","
                             + sec.GetEnrlCap() + "," + sec.GetTopicDescr() + "," + sec.GetMeetingStartDt() + "," + sec.GetMeetingEndDt() + ","
                             + sec.GetFacilityId() + "," + sec.GetMeetingTimeStart() + "," + sec.GetMeetingTimeEnd() + ","

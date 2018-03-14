@@ -10,7 +10,7 @@ namespace Scheduler
 
         public string Name { get; set; } = "";
         public string Subject { get; set; } = "";
-        private string CatalogNbr = "";
+        public string CatalogNbr { get; set; } = "";
         private string ClassDescr = "";
         private string SectionName = "";
         private string Consent = "";
@@ -142,7 +142,7 @@ namespace Scheduler
         public bool compare(Section verSec)
         {
             this.setSubjectVer(this.Subject.Equals(verSec.Subject));
-            this.setCatalogNbrVer(this.GetCatalogNbr().Equals(verSec.GetCatalogNbr()));
+            this.setCatalogNbrVer(this.CatalogNbr.Equals(verSec.CatalogNbr));
             this.setClassDescrVer(this.GetClassDescr().Equals(verSec.GetClassDescr()));
             this.setSectionVer(this.GetSection().Equals(verSec.GetSection()));
             this.setConsentVer(this.GetConsent().Equals(verSec.GetConsent()));
@@ -199,15 +199,15 @@ namespace Scheduler
                     + "\n    myNotes=" + myNotes;
         }
 
-        public string GetCatalogNbr()
-        {
-            return CatalogNbr;
-        }
+        //public string GetCatalogNbr()
+        //{
+        //    return CatalogNbr;
+        //}
 
-        public void setCatalogNbr(string catalogNbr)
-        {
-            CatalogNbr = catalogNbr;
-        }
+        //public void setCatalogNbr(string catalogNbr)
+        //{
+        //    CatalogNbr = catalogNbr;
+        //}
 
         public string GetClassDescr()
         {
