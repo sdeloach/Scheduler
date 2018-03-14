@@ -82,10 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarPrinter.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="CoTaughtCourses.cs" />
     <Compile Include="HTMLLineSchedulePrinter.cs" />
     <Compile Include="HTMLInstructorSchedulePrinter.cs" />
+    <Compile Include="IGui.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="IntervalList.cs" />
     <Compile Include="KSISCSVReader.cs" />

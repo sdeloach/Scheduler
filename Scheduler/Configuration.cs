@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Scheduler
 {
-    public class Configuration
+    class Configuration : IConfiguration
     {
         private string configFilename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\config.properties";
         private Dictionary<string, string> list = new Dictionary<string, string>();

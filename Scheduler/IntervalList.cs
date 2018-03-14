@@ -9,10 +9,10 @@ namespace Scheduler
     public class IntervalList
     {
         private List<Interval> list = new List<Interval>(0);
-        private Scheduler gui;
+        private IGui gui;
         private CoTaughtCourses ctc;
         
-        public IntervalList(Scheduler gui)
+        public IntervalList(IGui gui)
         {
             this.gui = gui;
             ctc = new CoTaughtCourses(gui);

@@ -10,9 +10,8 @@ namespace Scheduler
 {
     class HTMLLineSchedulePrinter
     {
-
-        private Scheduler gui;
-        private Configuration config;
+        private IGui gui;
+        private IConfiguration config;
         private bool PrintFullSchedule = true;
 
         // string constants
@@ -24,7 +23,7 @@ namespace Scheduler
         const string StartNote = "<span style=\"background-color: #D2B4DE\">";
         const string EndNote = "</span>";
 
-        public HTMLLineSchedulePrinter(Scheduler gui, Configuration config)
+        public HTMLLineSchedulePrinter(IGui gui, IConfiguration config)
         {
             this.gui = gui;
             this.config = config;

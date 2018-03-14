@@ -7,11 +7,11 @@ namespace Scheduler
 {
     class CalendarPrinter
     {
-        private Configuration config;
+        private IConfiguration config;
         private Scheduler gui;
         private string[] roomList = { "DUE1114", "DUE1116", "DUE1117", "other", "graduate", "undergraduate", "service" };
 
-        public CalendarPrinter(Scheduler gui, Configuration config)
+        public CalendarPrinter(Scheduler gui, IConfiguration config)
         {
             this.gui = gui;
             this.config = config;

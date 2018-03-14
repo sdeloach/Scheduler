@@ -8,9 +8,9 @@ namespace Scheduler
 {
     public class KSISCSVReader
     {
-        Scheduler gui;
+        IGui gui;
 
-        public KSISCSVReader(Scheduler gui)
+        public KSISCSVReader(IGui gui)
         {
             this.gui = gui;
         }

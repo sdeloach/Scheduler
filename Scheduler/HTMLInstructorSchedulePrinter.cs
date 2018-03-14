@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scheduler
@@ -11,8 +7,8 @@ namespace Scheduler
     class HTMLInstructorSchedulePrinter
     {
 
-        private Scheduler gui;
-        private Configuration config;
+        private IGui gui;
+        private IConfiguration config;
         private bool PrintFullSchedule = true;
         
         const string OneSpace = "&nbsp;";
@@ -22,7 +18,7 @@ namespace Scheduler
         const string Tab = "&emsp;";
 
 
-        public HTMLInstructorSchedulePrinter(Scheduler gui, Configuration config)
+        public HTMLInstructorSchedulePrinter(IGui gui, IConfiguration config)
         {
             this.gui = gui;
             this.config = config;

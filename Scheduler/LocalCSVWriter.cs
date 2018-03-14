@@ -8,9 +8,9 @@ namespace Scheduler
 {
     public class LocalCSVWriter
     {
-        Scheduler gui;
+        IGui gui;
 
-        public LocalCSVWriter(Scheduler gui)
+        public LocalCSVWriter(IGui gui)
         {
             this.gui = gui;
         }

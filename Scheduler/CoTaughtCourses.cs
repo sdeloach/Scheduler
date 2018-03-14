@@ -12,9 +12,9 @@ namespace Scheduler
     {
 
         private string filename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\cotaughtCourses.csv";
-        private Scheduler gui;
+        private IGui gui;
 
-        public CoTaughtCourses(Scheduler gui)
+        public CoTaughtCourses(IGui gui)
         {
             this.gui = gui;
         }

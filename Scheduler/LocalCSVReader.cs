@@ -9,9 +9,9 @@ namespace Scheduler
 {
     public class LocalCSVReader
     {
-        private Scheduler gui;
+        private IGui gui;
 
-        public LocalCSVReader(Scheduler gui)
+        public LocalCSVReader(IGui gui)
         {
             this.gui = gui;
         }

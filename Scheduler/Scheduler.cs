@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Scheduler
 {
-    public partial class Scheduler : Form
+    public partial class Scheduler : Form, IGui
     {
         string localFilename;
         string KSISfilename;

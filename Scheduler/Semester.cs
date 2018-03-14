@@ -7,12 +7,12 @@ namespace Scheduler
 {
     public class Semester
     {
-        Scheduler gui;
+        IGui gui;
         private List<Section> semesterList = new List<Section>(0);
         private string name = "";
         private bool verified = false;
 
-        public Semester(Scheduler gui)
+        public Semester(IGui gui)
         {
             this.gui = gui;
         }
