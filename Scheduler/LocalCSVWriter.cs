@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Scheduler
 {
@@ -32,7 +29,7 @@ namespace Scheduler
                 }
                
                 // printer header in file		
-                file.WriteLine(semester.GetName());
+                file.WriteLine(semester.Name);
                 file.WriteLine("Subject,CatalogNbr,ClassDescr,Section,Instructor,Consent,EnrlCap,TopicDescr,MeetingStartDt,MeetingEndDt,FacilityId,"
                                 + "MeetingTimeStart,MeetingTimeEnd,Mon,Tues,Wed,Thurs,Fri,Sat,SunUnitsMin,UnitsMax,ClassAssnComponent,Hidden,MyNotes");
 

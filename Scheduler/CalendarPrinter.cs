@@ -6,17 +6,17 @@ using System.Windows.Forms;
 
 namespace Scheduler
 {
-    class CalendarPrinter
+    class CalendarPrinter 
     {
-        private Scheduler gui;
+        private IGui gui;
         private string[] roomList = { "DUE1114", "DUE1116", "DUE1117", "other", "graduate", "undergraduate", "service" };
 
-        public CalendarPrinter(Scheduler gui)
+        public CalendarPrinter(IGui gui)
         {
             this.gui = gui;
         }
 
-        public void print(Semester semester)
+        public string print(Semester semester)
         {
             if (semester == null)
             {
@@ -34,7 +34,7 @@ namespace Scheduler
 
                     for (int iRoom = 0; iRoom < roomList.Length; iRoom++)
                     {
-                        string filename = Configuration.ICSDIRECTORY + semester.GetName() + " - " + roomList[iRoom] + ".ics";
+                        string filename = Configuration.ICSDIRECTORY + semester.Name + " - " + roomList[iRoom] + ".ics";
                         using (System.IO.StreamWriter printer = new System.IO.StreamWriter(filename, false))
                         {
                             // print header
@@ -161,29 +161,13 @@ namespace Scheduler
                 }
                 catch (Exception e)
                 {
-                    gui.printMessage(e.Message + "\n" + e.StackTrace);
+                    gui.printMessage(e.Message);
                 }
 
                 gui.printMessage("Calendar events generated.");
             }
+            return "";
         }
-
-
-        // displays a file in the default web browser
-        public void ViewInWebbrowser(string filename)
-        {
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = filename;
-            // Enter the executable to run, including the complete path
-            start.FileName = Configuration.WEBBROWSER;
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            Process proc = Process.Start(start);
-        }
-
 
         private string calculateActualStartDate(string startDate, string daysOfWeek)
         {
@@ -293,18 +277,14 @@ namespace Scheduler
 
             // copy the month part of date
             string month = date.Substring(0, date.IndexOf("/")).PadLeft(2, '0');
-            //month.PadLeft(2, '0');
 
             //remove the month
             string ddyyy = date.Substring(date.IndexOf("/") + 1);
 
             // copy the day part of date
             string day = ddyyy.Substring(0, ddyyy.IndexOf("/")).PadLeft(2, '0');
-            //day.PadLeft(2, '0');
 
             string year = ddyyy.Substring(ddyyy.IndexOf("/") + 1).PadLeft(2, '0');
-            //year.PadLeft(2, '0');
-            gui.printMessage("[" + date + "]" + " ==> [" + year + month + day + "T"); // debugging
             return year + month + day + "T";
         }
 
@@ -312,7 +292,7 @@ namespace Scheduler
         private string icsTime(string s)
         {
             bool AM = s.Trim().EndsWith("AM");
-            s = padFront(s, 8, '0');
+            s = s.PadLeft(8, '0');
             s = (s.Substring(0, 2) + s.Substring(3, 2)).Trim();
             if (!s.Any()) return "";
             if (AM) return s;
@@ -350,13 +330,5 @@ namespace Scheduler
         {
             return (catNbr == 101 || catNbr == 102 || catNbr == 103 || catNbr == 104 || catNbr == 111 || catNbr == 209);
         }
-
-        private string padFront(string str, int length, char pad)
-        {
-            for (int i = str.Length; i < length; i++)
-                str = pad + str;
-            return str;
-        }
-
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Scheduler
 {
@@ -9,7 +7,7 @@ namespace Scheduler
     {
         IGui gui;
         private List<Section> semesterList = new List<Section>(0);
-        private string name = "";
+        public string Name { set; get; } = "";
         private bool verified = false;
         public string filename { get; set; }
 
@@ -23,7 +21,7 @@ namespace Scheduler
             KSISCSVReader importReader = new KSISCSVReader(gui);
             Semester temp = importReader.read(filename);
             semesterList = temp.semesterList;
-            name = temp.name;
+            Name = temp.Name;
         }
 
         public void localRead(string filename)
@@ -31,7 +29,7 @@ namespace Scheduler
             LocalCSVReader localReader = new LocalCSVReader(gui);
             Semester temp = localReader.Read(filename);
             semesterList = temp.semesterList;
-            name = temp.name;
+            Name = temp.Name;
         }
 
         public bool save(string filename)
@@ -82,8 +80,8 @@ namespace Scheduler
                         sec.GetMeetingEndDt(), sec.GetMon(), sec.GetTues(), sec.GetWed(), sec.GetThurs(), sec.GetFri());
 
                 // ignore sections with intervals of {0,0} and (2400,2400) as well as sections that are deleted, hidden, or not assigned to a room yet
-                if (interval.Start != interval.End && !sec.GetHasBeenDeleted() && interval.Entity.Any() 
-                            && !interval.Entity.StartsWith("zz") && !sec.IsHidden())
+                if (interval.Start != interval.End && !sec.GetHasBeenDeleted() && interval.Entity.Any()
+                                && !interval.Entity.StartsWith("zz") && !sec.IsHidden())
                     list.Add(interval);
             }
 
@@ -96,6 +94,11 @@ namespace Scheduler
         private Semester ShallowDuplicate()
         {
             var semesterCopy = new Semester(gui);
+            // copy semester attributes 
+            semesterCopy.Name = Name;
+            semesterCopy.verified = verified;
+            semesterCopy.filename = filename;
+            // perform shallow copy of semester section references
             semesterList.ForEach(sec => semesterCopy.Add(sec));
             return semesterCopy;
         }
@@ -110,19 +113,15 @@ namespace Scheduler
                 string enrlCap = padFront(sec.GetEnrlCap(), 3);
                 string component = padEnd(sec.GetClassAssnComponent(), 4);
                 string credits = padFront(((sec.GetUnitsMin().Equals(sec.GetUnitsMax()) ? sec.GetUnitsMin() : sec.GetUnitsMin() + "-" + sec.GetUnitsMax())), 5);
-                string days = ((sec.GetMon().Equals("Y")) ? "M" : " ") 
-                                + ((sec.GetTues().Equals("Y")) ? "T" : " ") 
-                                + ((sec.GetWed().Equals("Y")) ? "W" : " ") 
-                                + ((sec.GetThurs().Equals("Y")) ? "U" : " ") 
+                string days = ((sec.GetMon().Equals("Y")) ? "M" : " ")
+                                + ((sec.GetTues().Equals("Y")) ? "T" : " ")
+                                + ((sec.GetWed().Equals("Y")) ? "W" : " ")
+                                + ((sec.GetThurs().Equals("Y")) ? "U" : " ")
                                 + ((sec.GetFri().Equals("Y")) ? "F" : " ");
                 string times = padFront(sec.GetMeetingTimeStart(), 8) + "-" + padFront(sec.GetMeetingTimeEnd(), 8);
                 if (times.Equals("12:00 AM-12:00 AM")) times = "  By Appointment  ";
                 string faculty = padEnd(sec.GetInstructor().Substring(0, sec.GetInstructor().Length > 17 ? 17 : sec.GetInstructor().Length - 1), 18);
                 string facility = padEnd(sec.GetFacilityId(), 8);
-
-                Console.Write(sec.Subject + " " + sec.CatalogNbr + "  " + sec.GetClassDescr() 
-                                + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
-                Console.WriteLine(section + " " + enrlCap + " " + component + " " + credits + " " + days + " " + times + " " + facility + " " + faculty + " ");
             }
         }
 
@@ -299,12 +298,12 @@ namespace Scheduler
 
         public string GetName()
         {
-            return name;
+            return Name;
         }
 
         public void SetName(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
     }

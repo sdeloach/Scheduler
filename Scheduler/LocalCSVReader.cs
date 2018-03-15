@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Scheduler
@@ -34,13 +33,12 @@ namespace Scheduler
             }
             catch (Exception e)
             {
-                gui.printMessage(e.StackTrace);
                 MessageBox.Show(e.Message);
                 return semester;
             }
 
             List<string> data = Utility.ParseLine(readFile.ReadLine()); //get first line with semester name
-            semester.SetName(data.ElementAt(0)); // save name of semester
+            semester.Name = data.ElementAt(0); // save name of semester
 
             readFile.ReadLine(); // skip the next line - data headers
 
@@ -62,7 +60,9 @@ namespace Scheduler
             readFile.Close();
 
             // return the semester sorted by catalog number
-            return semester.sortByCatalogNbr();
+
+            semester.sortByCatalogNbr();
+            return semester;
         }
     }
 }

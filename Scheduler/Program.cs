@@ -11,14 +11,13 @@ namespace Scheduler
         static void Main()
         {
             // reads configuration and loads into Configuration class
-
-            Console.WriteLine("Reading configuration information.");
+            
             string configFilename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\config.properties";
             var c = new ConfigurationReader();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Scheduler());
+            Application.Run(new Viewer());
         }
     }
 }

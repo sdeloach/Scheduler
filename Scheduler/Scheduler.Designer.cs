@@ -1,6 +1,6 @@
 ﻿namespace Scheduler
 {
-    partial class Scheduler
+    partial class Viewer
     {
         /// <summary>
         /// Required designer variable.
@@ -136,7 +136,7 @@
             this.calendarEventsToolStripMenuItem.Name = "calendarEventsToolStripMenuItem";
             this.calendarEventsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.calendarEventsToolStripMenuItem.Text = "Calendar Events";
-            this.calendarEventsToolStripMenuItem.Click += new System.EventHandler(this.calendarEventsToolStripMenuItem_Click);
+            this.calendarEventsToolStripMenuItem.Click += new System.EventHandler(this.ProduceCalendarEvents);
             // 
             // openToolStripMenuItem1
             // 

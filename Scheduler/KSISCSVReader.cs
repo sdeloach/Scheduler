@@ -34,6 +34,7 @@ namespace Scheduler
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return semester;
             }
 

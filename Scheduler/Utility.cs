@@ -7,8 +7,6 @@ namespace Scheduler
 {
     static class Utility
     {
-        static public string test { get; set; }
-
         static public void RunProcess(string filename, string arguments)
         {
             // Prepare the process to run
@@ -30,10 +28,26 @@ namespace Scheduler
         {
             return ParseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
         }
-        
+
         static public List<string> ParseLine(string cvsLine, char separators)
         {
             return ParseLine(cvsLine, separators, DEFAULT_QUOTE);
+        }
+
+        // these two helper functions cannot be replace with .PadRight/.PadLeft
+        // since we are padding with strings "&nbsp;" instead of characters
+        public static string padEnd(string str, int length)
+        {
+            for (int i = str.Length; i < length; i++)
+                str += "&nbsp;";
+            return str;
+        }
+
+        public static string padFront(string str, int length)
+        {
+            for (int i = str.Length; i < length; i++)
+                str = "&nbsp;" + str;
+            return str;
         }
 
         static public List<string> ParseLine(string cvsLine, char separators, char customQuote)

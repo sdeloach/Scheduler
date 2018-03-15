@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scheduler
 {
-    class HTMLLineSchedulePrinter
+    class HTMLLineSchedulePrinter 
     {
         private IGui gui;
-        private bool PrintFullSchedule = true;
+        private bool PrintFullSchedule = false;
 
         // string constants
         const string OneSpace = "&nbsp;";
@@ -27,18 +23,12 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public void print(Semester semester, string filename, bool full)
-        {
-            this.PrintFullSchedule = full;
-            print(semester, filename);
-        }
-
-        public void print(Semester s, string filename)
+        public string print(Semester s)
         {
             if (s.Size() <= 0)
             {
                 gui.printMessage("No file loaded for printing.");
-                return;
+                return "";
             }
 
             // initialize local variables
@@ -52,6 +42,9 @@ namespace Scheduler
             // sort by instructor 
             Semester semester = s.sortByCatalogNbr();
 
+            // construct the output filename
+            string filename = s.filename.Substring(0, s.filename.Length - 4) + "_schedule.html";
+
             //open file
             try
             {
@@ -60,11 +53,11 @@ namespace Scheduler
                     // print HTML header
                     printer.WriteLine("<html>");
                     printer.WriteLine("<head>");
-                    printer.WriteLine("<title>" + semester.GetName() + " Line Schedule</title>");
+                    printer.WriteLine("<title>" + semester.Name + " Line Schedule</title>");
                     printer.WriteLine("</head>");
                     printer.WriteLine("<body style='font-family=\"courier\"'>");
-                    printer.WriteLine("<h1>" + semester.GetName() + "</h1>");
-                    printer.WriteLine("<i>printed " + DateTime.Today.ToString("dd-MM-yyyy") + DateTime.Now.ToString("HH:mm:ss") + "</i>");
+                    printer.WriteLine("<h1>" + semester.Name + "</h1>");
+                    printer.WriteLine("<i>printed " + DateTime.Today.ToString("MMM dd, yyyy") + " " + DateTime.Now.ToString("HH:mm") + "</i>");
 
                     for (int x = 0; x < semester.Size(); x++)
                     {
@@ -72,13 +65,10 @@ namespace Scheduler
 
                         // skip sections we are not interested in scheduling
                         if (PrintFullSchedule)
-                        {
-                            if (!sec.GetInstructor().Any())
-                                continue; // skip
-                        }
+                            if (!sec.GetInstructor().Any()) continue; // skip
 
                         if (sec.GetHasBeenDeleted() || sec.HasBeenChanged())
-                                ;
+                            ;
                         else
                         {
                             if ((!semester.isVerified() && sec.IsHidden())
@@ -91,7 +81,7 @@ namespace Scheduler
                                     || (sec.CatalogNbr.Equals("890") && sec.GetTopicDescr().Equals("Top/Vary By Student")))
                                 continue; //skip
                         }
-                        
+
                         // print out lines for sections of interest
                         if (!sec.CatalogNbr.Equals(lastCatalogNbr) || (sec.CatalogNbr.Equals(lastCatalogNbr) && !sec.GetTopicDescr().Equals(lastTopicDescr)))
                         {
@@ -114,21 +104,20 @@ namespace Scheduler
                             printer.Write("<span style=\"color:blue; font-style: italic\">");
 
                         // format section number
-                        string section = padEnd(sec.GetSection(), 3);
-                        //gui.printMessage("[" + section + "] " + section.Length);
+                        string section = Utility.padEnd(sec.GetSection(), 3);
                         section = sec.GetSectionVer() ? section : StartMark + section + EndMark;
 
                         //format enrollment cap
-                        string enrlCap = padFront(sec.GetEnrlCap(), 3);
+                        string enrlCap = Utility.padFront(sec.GetEnrlCap(), 3);
                         enrlCap = (sec.GetEnrlCapVer() ? enrlCap : StartMark + enrlCap + EndMark);
 
                         // format class association component
-                        string component = padFront(sec.GetClassAssnComponent(), 4);
+                        string component = Utility.padFront(sec.GetClassAssnComponent(), 4);
                         component = sec.GetClassAssnComponentVer() ? component : StartMark + component + EndMark;
 
                         // format credits
                         string credits = (sec.GetUnitsMin().Equals(sec.GetUnitsMax()) ? sec.GetUnitsMin()
-                                : sec.GetUnitsMin() + "-" + padFront(sec.GetUnitsMax(), 5));
+                                : sec.GetUnitsMin() + "-" + Utility.padFront(sec.GetUnitsMax(), 5));
                         credits = sec.GetUnitsMinVer() && sec.GetUnitsMaxVer() ? credits : StartMark + credits + EndMark;
 
                         // format days of the week
@@ -141,9 +130,9 @@ namespace Scheduler
                                 && sec.GetSatVer() && sec.GetSunVer()) ? days : StartMark + days + EndMark;
 
                         // format times of classes
-                        string times = (sec.GetMeetingTimeStartVer() ? "" : StartMark) + padFront(sec.GetMeetingTimeStart(), 8)
+                        string times = (sec.GetMeetingTimeStartVer() ? "" : StartMark) + Utility.padFront(sec.GetMeetingTimeStart(), 8)
                                 + (sec.GetMeetingTimeStartVer() ? "" : EndMark) + "-" + (sec.GetMeetingTimeEndVer() ? "" : StartMark)
-                                + padFront(sec.GetMeetingTimeEnd(), 8) + (sec.GetMeetingTimeEndVer() ? "" : EndMark);
+                                + Utility.padFront(sec.GetMeetingTimeEnd(), 8) + (sec.GetMeetingTimeEndVer() ? "" : EndMark);
 
                         if (times.Equals(StartMark + "12:00 AM" + EndMark + "-" + StartMark + "12:00 AM" + EndMark))
                             times = StartMark + "  By Appointment  " + EndMark;
@@ -153,16 +142,16 @@ namespace Scheduler
                         // format faculty name
                         string faculty = sec.GetInstructor();
                         faculty = faculty.Substring(0, faculty.Length > 17 ? 17 : faculty.Length - 1);
-                        faculty = padEnd(faculty, 18);
+                        faculty = Utility.padEnd(faculty, 18);
                         faculty = (sec.GetInstructorVer() ? faculty : StartMark + faculty + EndMark);
 
                         // format building and classroom number
-                        string facility = (sec.GetFacilityIdVer() ? "" : StartMark) + padEnd(sec.GetFacilityId(), 8)
+                        string facility = (sec.GetFacilityIdVer() ? "" : StartMark) + Utility.padEnd(sec.GetFacilityId(), 8)
                                 + (sec.GetFacilityIdVer() ? "" : EndMark);
 
                         string nonStd = standardMeetingStartDt.Equals(sec.GetMeetingStartDt()) && standardMeetingEndDt.Equals(sec.GetMeetingEndDt())
                                 && sec.GetMeetingStartDtVer() && sec.GetMeetingEndDtVer() ?
-                                "" : ((sec.GetMeetingStartDtVer() && sec.GetMeetingEndDtVer()) ? "   [" : TwoSpaces + StartMark + "[")
+                                "" : ((sec.GetMeetingStartDtVer() && sec.GetMeetingEndDtVer()) ? "   [" : TwoSpaces + StartMark + "]")
                                             + sec.GetMeetingStartDt() + "-" + sec.GetMeetingEndDt()
                                             + ((sec.GetMeetingStartDtVer() && sec.GetMeetingEndDtVer()) ? "]" : "]" + EndMark);
 
@@ -170,13 +159,9 @@ namespace Scheduler
                         printer.Write(section + Tab + enrlCap + Tab + component + Tab + credits + Tab + days + Tab + times + Tab
                                 + facility + Tab + faculty + Tab + nonStd);
 
+                        if (sec.GetHasBeenDeleted()) printer.Write("</span>");
 
-
-                        if (sec.GetHasBeenDeleted())
-                            printer.Write("</span>");
-
-                        if (sec.IsHidden())
-                            printer.Write("</span>");
+                        if (sec.IsHidden()) printer.Write("</span>");
 
                         // print out notes if they are there
                         if (sec.GetMyNotes().Trim().Any())
@@ -194,22 +179,7 @@ namespace Scheduler
             {
                 MessageBox.Show(e.Message);
             }
-        }
-
-        // these two helper functions cannot be replace with .PadRight/.PadLeft
-        // since we are padding with strings "&nbsp;" instead of characters
-        private String padEnd(String str, int length)
-        {
-            for (int i = str.Length; i < length; i++)
-                str += OneSpace;
-            return str;
-        }
-
-        private String padFront(String str, int length)
-        {
-            for (int i = str.Length; i < length; i++)
-                str = OneSpace + str;
-            return str;
+            return filename;
         }
     }
 }
