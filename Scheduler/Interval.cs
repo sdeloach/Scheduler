@@ -32,7 +32,7 @@
             Fri = fri;
         }
 
-        public int compareTo(Interval o)
+        private int compareTo(Interval o)
         {
             /* For Ascending order */
             return (Start > o.Start ? 1 : -1);

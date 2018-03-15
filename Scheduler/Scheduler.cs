@@ -18,7 +18,7 @@ namespace Scheduler
         private const string verdate = "March 15, 2018";
 
         // The viewer only calls controller methods directly
-        Controller controller = new Controller();
+        private Controller controller = new Controller();
 
         public Viewer()
         {
@@ -28,7 +28,7 @@ namespace Scheduler
 
         public void printMessage(string s)
         {
-            textBox1.AppendText(s + '\n');
+            OutputTextViewer.AppendText(s + '\n');
         }
 
         // File Submenu

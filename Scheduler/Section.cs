@@ -6,55 +6,57 @@
         public string Name { get; set; } = "";
         public string Subject { get; set; } = "";
         public string CatalogNbr { get; set; } = "";
-        private string ClassDescr = "";
-        private string SectionName = "";
-        private string Consent = "";
-        private string EnrlCap = "";
-        private string TopicDescr = "";
-        private string MeetingStartDt = "";
-        private string MeetingEndDt = "";
-        private string FacilityId = "";
-        private string MeetingTimeStart = "";
-        private string MeetingTimeEnd = "";
-        private string Mon = "";
-        private string Tues = "";
-        private string Wed = "";
-        private string Thurs = "";
-        private string Fri = "";
-        private string Sat = "";
-        private string Sun = "";
-        private string Instructor = "";
-        private string UnitsMin = "";
-        private string UnitsMax = "";
-        private string ClassAssnComponent = "";
-        private string myNotes = ""; // holds local notes only
-        private string Hidden = ""; // determines if we should hide section - local only
+        public string ClassDescr { get; set; } = "";
+        public string SectionName { get; set; } = "";
+        public string Consent { get; set; } = "";
+        public string EnrlCap { get; set; } = "";
+        public string TopicDescr { get; set; } = "";
+        public string MeetingStartDt { get; set; } = "";
+        public string MeetingEndDt { get; set; } = "";
+        public string FacilityId { get; set; } = "";
+        public string MeetingTimeStart { get; set; } = "";
+        public string MeetingTimeEnd { get; set; } = "";
+        public string Mon { get; set; } = "";
+        public string Tues { get; set; } = "";
+        public string Wed { get; set; } = "";
+        public string Thurs { get; set; } = "";
+        public string Fri { get; set; } = "";
+        public string Sat { get; set; } = "";
+        public string Sun { get; set; } = "";
+        public string Instructor { get; set; } = "";
+        public string UnitsMin { get; set; } = "";
+        public string UnitsMax { get; set; } = "";
+        public string ClassAssnComponent { get; set; } = "";
+        public string MyNotes { get; set; } = ""; // holds local notes only
+        public string Hidden { get; set; } = ""; // determines if we should hide section - local only
 
-        private bool HasBeenDeleted = false;
-        private bool STRMVer = true;
-        private bool SubjectVer = true;
-        private bool CatalogNbrVer = true;
-        private bool ClassDescrVer = true;
-        private bool SectionVer = true;
-        private bool ConsentVer = true;
-        private bool EnrlCapVer = true;
-        private bool TopicDescrVer = true;
-        private bool MeetingStartDtVer = true;
-        private bool MeetingEndDtVer = true;
-        private bool FacilityIdVer = true;
-        private bool MeetingTimeStartVer = true;
-        private bool MeetingTimeEndVer = true;
-        private bool MonVer = true;
-        private bool TuesVer = true;
-        private bool WedVer = true;
-        private bool ThursVer = true;
-        private bool FriVer = true;
-        private bool SatVer = true;
-        private bool SunVer = true;
-        private bool InstructorVer = true;
-        private bool UnitsMinVer = true;
-        private bool UnitsMaxVer = true;
-        private bool ClassAssnComponentVer = true;
+        public bool HasBeenDeleted { get; set; } = false;
+        public bool HasBeenChanged { get; set; } = false;
+        public bool IsHidden { get; set; } = false;
+        public bool STRMVer { get; set; } = true;
+        private bool SubjectVer { get; set; } = true;
+        public bool CatalogNbrVer { get; set; } = true;
+        public bool ClassDescrVer { get; set; } = true;
+        public bool SectionVer { get; set; } = true;
+        public bool ConsentVer { get; set; } = true;
+        public bool EnrlCapVer { get; set; } = true;
+        public bool TopicDescrVer { get; set; } = true;
+        public bool MeetingStartDtVer { get; set; } = true;
+        public bool MeetingEndDtVer { get; set; } = true;
+        public bool FacilityIdVer { get; set; } = true;
+        public bool MeetingTimeStartVer { get; set; } = true;
+        public bool MeetingTimeEndVer { get; set; } = true;
+        public bool MonVer { get; set; } = true;
+        public bool TuesVer { get; set; } = true;
+        public bool WedVer { get; set; } = true;
+        public bool ThursVer { get; set; } = true;
+        public bool FriVer { get; set; } = true;
+        public bool SatVer { get; set; } = true;
+        public bool SunVer { get; set; } = true;
+        public bool InstructorVer { get; set; } = true;
+        public bool UnitsMinVer { get; set; } = true;
+        public bool UnitsMaxVer { get; set; } = true;
+        public bool ClassAssnComponentVer { get; set; } = true;
 
         // general constructor that sets no initial values
         public Section()
@@ -130,556 +132,41 @@
             UnitsMin = unitsMin;
             UnitsMax = unitsMax;
             ClassAssnComponent = classAssnComponent;
-            myNotes = mynotes;
+            MyNotes = mynotes;
             Hidden = hidden;
-        }
-
-        public bool compare(Section verSec)
-        {
-            this.setSubjectVer(this.Subject.Equals(verSec.Subject));
-            this.setCatalogNbrVer(this.CatalogNbr.Equals(verSec.CatalogNbr));
-            this.setClassDescrVer(this.GetClassDescr().Equals(verSec.GetClassDescr()));
-            this.setSectionVer(this.GetSection().Equals(verSec.GetSection()));
-            this.setConsentVer(this.GetConsent().Equals(verSec.GetConsent()));
-            this.setEnrlCapVer(this.GetEnrlCap().Equals(verSec.GetEnrlCap()));
-            this.setTopicDescrVer(this.GetTopicDescr().Equals(verSec.GetTopicDescr()));
-            this.setMeetingStartDtVer(this.GetMeetingStartDt().Equals(verSec.GetMeetingStartDt()));
-            this.setMeetingEndDtVer(this.GetMeetingEndDt().Equals(verSec.GetMeetingEndDt()));
-            this.setFacilityIdVer(this.GetFacilityId().Equals(verSec.GetFacilityId()));
-            this.setMeetingTimeStartVer(this.GetMeetingTimeStart().Equals(verSec.GetMeetingTimeStart()));
-            this.setMeetingTimeEndVer(this.GetMeetingTimeEnd().Equals(verSec.GetMeetingTimeEnd()));
-            this.setMonVer(this.GetMon().Equals(verSec.GetMon()));
-            this.setTuesVer(this.GetTues().Equals(verSec.GetTues()));
-            this.setWedVer(this.GetWed().Equals(verSec.GetWed()));
-            this.setThursVer(this.GetThurs().Equals(verSec.GetThurs()));
-            this.setFriVer(this.GetFri().Equals(verSec.GetFri()));
-            this.setSatVer(this.GetSat().Equals(verSec.GetSat()));
-            this.setSunVer(this.GetSun().Equals(verSec.GetSun()));
-            this.setInstructorVer(this.GetInstructor().Equals(verSec.GetInstructor()));
-            this.setUnitsMinVer(this.GetUnitsMin().Equals(verSec.GetUnitsMin()));
-            this.setUnitsMaxVer(this.GetUnitsMax().Equals(verSec.GetUnitsMax()));
-            this.setClassAssnComponentVer(this.GetClassAssnComponent().Equals(verSec.GetClassAssnComponent()));
-
-            return this.GetSubjectVer() && this.GetCatalogNbrVer() && this.GetClassDescrVer() && this.GetSectionVer()
-                    && this.GetConsentVer() && this.GetEnrlCapVer() && this.GetTopicDescrVer()
-                    && this.GetMeetingStartDtVer() && this.GetMeetingEndDtVer() && this.GetFacilityIdVer()
-                    && this.GetMeetingTimeStartVer() && this.GetMeetingTimeEndVer() && this.GetMonVer() && this.GetTuesVer()
-                    && this.GetWedVer() && this.GetThursVer() && this.GetFriVer() && this.GetSatVer() && this.GetSunVer()
-                    && this.GetInstructorVer() && this.GetUnitsMinVer() && this.GetUnitsMaxVer()
-                    && this.GetClassAssnComponentVer();
-        }
-
-        public bool HasBeenChanged()
-        {
-            return !(SubjectVer && GetCatalogNbrVer() && GetClassDescrVer() && GetSectionVer()
-                    && GetConsentVer() && GetEnrlCapVer() && GetTopicDescrVer()
-                    && GetMeetingStartDtVer() && GetMeetingEndDtVer() && GetFacilityIdVer()
-                    && GetMeetingTimeStartVer() && GetMeetingTimeEndVer() && GetMonVer() && GetTuesVer()
-                    && GetWedVer() && GetThursVer() && GetFriVer() && GetSatVer() && GetSunVer()
-                    && GetInstructorVer() && GetUnitsMinVer() && GetUnitsMaxVer()
-                    && GetClassAssnComponentVer());
-        }
-
-        public override string ToString()
-        {
-            return "Section \n     Subject= [" + Subject + "] - " + SubjectVer
-                    + "\n    CatalogNbr= [" + CatalogNbr + "] - " + CatalogNbrVer
-                    + "\n    Section= [" + SectionName + "] - " + SectionVer
-                    + "\n    ClassDescr= [" + ClassDescr + "] - " + ClassDescrVer
-                    + "\n    TopicDescr= [" + TopicDescr + "] - " + TopicDescrVer
-                    + "\n    ClassAssnComponent= [" + ClassAssnComponent + "] - " + ClassAssnComponentVer
-                    + "\n    Instructor= [" + Instructor + "] - " + InstructorVer
-                    + "\n    Time = [" + MeetingTimeStart + "-" + MeetingTimeEnd + "]"
-                    + "\n    Room= [" + FacilityId + "] - " + FacilityIdVer
-                    + "\n    myNotes=" + myNotes;
-        }
-
-        public string GetClassDescr()
-        {
-            return ClassDescr;
-        }
-
-        public void setClassDescr(string classDescr)
-        {
-            ClassDescr = classDescr;
-        }
-
-        public string GetSection()
-        {
-            return SectionName;
-        }
-
-        public void setSection(string section)
-        {
-            SectionName = section;
-        }
-
-        public string GetConsent()
-        {
-            return Consent;
-        }
-
-        public void setConsent(string consent)
-        {
-            Consent = consent;
-        }
-
-        public string GetEnrlCap()
-        {
-            return EnrlCap;
-        }
-
-        public void setEnrlCap(string enrlCap)
-        {
-            EnrlCap = enrlCap;
-        }
-
-        public string GetTopicDescr()
-        {
-            return TopicDescr;
-        }
-
-        public void setTopicDescr(string topicDescr)
-        {
-            TopicDescr = topicDescr;
-        }
-
-        public string GetMeetingStartDt()
-        {
-            return MeetingStartDt;
-        }
-
-        public void setMeetingStartDt(string meetingStartDt)
-        {
-            MeetingStartDt = meetingStartDt;
-        }
-
-        public string GetMeetingEndDt()
-        {
-            return MeetingEndDt;
-        }
-
-        public void setMeetingEndDt(string meetingEndDt)
-        {
-            MeetingEndDt = meetingEndDt;
-        }
-
-        public string GetMeetingTimeStart()
-        {
-            return MeetingTimeStart;
-        }
-
-        public void setMeetingTimeStart(string meetingTimeStart)
-        {
-            MeetingTimeStart = meetingTimeStart;
-        }
-
-        public string GetMeetingTimeEnd()
-        {
-            return MeetingTimeEnd;
-        }
-
-        public void setMeetingTimeEnd(string meetingTimeEnd)
-        {
-            MeetingTimeEnd = meetingTimeEnd;
-        }
-
-        public string GetFacilityId()
-        {
-            return FacilityId;
-        }
-
-        public void setFacilityId(string facilityId)
-        {
-            FacilityId = facilityId;
-        }
-
-        public string GetMon()
-        {
-            return Mon;
-        }
-
-        public void setMon(string mon)
-        {
-            Mon = mon;
-        }
-
-        public string GetTues()
-        {
-            return Tues;
-        }
-
-        public void setTues(string tues)
-        {
-            Tues = tues;
-        }
-
-        public string GetWed()
-        {
-            return Wed;
-        }
-
-        public void setWed(string wed)
-        {
-            Wed = wed;
-        }
-
-        public string GetThurs()
-        {
-            return Thurs;
-        }
-
-        public void setThurs(string thurs)
-        {
-            Thurs = thurs;
-        }
-
-        public string GetFri()
-        {
-            return Fri;
-        }
-
-        public void setFri(string fri)
-        {
-            Fri = fri;
-        }
-
-        public string GetSat()
-        {
-            return Sat;
-        }
-
-        public void setSat(string sat)
-        {
-            Sat = sat;
-        }
-
-        public string GetSun()
-        {
-            return Sun;
-        }
-
-        public void setSun(string sun)
-        {
-            Sun = sun;
-        }
-
-        public string GetInstructor()
-        {
-            return Instructor;
-        }
-
-        public void setInstructor(string instructor)
-        {
-            Instructor = instructor;
-        }
-
-        public string GetUnitsMin()
-        {
-            return UnitsMin;
-        }
-
-        public void setUnitsMin(string unitsMin)
-        {
-            UnitsMin = unitsMin;
-        }
-
-        public string GetUnitsMax()
-        {
-            return UnitsMax;
-        }
-
-        public void setUnitsMax(string unitsMax)
-        {
-            UnitsMax = unitsMax;
-        }
-
-        public string GetClassAssnComponent()
-        {
-            return ClassAssnComponent;
-        }
-
-        public void setClassAssnComponent(string classAssnComponent)
-        {
-            ClassAssnComponent = classAssnComponent;
-        }
-
-        public string GetMyNotes()
-        {
-            return myNotes;
-        }
-
-        public void GetMyNotes(string mynotes)
-        {
-            myNotes = mynotes;
-        }
-
-        public bool IsHidden()
-        {
-            return GetHidden().ToLower().Equals("true");
-        }
-
-        public string GetHidden()
-        {
-            return Hidden;
-        }
-
-        public void setHidden(string hidden)
-        {
-            if (hidden.Equals("") || hidden.ToLower().Equals("false"))
-                Hidden = "FALSE";
-            else
-                Hidden = "TRUE";
-        }
-
-        public bool GetHasBeenDeleted()
-        {
-            return this.HasBeenDeleted;
-        }
-
-        public void SetHasBeenDeleted(bool kSISVerified)
-        {
-            HasBeenDeleted = kSISVerified;
-        }
-
-        public bool GetSTRMVer()
-        {
-            return STRMVer;
-        }
-
-        public void setSTRMVer(bool sTRMVer)
-        {
-            STRMVer = sTRMVer;
-        }
-
-        public bool GetSubjectVer()
-        {
-            return SubjectVer;
-        }
-
-        public void setSubjectVer(bool subjectVer)
-        {
-            SubjectVer = subjectVer;
-        }
-
-        public bool GetCatalogNbrVer()
-        {
-            return CatalogNbrVer;
-        }
-
-        public void setCatalogNbrVer(bool catalogNbrVer)
-        {
-            CatalogNbrVer = catalogNbrVer;
-        }
-
-        public bool GetClassDescrVer()
-        {
-            return ClassDescrVer;
-        }
-
-        public void setClassDescrVer(bool classDescrVer)
-        {
-            ClassDescrVer = classDescrVer;
-        }
-
-        public bool GetSectionVer()
-        {
-            return SectionVer;
-        }
-
-        public void setSectionVer(bool sectionVer)
-        {
-            SectionVer = sectionVer;
-        }
-
-        public bool GetConsentVer()
-        {
-            return ConsentVer;
-        }
-
-        public void setConsentVer(bool consentVer)
-        {
-            ConsentVer = consentVer;
-        }
-
-        public bool GetEnrlCapVer()
-        {
-            return EnrlCapVer;
-        }
-
-        public void setEnrlCapVer(bool enrlCapVer)
-        {
-            EnrlCapVer = enrlCapVer;
-        }
-
-        public bool GetTopicDescrVer()
-        {
-            return TopicDescrVer;
-        }
-
-        public void setTopicDescrVer(bool topicDescrVer)
-        {
-            TopicDescrVer = topicDescrVer;
-        }
-
-        public bool GetMeetingStartDtVer()
-        {
-            return MeetingStartDtVer;
-        }
-
-        public void setMeetingStartDtVer(bool meetingStartDtVer)
-        {
-            MeetingStartDtVer = meetingStartDtVer;
-        }
-
-        public bool GetMeetingEndDtVer()
-        {
-            return MeetingEndDtVer;
-        }
-
-        public void setMeetingEndDtVer(bool meetingEndDtVer)
-        {
-            MeetingEndDtVer = meetingEndDtVer;
-        }
-
-        public bool GetFacilityIdVer()
-        {
-            return FacilityIdVer;
-        }
-
-        public void setFacilityIdVer(bool facilityIdVer)
-        {
-            FacilityIdVer = facilityIdVer;
-        }
-
-        public bool GetMeetingTimeStartVer()
-        {
-            return MeetingTimeStartVer;
-        }
-
-        public void setMeetingTimeStartVer(bool meetingTimeStartVer)
-        {
-            MeetingTimeStartVer = meetingTimeStartVer;
-        }
-
-        public bool GetMeetingTimeEndVer()
-        {
-            return MeetingTimeEndVer;
-        }
-
-        public void setMeetingTimeEndVer(bool meetingTimeEndVer)
-        {
-            MeetingTimeEndVer = meetingTimeEndVer;
-        }
-
-        public bool GetMonVer()
-        {
-            return MonVer;
-        }
-
-        public void setMonVer(bool monVer)
-        {
-            MonVer = monVer;
-        }
-
-        public bool GetTuesVer()
-        {
-            return TuesVer;
-        }
-
-        public void setTuesVer(bool tuesVer)
-        {
-            TuesVer = tuesVer;
-        }
-
-        public bool GetWedVer()
-        {
-            return WedVer;
-        }
-
-        public void setWedVer(bool wedVer)
-        {
-            WedVer = wedVer;
-        }
-
-        public bool GetThursVer()
-        {
-            return ThursVer;
-        }
-
-        public void setThursVer(bool thursVer)
-        {
-            ThursVer = thursVer;
-        }
-
-        public bool GetFriVer()
-        {
-            return FriVer;
-        }
-
-        public void setFriVer(bool friVer)
-        {
-            FriVer = friVer;
-        }
-
-        public bool GetSatVer()
-        {
-            return SatVer;
-        }
-
-        public void setSatVer(bool satVer)
-        {
-            SatVer = satVer;
-        }
-
-        public bool GetSunVer()
-        {
-            return SunVer;
-        }
-
-        public void setSunVer(bool sunVer)
-        {
-            SunVer = sunVer;
-        }
-
-        public bool GetInstructorVer()
-        {
-            return InstructorVer;
-        }
-
-        public void setInstructorVer(bool instructorVer)
-        {
-            InstructorVer = instructorVer;
-        }
-
-        public bool GetUnitsMinVer()
-        {
-            return UnitsMinVer;
-        }
-
-        public void setUnitsMinVer(bool unitsMinVer)
-        {
-            UnitsMinVer = unitsMinVer;
-        }
-
-        public bool GetUnitsMaxVer()
-        {
-            return UnitsMaxVer;
-        }
-
-        public void setUnitsMaxVer(bool unitsMaxVer)
-        {
-            UnitsMaxVer = unitsMaxVer;
-        }
-
-        public bool GetClassAssnComponentVer()
-        {
-            return ClassAssnComponentVer;
-        }
-
-        public void setClassAssnComponentVer(bool classAssnComponentVer)
-        {
-            ClassAssnComponentVer = classAssnComponentVer;
+            IsHidden = Hidden.Trim().ToLower().Equals("true");
+        }
+
+        public bool compareTo(Section verSec)
+        {
+            SubjectVer = Subject.Equals(verSec.Subject);
+            CatalogNbrVer = CatalogNbr.Equals(verSec.CatalogNbr);
+            ClassDescrVer = ClassDescr.Equals(verSec.ClassDescr);
+            SectionVer = SectionName.Equals(verSec.SectionName);
+            ConsentVer = Consent.Equals(verSec.Consent);
+            EnrlCapVer = EnrlCap.Equals(verSec.EnrlCap);
+            TopicDescrVer = TopicDescr.Equals(verSec.TopicDescr);
+            MeetingStartDtVer = MeetingStartDt.Equals(verSec.MeetingStartDt);
+            MeetingEndDtVer = MeetingEndDt.Equals(verSec.MeetingEndDt);
+            FacilityIdVer = FacilityId.Equals(verSec.FacilityId);
+            MeetingTimeStartVer = MeetingTimeStart.Equals(verSec.MeetingTimeStart);
+            MeetingTimeEndVer = MeetingTimeEnd.Equals(verSec.MeetingTimeEnd);
+            MonVer = Mon.Equals(verSec.Mon);
+            TuesVer = Tues.Equals(verSec.Tues);
+            WedVer = Wed.Equals(verSec.Wed);
+            ThursVer = Thurs.Equals(verSec.Thurs);
+            FriVer = Fri.Equals(verSec.Fri);
+            SatVer = Sat.Equals(verSec.Sat);
+            SunVer = Sun.Equals(verSec.Sun);
+            InstructorVer = Instructor.Equals(verSec.Instructor);
+            UnitsMinVer = UnitsMin.Equals(verSec.UnitsMin);
+            UnitsMaxVer = UnitsMax.Equals(verSec.UnitsMax);
+            ClassAssnComponentVer = ClassAssnComponent.Equals(verSec.ClassAssnComponent);
+
+            HasBeenChanged = SubjectVer && CatalogNbrVer && ClassDescrVer && SectionVer && ConsentVer && EnrlCapVer && TopicDescrVer
+                                && MeetingStartDtVer && MeetingEndDtVer && FacilityIdVer && MeetingTimeStartVer && MeetingTimeEndVer && MonVer && TuesVer
+                                && WedVer && ThursVer && FriVer && SatVer && SunVer && InstructorVer && UnitsMinVer && UnitsMaxVer && ClassAssnComponentVer;
+            return HasBeenChanged;
         }
     }
 }

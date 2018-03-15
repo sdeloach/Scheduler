@@ -73,19 +73,6 @@ namespace Scheduler
                 || (two.End >= one.Start && two.End >= one.End);  
         }
 
-        //public List<Interval> SortByEntity()
-        //{
-        //    var copyList = this.ShallowDuplicate();
-        //    copyList.Sort((x, y) => x.Entity.CompareTo(y.Entity));
-        //    return copyList;
-        //}
-        //public List<Interval> SortByStartTime()
-        //{
-        //    var copyList = this.ShallowDuplicate();
-        //    copyList.Sort((x, y) => x.Start.CompareTo(y.Start));
-        //    return copyList;
-        //}
-
         private List<Interval> ShallowDuplicate()
         {
             var copyList = new List<Interval>();

@@ -8,7 +8,7 @@ namespace Scheduler
 {
     public class KSISCSVReader
     {
-        IGui gui;
+        private IGui gui;
 
         public KSISCSVReader(IGui gui)
         {

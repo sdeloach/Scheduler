@@ -37,15 +37,14 @@ namespace Scheduler
                 for (int x = 0; x < semester.Size(); x++)
                 {
                     Section sec = semester.ElementAt(x);
-                    file.WriteLine(sec.Subject + "," + sec.CatalogNbr + "," + sec.GetClassDescr() + ","
-                            + sec.GetSection() + ",\"" + sec.GetInstructor() + "\"," + sec.GetConsent() + ","
-                            + sec.GetEnrlCap() + "," + sec.GetTopicDescr() + "," + sec.GetMeetingStartDt() + "," + sec.GetMeetingEndDt() + ","
-                            + sec.GetFacilityId() + "," + sec.GetMeetingTimeStart() + "," + sec.GetMeetingTimeEnd() + ","
-                            + sec.GetMon() + "," + sec.GetTues() + "," + sec.GetWed() + "," + sec.GetThurs() + ","
-                            + sec.GetFri() + "," + sec.GetSat() + "," + sec.GetSun() + "," + sec.GetUnitsMin() + ","
-                            + sec.GetUnitsMax() + "," + sec.GetClassAssnComponent() + ","
-                            + sec.GetHidden() + "," + sec.GetMyNotes()
-                            );
+                    file.WriteLine(sec.Subject + "," + sec.CatalogNbr + "," + sec.ClassDescr + ","
+                            + sec.SectionName + ",\"" + sec.Instructor + "\"," + sec.Consent + ","
+                            + sec.EnrlCap + "," + sec.TopicDescr + "," + sec.MeetingStartDt + "," + sec.MeetingEndDt + ","
+                            + sec.FacilityId + "," + sec.MeetingTimeStart + "," + sec.MeetingTimeEnd + ","
+                            + sec.Mon + "," + sec.Tues + "," + sec.Wed + "," + sec.Thurs + ","
+                            + sec.Fri + "," + sec.Sat + "," + sec.Sun + "," + sec.UnitsMin + ","
+                            + sec.UnitsMax + "," + sec.ClassAssnComponent + ","
+                            + sec.Hidden + "," + sec.MyNotes);
                 }
 
                 return true;

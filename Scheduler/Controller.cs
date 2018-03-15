@@ -46,7 +46,7 @@ namespace Scheduler
                     if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         KSISsemester.KSISread(ofd.FileName);
-                        localSemester.verify(KSISsemester);
+                        localSemester.verifyAgainst(KSISsemester);
                     }
                 }
                 catch (Exception ex)

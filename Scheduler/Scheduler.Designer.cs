@@ -44,7 +44,7 @@
             this.inBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.OutputTextViewer = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -151,21 +151,21 @@
             // inMSWordToolStripMenuItem
             // 
             this.inMSWordToolStripMenuItem.Name = "inMSWordToolStripMenuItem";
-            this.inMSWordToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inMSWordToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.inMSWordToolStripMenuItem.Text = "in MS Word";
             this.inMSWordToolStripMenuItem.Click += new System.EventHandler(this.OpenInWord);
             // 
             // inBrowserToolStripMenuItem
             // 
             this.inBrowserToolStripMenuItem.Name = "inBrowserToolStripMenuItem";
-            this.inBrowserToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inBrowserToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.inBrowserToolStripMenuItem.Text = "in Browser";
             this.inBrowserToolStripMenuItem.Click += new System.EventHandler(this.OpenInWebbrowser);
             // 
             // dataFolderToolStripMenuItem
             // 
             this.dataFolderToolStripMenuItem.Name = "dataFolderToolStripMenuItem";
-            this.dataFolderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dataFolderToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.dataFolderToolStripMenuItem.Text = "Data Folder";
             this.dataFolderToolStripMenuItem.Click += new System.EventHandler(this.OpenDataFolder);
             // 
@@ -176,26 +176,26 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.ShowAbout);
             // 
-            // textBox1
+            // OutputTextViewer
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 24);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(548, 375);
-            this.textBox1.TabIndex = 1;
+            this.OutputTextViewer.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.OutputTextViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OutputTextViewer.Location = new System.Drawing.Point(0, 24);
+            this.OutputTextViewer.Multiline = true;
+            this.OutputTextViewer.Name = "OutputTextViewer";
+            this.OutputTextViewer.ReadOnly = true;
+            this.OutputTextViewer.Size = new System.Drawing.Size(548, 375);
+            this.OutputTextViewer.TabIndex = 1;
             // 
-            // Scheduler
+            // Viewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 399);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.OutputTextViewer);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Scheduler";
+            this.Name = "Viewer";
             this.Text = "Scheduler";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -222,6 +222,6 @@
         private System.Windows.Forms.ToolStripMenuItem inMSWordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataFolderToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox OutputTextViewer;
     }
 }

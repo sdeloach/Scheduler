@@ -38,7 +38,7 @@ namespace Scheduler
             return localWriter.write(filename, this);
         }
 
-        public void verify(Semester KSISsemester)
+        public void verifyAgainst(Semester KSISsemester)
         {
             // compare against KSIS data to set verification flags in each section
             this.compareToSemester(KSISsemester);
@@ -51,15 +51,15 @@ namespace Scheduler
             //create interval list to check overlaps
             IntervalList list = new IntervalList(gui);
 
-            for (int i = 0; i < semesterByInstructor.Count(); i++)
+            for (int i = 0; i < semesterByInstructor.Size(); i++)
             {
                 Section sec = semesterByInstructor.ElementAt(i);
-                Interval interval = new Interval(sec.GetInstructor(), sec.CatalogNbr, sec.GetSection(),
-                        convertToInt(sec.GetMeetingTimeStart()), convertToInt(sec.GetMeetingTimeEnd()), sec.GetMeetingStartDt(),
-                        sec.GetMeetingEndDt(), sec.GetMon(), sec.GetTues(), sec.GetWed(), sec.GetThurs(), sec.GetFri());
+                Interval interval = new Interval(sec.Instructor, sec.CatalogNbr, sec.SectionName,
+                        convertTimeToInt(sec.MeetingTimeStart), convertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
+                        sec.MeetingEndDt, sec.Mon, sec.Tues, sec.Wed, sec.Thurs, sec.Fri);
 
                 // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files
-                if (interval.Start != interval.End && !sec.GetHasBeenDeleted() && !sec.IsHidden())
+                if (interval.Start != interval.End && !sec.HasBeenDeleted && !sec.IsHidden)
                 {
                     list.Add(interval);
                 }
@@ -71,17 +71,17 @@ namespace Scheduler
             //create interval list to check overlaps
             list = new IntervalList(gui);
 
-            for (int i = 0; i < semesterByFacility.Count(); i++)
+            for (int i = 0; i < semesterByFacility.Size(); i++)
             {
                 // create an interval for each section in the semester
                 Section sec = semesterByFacility.ElementAt(i);
-                Interval interval = new Interval(sec.GetFacilityId(), sec.CatalogNbr, sec.GetSection(),
-                        convertToInt(sec.GetMeetingTimeStart()), convertToInt(sec.GetMeetingTimeEnd()), sec.GetMeetingStartDt(),
-                        sec.GetMeetingEndDt(), sec.GetMon(), sec.GetTues(), sec.GetWed(), sec.GetThurs(), sec.GetFri());
+                Interval interval = new Interval(sec.FacilityId, sec.CatalogNbr, sec.SectionName,
+                        convertTimeToInt(sec.MeetingTimeStart), convertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
+                        sec.MeetingEndDt, sec.Mon, sec.Tues, sec.Wed, sec.Thurs, sec.Fri);
 
                 // ignore sections with intervals of {0,0} and (2400,2400) as well as sections that are deleted, hidden, or not assigned to a room yet
-                if (interval.Start != interval.End && !sec.GetHasBeenDeleted() && interval.Entity.Any()
-                                && !interval.Entity.StartsWith("zz") && !sec.IsHidden())
+                if (interval.Start != interval.End && !sec.HasBeenDeleted && interval.Entity.Any()
+                                && !interval.Entity.StartsWith("zz") && !sec.IsHidden)
                     list.Add(interval);
             }
 
@@ -103,39 +103,17 @@ namespace Scheduler
             return semesterCopy;
         }
 
-        public void print(Semester semester)
-        {
-            for (int x = 0; x < semester.Count(); x++)
-            {
-                Section sec = semester.ElementAt(x);
-
-                string section = padEnd(sec.GetSection(), 3);
-                string enrlCap = padFront(sec.GetEnrlCap(), 3);
-                string component = padEnd(sec.GetClassAssnComponent(), 4);
-                string credits = padFront(((sec.GetUnitsMin().Equals(sec.GetUnitsMax()) ? sec.GetUnitsMin() : sec.GetUnitsMin() + "-" + sec.GetUnitsMax())), 5);
-                string days = ((sec.GetMon().Equals("Y")) ? "M" : " ")
-                                + ((sec.GetTues().Equals("Y")) ? "T" : " ")
-                                + ((sec.GetWed().Equals("Y")) ? "W" : " ")
-                                + ((sec.GetThurs().Equals("Y")) ? "U" : " ")
-                                + ((sec.GetFri().Equals("Y")) ? "F" : " ");
-                string times = padFront(sec.GetMeetingTimeStart(), 8) + "-" + padFront(sec.GetMeetingTimeEnd(), 8);
-                if (times.Equals("12:00 AM-12:00 AM")) times = "  By Appointment  ";
-                string faculty = padEnd(sec.GetInstructor().Substring(0, sec.GetInstructor().Length > 17 ? 17 : sec.GetInstructor().Length - 1), 18);
-                string facility = padEnd(sec.GetFacilityId(), 8);
-            }
-        }
-
         public Semester sortByInstructor()
         {
             var semesterCopy = this.ShallowDuplicate();
-            semesterCopy.semesterList.Sort((x, y) => x.GetInstructor().CompareTo(y.GetInstructor()));
+            semesterCopy.semesterList.Sort((x, y) => x.Instructor.CompareTo(y.Instructor));
             return semesterCopy;
         }
 
         public Semester sortByFacilityId()
         {
             var semesterCopy = this.ShallowDuplicate();
-            semesterCopy.semesterList.Sort((x, y) => x.GetFacilityId().CompareTo(y.GetFacilityId()));
+            semesterCopy.semesterList.Sort((x, y) => x.FacilityId.CompareTo(y.FacilityId));
             return semesterCopy;
         }
 
@@ -145,8 +123,7 @@ namespace Scheduler
             semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr.CompareTo(y.CatalogNbr));
             return semesterCopy;
         }
-
-
+        
         private void compareToSemester(Semester s)
         {
 
@@ -163,7 +140,7 @@ namespace Scheduler
                 for (int i = 0; i < semesterList.Count(); i++)
                 {
                     if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr)
-                            && semesterList.ElementAt(i).GetSection().Equals(s.ElementAt(j).GetSection()))
+                            && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
                     {
                         found = true;
                         break;
@@ -173,16 +150,16 @@ namespace Scheduler
                 // add section to semester to denote problem
                 if (!found)
                 {
-                    Section sec = new Section(s.ElementAt(j).Subject, s.ElementAt(j).CatalogNbr, s.ElementAt(j).GetClassDescr(),
-                            s.ElementAt(j).GetSection(), s.ElementAt(j).GetInstructor(), s.ElementAt(j).GetConsent(), s.ElementAt(j).GetEnrlCap(),
-                            s.ElementAt(j).GetTopicDescr(), s.ElementAt(j).GetMeetingStartDt(), s.ElementAt(j).GetMeetingEndDt(),
-                            s.ElementAt(j).GetFacilityId(), s.ElementAt(j).GetMeetingTimeStart(), s.ElementAt(j).GetMeetingTimeEnd(),
-                            s.ElementAt(j).GetMon(), s.ElementAt(j).GetTues(), s.ElementAt(j).GetWed(), s.ElementAt(j).GetThurs(),
-                            s.ElementAt(j).GetFri(), s.ElementAt(j).GetSat(), s.ElementAt(j).GetSun(), s.ElementAt(j).GetUnitsMin(),
-                            s.ElementAt(j).GetUnitsMax(), s.ElementAt(j).GetClassAssnComponent(), s.ElementAt(j).GetMyNotes(),
-                            s.ElementAt(j).GetHidden());
+                    Section sec = new Section(s.ElementAt(j).Subject, s.ElementAt(j).CatalogNbr, s.ElementAt(j).ClassDescr,
+                            s.ElementAt(j).SectionName, s.ElementAt(j).Instructor, s.ElementAt(j).Consent, s.ElementAt(j).EnrlCap,
+                            s.ElementAt(j).TopicDescr, s.ElementAt(j).MeetingStartDt, s.ElementAt(j).MeetingEndDt,
+                            s.ElementAt(j).FacilityId, s.ElementAt(j).MeetingTimeStart, s.ElementAt(j).MeetingTimeEnd,
+                            s.ElementAt(j).Mon, s.ElementAt(j).Tues, s.ElementAt(j).Wed, s.ElementAt(j).Thurs,
+                            s.ElementAt(j).Fri, s.ElementAt(j).Sat, s.ElementAt(j).Sun, s.ElementAt(j).UnitsMin,
+                            s.ElementAt(j).UnitsMax, s.ElementAt(j).ClassAssnComponent, s.ElementAt(j).MyNotes,
+                            s.ElementAt(j).Hidden);
                     semesterList.Insert(j++, sec);
-                    sec.SetHasBeenDeleted(true);
+                    sec.HasBeenDeleted = true;
                 }
             }
 
@@ -190,10 +167,10 @@ namespace Scheduler
             for (int i = 0; i < semesterList.Count(); i++)
             {
                 for (int j = 0; j < s.Size(); j++)
-                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).GetSection().Equals(s.ElementAt(j).GetSection()))
+                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
                         break;
                 Section sec = new Section();
-                semesterList.ElementAt(i).compare(sec);
+                semesterList.ElementAt(i).compareTo(sec);
             }
 
             // check to ensure sections that match are valid
@@ -201,9 +178,9 @@ namespace Scheduler
             {
                 for (int j = 0; j < s.Size(); j++)
                 {
-                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).GetSection().Equals(s.ElementAt(j).GetSection()))
+                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
                     {
-                        if (semesterList.ElementAt(i).compare(s.ElementAt(j)))
+                        if (semesterList.ElementAt(i).compareTo(s.ElementAt(j)))
                             break;
 
                     }
@@ -211,7 +188,7 @@ namespace Scheduler
             }
         }
 
-        public int Count()
+        public int Size()
         {
             return semesterList.Count;
         }
@@ -220,26 +197,12 @@ namespace Scheduler
         {
             return semesterList.ElementAt(j);
         }
-
-        private string padEnd(string s, int length)
-        {
-            for (int i = s.Length; i < length; i++)
-                s += " ";
-            return (s);
-        }
-
-        private string padFront(string s, int length)
-        {
-            for (int i = s.Length; i < length; i++)
-                s = " " + s;
-            return (s);
-        }
-
+        
         // convert string in form "12:00 AM" or 3:45 PM" to 1200 or 1545 integers
-        private int convertToInt(string s)
+        private int convertTimeToInt(string s)
         {
             bool am = s.Trim().EndsWith("AM");
-            s = padFront(s, 8);
+            s = Utility.padFront(s, 8);
             s = (s.Substring(0, 2) + s.Substring(3, 2)).Trim();
 
             if (string.IsNullOrEmpty(s)) return 0;
@@ -258,52 +221,10 @@ namespace Scheduler
         {
             return this.verified;
         }
-
-        public bool isEmpty()
-        {
-            return !semesterList.Any();
-        }
-
+        
         public void Add(Section s)
         {
             semesterList.Add(s);
-        }
-
-        public void Insert(int i, Section s)
-        {
-            semesterList.Insert(i, s);
-        }
-
-        public void Remove(Section s)
-        {
-            semesterList.Remove(s);
-        }
-
-        public Section get(int i)
-        {
-            return semesterList.ElementAt(i);
-        }
-
-        public Section Replace(int i, Section s)
-        {
-            semesterList.RemoveAt(i);
-            this.semesterList.Insert(i, s);
-            return s;
-        }
-
-        public int Size()
-        {
-            return semesterList.Count;
-        }
-
-        public string GetName()
-        {
-            return Name;
-        }
-
-        public void SetName(string name)
-        {
-            this.Name = name;
         }
 
     }

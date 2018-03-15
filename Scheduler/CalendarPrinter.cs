@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace Scheduler
 {
-    class CalendarPrinter 
+    class CalendarPrinter : IPrinter
     {
         private IGui gui;
         private string[] roomList = { "DUE1114", "DUE1116", "DUE1117", "other", "graduate", "undergraduate", "service" };
@@ -66,12 +65,12 @@ namespace Scheduler
                                 string catNumber = sec.CatalogNbr;
 
                                 // don't add event for second/third instructors of same section
-                                if (catNumber.Equals(lastCatalogNbr) && sec.GetSection().Equals(lastSection))
+                                if (catNumber.Equals(lastCatalogNbr) && sec.SectionName.Equals(lastSection))
                                     continue;
                                 else
                                 {
                                     lastCatalogNbr = catNumber;
-                                    lastSection = sec.GetSection();
+                                    lastSection = sec.SectionName;
                                 }
 
                                 // combine courses with co-taught numbers into a single event, but only create event for lowest catalog number
@@ -94,15 +93,15 @@ namespace Scheduler
 
                                 // skip sections we are not interested in scheduling
                                 int catNbr = int.Parse(sec.CatalogNbr);
-                                if (sec.IsHidden()
-                                        || !sec.GetInstructor().Any()
+                                if (sec.IsHidden
+                                        || !sec.Instructor.Any()
                                         || catNbr == 497 || catNbr == 999 || catNbr == 990 || catNbr == 899 || catNbr == 897 || catNbr == 898 || catNbr == 895
-                                        || (catNbr == 690 && sec.GetTopicDescr().Equals(" "))
-                                        || (catNbr == 798 && sec.GetTopicDescr().Equals("Top/Vary By Student"))
-                                        || (catNbr == 890 && sec.GetTopicDescr().Equals("Top/Vary By Student"))
-                                        || (sec.GetMeetingTimeStart().Equals("12:00 AM") && sec.GetMeetingTimeEnd().Equals("12:00 AM"))
-                                        || (sec.GetSection().StartsWith("Z"))
-                                        || (!roomList[iRoom].Equals(sec.GetFacilityId()) && !isOtherRoom(sec.GetFacilityId(), iRoom))
+                                        || (catNbr == 690 && sec.TopicDescr.Equals(" "))
+                                        || (catNbr == 798 && sec.TopicDescr.Equals("Top/Vary By Student"))
+                                        || (catNbr == 890 && sec.TopicDescr.Equals("Top/Vary By Student"))
+                                        || (sec.MeetingTimeStart.Equals("12:00 AM") && sec.MeetingTimeEnd.Equals("12:00 AM"))
+                                        || (sec.SectionName.StartsWith("Z"))
+                                        || (!roomList[iRoom].Equals(sec.FacilityId) && !isOtherRoom(sec.FacilityId, iRoom))
                                         // For graduate, undergraduate, and service listings
                                         && !((roomList[iRoom].Equals("graduate") && isGraduate(catNbr))
                                                 || (roomList[iRoom].Equals("undergraduate") && isUnderGraduate(catNbr) && !isService(catNbr))
@@ -116,32 +115,32 @@ namespace Scheduler
 
                                     string today = icsToday();
 
-                                    string startDate = icsDate(sec.GetMeetingStartDt());
-                                    string endDate = icsDate(addDaysToDate(sec.GetMeetingEndDt(), 1)); // add 1 day to last class date
-                                    string startTime = icsTime(sec.GetMeetingTimeStart());
-                                    string endTime = icsTime(sec.GetMeetingTimeEnd());
+                                    string startDate = icsDate(sec.MeetingStartDt);
+                                    string endDate = icsDate(addDaysToDate(sec.MeetingEndDt, 1)); // add 1 day to last class date
+                                    string startTime = icsTime(sec.MeetingTimeStart);
+                                    string endTime = icsTime(sec.MeetingTimeEnd);
 
                                     string daysOfWeek = icsDaysOfWeek(sec);
 
-                                    startDate = icsDate(calculateActualStartDate(sec.GetMeetingStartDt(), daysOfWeek));
+                                    startDate = icsDate(calculateActualStartDate(sec.MeetingStartDt, daysOfWeek));
 
                                     // print out lines for sections of interest
                                     printer.WriteLine("BEGIN:VEVENT");
                                     printer.WriteLine("CATEGORIES:Student/Teaching");
                                     printer.WriteLine("CLASS:PUBLIC");
                                     printer.WriteLine("CREATED:" + today);
-                                    printer.WriteLine("DESCRIPTION:" + sec.Subject + " " + catNumber + "  " + sec.GetClassDescr()
-                                    + (!sec.GetTopicDescr().Equals(" ") ? " - " + sec.GetTopicDescr() : ""));
+                                    printer.WriteLine("DESCRIPTION:" + sec.Subject + " " + catNumber + "  " + sec.ClassDescr
+                                    + (!sec.TopicDescr.Equals(" ") ? " - " + sec.TopicDescr : ""));
                                     printer.WriteLine("DTEND;TZID=\"Central Standard Time\":" + startDate + endTime + "00");
                                     printer.WriteLine("DTSTAMP:" + today);
                                     printer.WriteLine("DTSTART;TZID=\"Central Standard Time\":" + startDate + startTime + "00");
                                     printer.WriteLine("LAST-MODIFIED:" + today);
-                                    printer.WriteLine("LOCATION:" + sec.GetFacilityId());
+                                    printer.WriteLine("LOCATION:" + sec.FacilityId);
                                     printer.WriteLine("PRIORITY:5");
                                     printer.WriteLine("RRULE:FREQ=WEEKLY;UNTIL=" + endDate + "000000" + ";" + daysOfWeek);
                                     printer.WriteLine("SEQUENCE:0");
                                     printer.WriteLine("SUMMARY;LANGUAGE=en-us:" + sec.Subject + " " + catNumber + " - "
-                                            + sec.GetSection() + " (" + sec.GetInstructor() + ")");
+                                            + sec.SectionName + " (" + sec.Instructor + ")");
                                     printer.WriteLine("TRANSP:OPAQUE");
                                     printer.WriteLine("UID:" + Guid.NewGuid());
                                     printer.WriteLine("X-ALT-DESC;");
@@ -254,15 +253,15 @@ namespace Scheduler
         {
 
             string byDay = "BYDAY=";
-            if (sec.GetMon().Equals("Y"))
+            if (sec.Mon.Equals("Y"))
                 byDay += "MO";
-            if (sec.GetTues().Equals("Y"))
+            if (sec.Tues.Equals("Y"))
                 byDay += (byDay.Length == 6 ? "" : ",") + "TU";
-            if (sec.GetWed().Equals("Y"))
+            if (sec.Wed.Equals("Y"))
                 byDay += (byDay.Length == 6 ? "" : ",") + "WE";
-            if (sec.GetThurs().Equals("Y"))
+            if (sec.Thurs.Equals("Y"))
                 byDay += (byDay.Length == 6 ? "" : ",") + "TH";
-            if (sec.GetFri().Equals("Y"))
+            if (sec.Fri.Equals("Y"))
                 byDay += (byDay.Length == 6 ? "" : ",") + "FR";
 
             return byDay;
