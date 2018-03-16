@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Scheduler
@@ -51,19 +52,26 @@ namespace Scheduler
 
             //create interval list to check overlaps
             IntervalList list = new IntervalList(gui);
-
-            for (int i = 0; i < semesterByInstructor.Size(); i++)
+            
+            try
             {
-                Section sec = semesterByInstructor.ElementAt(i);
-                Interval interval = new Interval(sec.Instructor, sec.CatalogNbr, sec.SectionName,
-                        ConvertTimeToInt(sec.MeetingTimeStart), ConvertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
-                        sec.MeetingEndDt, sec.Mon, sec.Tues, sec.Wed, sec.Thurs, sec.Fri);
-
-                // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files
-                if (interval.Start != interval.End && !sec.HasBeenDeleted && !sec.IsHidden)
+                for (int i = 0; i < semesterByInstructor.Size(); i++)
                 {
-                    list.Add(interval);
+                    Section sec = semesterByInstructor.ElementAt(i);
+                    Interval interval = new Interval(sec.Instructor, sec.CatalogNbr, sec.SectionName,
+                            ConvertTimeToInt(sec.MeetingTimeStart), ConvertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
+                            sec.MeetingEndDt, sec.Mon, sec.Tues, sec.Wed, sec.Thurs, sec.Fri);
+
+                    // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files
+                    if (interval.Start != interval.End && !sec.HasBeenDeleted && !sec.IsHidden)
+                    {
+                        list.Add(interval);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
             }
 
             // verify instructor schedules do not overlap
@@ -203,7 +211,7 @@ namespace Scheduler
         private int ConvertTimeToInt(string s)
         {
             bool am = s.Trim().EndsWith("AM");
-            s = Utility.PadFrontWithString(s, 8);
+            s = s.PadLeft(8, '0');
             s = (s.Substring(0, 2) + s.Substring(3, 2)).Trim();
 
             if (string.IsNullOrEmpty(s)) return 0;
