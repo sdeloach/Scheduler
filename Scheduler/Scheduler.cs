@@ -13,9 +13,10 @@ namespace Scheduler
         // 1.1.3 - fixed bug that put deleted section randomly in the line schedule
         // 1.1.4 - added text decoration for "hidden" files so they show up in line schedule
         // 1.2   - converted to C#
+        // 1.2.1 - bug fixes
 
-        private const string version = "1.2";
-        private const string verdate = "March 15, 2018";
+        private const string version = "1.2.1";
+        private const string verdate = "March 16, 2018";
 
         // The viewer only calls controller methods directly
         private Controller controller = new Controller();
