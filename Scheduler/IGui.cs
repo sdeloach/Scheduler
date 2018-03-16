@@ -2,6 +2,6 @@
 {
     public interface IGui
     {
-        void printMessage(string s);
+        void WriteLine(string s);
     }
 }

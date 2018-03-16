@@ -5,12 +5,13 @@ namespace Scheduler
 {
     public class Semester
     {
-        IGui gui;
-        private List<Section> semesterList = new List<Section>(0);
         public string Name { set; get; } = "";
-        private bool verified = false;
-        public string filename { get; set; }
+        public string FileName { get; set; }
 
+        private IGui gui;
+        private List<Section> semesterList = new List<Section>(0);
+        private bool Verified = false;
+        
         public Semester(IGui gui)
         {
             this.gui = gui;
@@ -19,12 +20,12 @@ namespace Scheduler
         public void KSISread(string filename)
         {
             KSISCSVReader importReader = new KSISCSVReader(gui);
-            Semester temp = importReader.read(filename);
+            Semester temp = importReader.Read(filename);
             semesterList = temp.semesterList;
             Name = temp.Name;
         }
 
-        public void localRead(string filename)
+        public void LocalRead(string filename)
         {
             LocalCSVReader localReader = new LocalCSVReader(gui);
             Semester temp = localReader.Read(filename);
@@ -32,21 +33,21 @@ namespace Scheduler
             Name = temp.Name;
         }
 
-        public bool save(string filename)
+        public bool Save(string filename)
         {
             LocalCSVWriter localWriter = new LocalCSVWriter(gui);
-            return localWriter.write(filename, this);
+            return localWriter.Write(filename, this);
         }
 
-        public void verifyAgainst(Semester KSISsemester)
+        public void VerifyAgainst(Semester KSISsemester)
         {
             // compare against KSIS data to set verification flags in each section
-            this.compareToSemester(KSISsemester);
+            this.CompareToSemester(KSISsemester);
 
             // create a semester sorted by instructor, the other by room
             // since semesters hold sections by reference, they "share" the sections
-            Semester semesterByInstructor = this.sortByInstructor();
-            Semester semesterByFacility = this.sortByFacilityId();
+            Semester semesterByInstructor = this.SortByInstructor();
+            Semester semesterByFacility = this.SortByFacilityId();
 
             //create interval list to check overlaps
             IntervalList list = new IntervalList(gui);
@@ -55,7 +56,7 @@ namespace Scheduler
             {
                 Section sec = semesterByInstructor.ElementAt(i);
                 Interval interval = new Interval(sec.Instructor, sec.CatalogNbr, sec.SectionName,
-                        convertTimeToInt(sec.MeetingTimeStart), convertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
+                        ConvertTimeToInt(sec.MeetingTimeStart), ConvertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
                         sec.MeetingEndDt, sec.Mon, sec.Tues, sec.Wed, sec.Thurs, sec.Fri);
 
                 // ignore {0,0} and (2400,2400), sections added to denote deleted sections, and hidden files
@@ -76,7 +77,7 @@ namespace Scheduler
                 // create an interval for each section in the semester
                 Section sec = semesterByFacility.ElementAt(i);
                 Interval interval = new Interval(sec.FacilityId, sec.CatalogNbr, sec.SectionName,
-                        convertTimeToInt(sec.MeetingTimeStart), convertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
+                        ConvertTimeToInt(sec.MeetingTimeStart), ConvertTimeToInt(sec.MeetingTimeEnd), sec.MeetingStartDt,
                         sec.MeetingEndDt, sec.Mon, sec.Tues, sec.Wed, sec.Thurs, sec.Fri);
 
                 // ignore sections with intervals of {0,0} and (2400,2400) as well as sections that are deleted, hidden, or not assigned to a room yet
@@ -88,7 +89,7 @@ namespace Scheduler
             // verify room schedules do not overlap
             list.CheckForOverlaps();
 
-            this.verified = true;
+            this.Verified = true;
         }
 
         private Semester ShallowDuplicate()
@@ -96,40 +97,40 @@ namespace Scheduler
             var semesterCopy = new Semester(gui);
             // copy semester attributes 
             semesterCopy.Name = Name;
-            semesterCopy.verified = verified;
-            semesterCopy.filename = filename;
+            semesterCopy.Verified = Verified;
+            semesterCopy.FileName = FileName;
             // perform shallow copy of semester section references
             semesterList.ForEach(sec => semesterCopy.Add(sec));
             return semesterCopy;
         }
 
-        public Semester sortByInstructor()
+        public Semester SortByInstructor()
         {
             var semesterCopy = this.ShallowDuplicate();
             semesterCopy.semesterList.Sort((x, y) => x.Instructor.CompareTo(y.Instructor));
             return semesterCopy;
         }
 
-        public Semester sortByFacilityId()
+        public Semester SortByFacilityId()
         {
             var semesterCopy = this.ShallowDuplicate();
             semesterCopy.semesterList.Sort((x, y) => x.FacilityId.CompareTo(y.FacilityId));
             return semesterCopy;
         }
 
-        public Semester sortByCatalogNbr()
+        public Semester SortByCatalogNbr()
         {
             var semesterCopy = this.ShallowDuplicate();
             semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr.CompareTo(y.CatalogNbr));
             return semesterCopy;
         }
         
-        private void compareToSemester(Semester s)
+        private void CompareToSemester(Semester s)
         {
 
             if (semesterList.Count() <= 0)
             {
-                gui.printMessage("No file loaded for comparison.");
+                gui.WriteLine("No file loaded for comparison.");
                 return;
             }
 
@@ -170,7 +171,7 @@ namespace Scheduler
                     if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
                         break;
                 Section sec = new Section();
-                semesterList.ElementAt(i).compareTo(sec);
+                semesterList.ElementAt(i).FlagChangesFromSection(sec);
             }
 
             // check to ensure sections that match are valid
@@ -180,7 +181,7 @@ namespace Scheduler
                 {
                     if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
                     {
-                        if (semesterList.ElementAt(i).compareTo(s.ElementAt(j)))
+                        if (semesterList.ElementAt(i).FlagChangesFromSection(s.ElementAt(j)))
                             break;
 
                     }
@@ -199,10 +200,10 @@ namespace Scheduler
         }
         
         // convert string in form "12:00 AM" or 3:45 PM" to 1200 or 1545 integers
-        private int convertTimeToInt(string s)
+        private int ConvertTimeToInt(string s)
         {
             bool am = s.Trim().EndsWith("AM");
-            s = Utility.padFront(s, 8);
+            s = Utility.PadFrontWithString(s, 8);
             s = (s.Substring(0, 2) + s.Substring(3, 2)).Trim();
 
             if (string.IsNullOrEmpty(s)) return 0;
@@ -217,9 +218,9 @@ namespace Scheduler
             }
         }
 
-        public bool isVerified()
+        public bool IsVerified()
         {
-            return this.verified;
+            return this.Verified;
         }
         
         public void Add(Section s)

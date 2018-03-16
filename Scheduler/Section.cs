@@ -84,7 +84,7 @@
                 string rqmntDesigDescrformal, string classAttr, string classAttrDescr, string attrValue,
                 string attrValueDescr, string reportDate)
         {
-            setupParameters(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
+            SetupParameters(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
                             facilityId, meetingTimeStart, meetingTimeEnd, mon, tues, wed, thurs, fri, sat, sun, unitsMin, unitsMax,
                             classAssnComponent, "FALSE", "");
         }
@@ -97,12 +97,12 @@
                 string thurs, string fri, string sat, string sun, string unitsMin, string unitsMax,
                 string classAssnComponent, string hidden, string mynotes)
         {
-            setupParameters(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
+            SetupParameters(subject, catalogNbr, classDescr, section, instructor, consent, enrlCap, topicDescr, meetingStartDt, meetingEndDt,
                    facilityId, meetingTimeStart, meetingTimeEnd, mon, tues, wed, thurs, fri, sat, sun, unitsMin, unitsMax,
                    classAssnComponent, hidden, mynotes);
         }
 
-        private void setupParameters(string subject, string catalogNbr, string classDescr, string section, string instructor,
+        private void SetupParameters(string subject, string catalogNbr, string classDescr, string section, string instructor,
                     string consent, string enrlCap, string topicDescr, string meetingStartDt, string meetingEndDt,
                     string facilityId, string meetingTimeStart, string meetingTimeEnd, string mon, string tues, string wed,
                     string thurs, string fri, string sat, string sun, string unitsMin, string unitsMax,
@@ -137,7 +137,7 @@
             IsHidden = Hidden.Trim().ToLower().Equals("true");
         }
 
-        public bool compareTo(Section verSec)
+        public bool FlagChangesFromSection(Section verSec)
         {
             SubjectVer = Subject.Equals(verSec.Subject);
             CatalogNbrVer = CatalogNbr.Equals(verSec.CatalogNbr);

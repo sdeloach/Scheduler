@@ -53,9 +53,9 @@ namespace Scheduler
                                 || (int0.Fri.Equals("Y") && int1.Fri.Equals("Y"))))
                 {
 
-                    if (!ctc.isCotaught(int0.CatalogNbr, int1.CatalogNbr) && !int1.ToString().Equals(int0.ToString()))
+                    if (!ctc.IsCotaught(int0.CatalogNbr, int1.CatalogNbr) && !int1.ToString().Equals(int0.ToString()))
                     {
-                        gui.printMessage("For " + int0.Entity + ": " + int0.CatalogNbr + " section " + int0.Section
+                        gui.WriteLine("For " + int0.Entity + ": " + int0.CatalogNbr + " section " + int0.Section
                                 + " overlaps " + int1.CatalogNbr + " section " + int1.Section);
                         result = true;
                     }

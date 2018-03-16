@@ -36,14 +36,14 @@ namespace Scheduler
 
         // these two helper functions cannot be replace with .PadRight/.PadLeft
         // since we are padding with strings "&nbsp;" instead of characters
-        public static string padEnd(string str, int length)
+        public static string PadRightWithString(string str, int length)
         {
             for (int i = str.Length; i < length; i++)
                 str += "&nbsp;";
             return str;
         }
 
-        public static string padFront(string str, int length)
+        public static string PadFrontWithString(string str, int length)
         {
             for (int i = str.Length; i < length; i++)
                 str = "&nbsp;" + str;

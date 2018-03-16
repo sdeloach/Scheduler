@@ -22,11 +22,11 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public string print(Semester s)
+        public string Print(Semester s)
         {
             if (s.Size() <= 0)
             {
-                gui.printMessage("No file loaded for printing.");
+                gui.WriteLine("No file loaded for printing.");
                 return "";
             }
 
@@ -39,10 +39,10 @@ namespace Scheduler
             string standardMeetingEndDt = s.ElementAt(0).MeetingEndDt;
 
             // sort by instructor 
-            Semester semester = s.sortByInstructor();
+            Semester semester = s.SortByInstructor();
 
             // contruct file name
-            string filename = s.filename.Substring(0, s.filename.Length - 4) + "_instructor.html";
+            string filename = s.FileName.Substring(0, s.FileName.Length - 4) + "_instructor.html";
 
             //open file
             try
@@ -70,7 +70,7 @@ namespace Scheduler
                                 continue;
                         }
                         else
-                            if ((!semester.isVerified() && sec.HasBeenDeleted)
+                            if ((!semester.IsVerified() && sec.HasBeenDeleted)
                                     || sec.IsHidden
                                     || !sec.Instructor.Any()
                                     || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
@@ -108,20 +108,20 @@ namespace Scheduler
                             printer.Write("<span style=\"background-color: #A9A9A9\">");
 
                         // format section number
-                        string section = Utility.padEnd(sec.SectionName, 3);
+                        string section = Utility.PadRightWithString(sec.SectionName, 3);
                         section = sec.SectionVer ? section : StartMark + section + EndMark;
 
                         //format enrollment cap
-                        string enrlCap = Utility.padFront(sec.EnrlCap, 3);
+                        string enrlCap = Utility.PadFrontWithString(sec.EnrlCap, 3);
                         enrlCap = (sec.EnrlCapVer ? enrlCap : StartMark + enrlCap + EndMark);
 
                         // format class association component
-                        string component = Utility.padEnd(sec.ClassAssnComponent, 4);
+                        string component = Utility.PadRightWithString(sec.ClassAssnComponent, 4);
                         component = sec.ClassAssnComponentVer ? component : StartMark + component + EndMark;
 
                         // format credits
                         string credits = (sec.UnitsMin.Equals(sec.UnitsMax) ? sec.UnitsMin
-                                : sec.UnitsMin + "-" + Utility.padFront(sec.UnitsMax, 5));
+                                : sec.UnitsMin + "-" + Utility.PadFrontWithString(sec.UnitsMax, 5));
                         credits = sec.UnitsMinVer && sec.UnitsMaxVer ? credits : StartMark + credits + EndMark;
 
                         // format days of the week
@@ -134,9 +134,9 @@ namespace Scheduler
                                 && sec.SatVer && sec.SunVer) ? days : StartMark + days + EndMark;
 
                         // format times of classes
-                        string times = (sec.MeetingTimeStartVer ? "" : StartMark) + Utility.padFront(sec.MeetingTimeStart, 8)
+                        string times = (sec.MeetingTimeStartVer ? "" : StartMark) + Utility.PadFrontWithString(sec.MeetingTimeStart, 8)
                                 + (sec.MeetingTimeStartVer ? "" : EndMark) + "-" + (sec.MeetingTimeEndVer ? "" : StartMark)
-                                + Utility.padFront(sec.MeetingTimeEnd, 8) + (sec.MeetingTimeEndVer ? "" : EndMark);
+                                + Utility.PadFrontWithString(sec.MeetingTimeEnd, 8) + (sec.MeetingTimeEndVer ? "" : EndMark);
 
                         if (times.Equals(StartMark + "12:00 AM" + EndMark + "-" + StartMark + "12:00 AM" + EndMark))
                             times = StartMark + "     By Appointment   " + EndMark;
@@ -146,11 +146,11 @@ namespace Scheduler
                         // format faculty name
                         string faculty = sec.Instructor;
                         faculty = faculty.Substring(0, faculty.Length > 15 ? 15 : faculty.Length - 1);
-                        faculty = Utility.padEnd(faculty, 16);
+                        faculty = Utility.PadRightWithString(faculty, 16);
                         faculty = (sec.InstructorVer ? faculty : StartMark + faculty + EndMark);
 
                         // format building and classroom number
-                        string facility = (sec.FacilityIdVer ? "" : StartMark) + Utility.padEnd(sec.FacilityId, 8)
+                        string facility = (sec.FacilityIdVer ? "" : StartMark) + Utility.PadRightWithString(sec.FacilityId, 8)
                                 + (sec.FacilityIdVer ? "" : EndMark);
 
                         string nonStd = standardMeetingStartDt.Equals(sec.MeetingStartDt) && standardMeetingEndDt.Equals(sec.MeetingEndDt) ?

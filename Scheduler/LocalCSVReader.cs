@@ -61,7 +61,7 @@ namespace Scheduler
 
             // return the semester sorted by catalog number
 
-            semester.sortByCatalogNbr();
+            semester.SortByCatalogNbr();
             return semester;
         }
     }

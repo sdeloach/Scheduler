@@ -5,7 +5,7 @@ namespace Scheduler
 {
     class Controller
     {
-        Semester localSemester;
+        private Semester localSemester;
 
         public void OpenLocalFile(IGui gui)
         {
@@ -17,8 +17,8 @@ namespace Scheduler
             {
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    localSemester.localRead(ofd.FileName);
-                    localSemester.filename = ofd.FileName;
+                    localSemester.LocalRead(ofd.FileName);
+                    localSemester.FileName = ofd.FileName;
                 }
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace Scheduler
                     if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         KSISsemester.KSISread(ofd.FileName);
-                        localSemester.verifyAgainst(KSISsemester);
+                        localSemester.VerifyAgainst(KSISsemester);
                     }
                 }
                 catch (Exception ex)
@@ -74,7 +74,7 @@ namespace Scheduler
                     sfd.Title = "Save to new local file";
                     sfd.Filter = "CSV Files|*.csv";
                     sfd.ShowDialog();
-                    if (sfd.FileName != "") KSISsemester.save(sfd.FileName);
+                    if (sfd.FileName != "") KSISsemester.Save(sfd.FileName);
                 }
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace Scheduler
             else
             {
                 HTMLLineSchedulePrinter schedulePrinter = new HTMLLineSchedulePrinter(gui);
-                string outputFilename = schedulePrinter.print(localSemester);
+                string outputFilename = schedulePrinter.Print(localSemester);
                 ViewInWebbrowser(outputFilename);
             }
         }
@@ -113,7 +113,7 @@ namespace Scheduler
             else
             {
                 HTMLInstructorSchedulePrinter schedulePrinter = new HTMLInstructorSchedulePrinter(gui);
-                string outputFilename = schedulePrinter.print(localSemester);
+                string outputFilename = schedulePrinter.Print(localSemester);
                 ViewInWebbrowser(outputFilename);
             }
         }
@@ -121,7 +121,7 @@ namespace Scheduler
         public void ProduceCalendarEvents(IGui gui)
         {
             CalendarPrinter calendarPrinter = new CalendarPrinter(gui);
-            calendarPrinter.print(localSemester);
+            calendarPrinter.Print(localSemester);
         }
 
         // Open Submenu

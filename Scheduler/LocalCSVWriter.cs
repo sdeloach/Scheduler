@@ -12,7 +12,7 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public Boolean write(string filename, Semester semester)
+        public bool Write(string filename, Semester semester)
         {
             StreamWriter file = null;
 
@@ -24,7 +24,7 @@ namespace Scheduler
                 }
                 catch (Exception e)
                 {
-                    gui.printMessage(e.Message);
+                    gui.WriteLine(e.Message);
                     return false;
                 }
                
@@ -52,7 +52,7 @@ namespace Scheduler
             }
             catch (IOException e)
             {
-                gui.printMessage(e.Message);
+                gui.WriteLine(e.Message);
                 return false;
             }
             finally

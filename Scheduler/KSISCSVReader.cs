@@ -15,14 +15,14 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public Semester read(string filename)
+        public Semester Read(string filename)
         {
             Semester semester = new Semester(gui);
             Section section;
 
             if (!filename.ToLower().EndsWith(".csv"))
             {
-                gui.printMessage("Filename " + filename + " is not a valid .csv file.");
+                gui.WriteLine("Filename " + filename + " is not a valid .csv file.");
                 return semester;
             }
 
@@ -58,7 +58,7 @@ namespace Scheduler
             readFile.Close();
 
             // return semester sorted by CatalogNbr
-            return semester.sortByCatalogNbr();
+            return semester.SortByCatalogNbr();
         }
     }
 }

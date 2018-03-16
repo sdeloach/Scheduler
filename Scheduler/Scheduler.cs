@@ -23,10 +23,10 @@ namespace Scheduler
         public Viewer()
         {
             InitializeComponent();
-            printMessage("Scheduler version " + version + "  " + verdate);
+            WriteLine("Scheduler version " + version + "  " + verdate);
         }
 
-        public void printMessage(string s)
+        public void WriteLine(string s)
         {
             OutputTextViewer.AppendText(s + '\n');
         }
@@ -91,7 +91,7 @@ namespace Scheduler
 
         private void ShowAbout(object sender, EventArgs e)
         {
-            printMessage("Scheduler version " + version + "  " + verdate);
+            WriteLine("Scheduler version " + version + "  " + verdate);
         }
     }
 }

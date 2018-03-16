@@ -2,6 +2,6 @@
 {
     interface IPrinter
     {
-        string print(Semester semester);
+        string Print(Semester semester);
     }
 }

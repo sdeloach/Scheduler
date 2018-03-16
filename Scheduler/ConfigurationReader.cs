@@ -11,10 +11,10 @@ namespace Scheduler
         public ConfigurationReader()
         {
             string configFilename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\config.properties";
-            loadFromFile(configFilename);
+            LoadFromFile(configFilename);
         }
 
-        private void loadFromFile(string file)
+        private void LoadFromFile(string file)
         {
             if (System.IO.File.Exists(file))
             {

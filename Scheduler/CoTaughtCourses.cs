@@ -17,7 +17,7 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public string coTaughtCourse(string course)
+        public string CoTaughtCourseOf(string course)
         {
             StreamReader readFile;
             try
@@ -52,9 +52,9 @@ namespace Scheduler
             return "";
         }
 
-        public bool isCotaught(string course1, string course2)
+        public bool IsCotaught(string course1, string course2)
         {
-            return coTaughtCourse(course1.Trim()).Equals(course2.Trim());
+            return CoTaughtCourseOf(course1.Trim()).Equals(course2.Trim());
         }
     }
 }
