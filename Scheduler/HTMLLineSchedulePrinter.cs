@@ -7,7 +7,6 @@ namespace Scheduler
     class HTMLLineSchedulePrinter : IPrinter
     {
         private IGui gui;
-        private bool PrintFullSchedule = false;
 
         // string constants
         const string OneSpace = "&nbsp;";
