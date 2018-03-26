@@ -164,7 +164,6 @@ namespace Scheduler
                     }
                     printer.WriteLine("</body>");
                     printer.WriteLine("</html>");
-                    printer.Close();
                 }
             }
             catch (Exception e)

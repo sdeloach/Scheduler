@@ -14,8 +14,10 @@ namespace Scheduler
         // 1.1.4 - added text decoration for "hidden" files so they show up in line schedule
         // 1.2   - converted to C#
         // 1.2.1 - bug fixes
+        // 1.2.2 - bug fixes
+        // 1.2.3 - fix sort of sections to sort 1) by catalog number and then 2) by section name
 
-        private const string version = "1.2.2";
+        private const string version = "1.2.3";
         private const string verdate = "March 26, 2018";
 
         // The viewer only calls controller methods directly

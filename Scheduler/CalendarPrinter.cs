@@ -139,7 +139,6 @@ namespace Scheduler
                                 }
                             }
                             printer.WriteLine("END:VCALENDAR");
-                            printer.Close();
                         }
                     }
                 }

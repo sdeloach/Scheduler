@@ -129,7 +129,10 @@ namespace Scheduler
         public Semester SortByCatalogNbr()
         {
             var semesterCopy = this.ShallowDuplicate();
-            semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr.CompareTo(y.CatalogNbr));
+            //semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr.CompareTo(y.CatalogNbr));
+            semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr == y.CatalogNbr ? 
+                string.Compare(x.SectionName, y.SectionName) 
+                : string.Compare(x.CatalogNbr, y.CatalogNbr));
             return semesterCopy;
         }
 
