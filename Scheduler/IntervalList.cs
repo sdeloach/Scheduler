@@ -20,30 +20,19 @@ namespace Scheduler
             list.Add(i);
         }
 
-        public Interval Get(int i)
-        {
-            return list.ElementAt(i);
-        }
-
-        public int Size()
-        {
-            return list.Count();
-        }
-
         // Function to check if any two intervals overlap
-        public bool CheckForOverlaps()
-        {
-            bool result = false;
+        public void CheckForOverlaps()
+        {            
+            // sort interval list by entity then by start time
+            SortListByEntityThenStartTime();
 
-            list = this.SortByStartTime();
-            list = this.SortByEntity();
-
+            // loop through list looking at each pair of intervals
             for (int i = 1; i < list.Count(); i++)
             {
                 Interval int0 = list.ElementAt(i - 1);
                 Interval int1 = list.ElementAt(i);
-
-                // int0.end >= int1.start assumes lists are sorted by start time
+                
+                // if entities are equal but times overlap on the same days
                 if (int0.End >= int1.Start && int1.Entity.Equals(int0.Entity)
                         && int1.MeetingStart.Equals(int0.MeetingStart)
                         && ((int0.Mon.Equals("Y") && int1.Mon.Equals("Y"))
@@ -51,122 +40,16 @@ namespace Scheduler
                                 || (int0.Wed.Equals("Y") && int1.Wed.Equals("Y"))
                                 || (int0.Thurs.Equals("Y") && int1.Thurs.Equals("Y"))
                                 || (int0.Fri.Equals("Y") && int1.Fri.Equals("Y"))))
-                {
-
+                    // then if they aren't cotaught courses or the same course number then write error message
                     if (!ctc.IsCotaught(int0.CatalogNbr, int1.CatalogNbr) && !int1.ToString().Equals(int0.ToString()))
-                    {
                         gui.WriteLine("For " + int0.Entity + ": " + int0.CatalogNbr + " section " + int0.Section
                                 + " overlaps " + int1.CatalogNbr + " section " + int1.Section);
-                        result = true;
-                    }
-                }
             }
-
-            return result;
         }
 
-        private bool Overlaps(Interval one, Interval two)
+        private void SortListByEntityThenStartTime()
         {
-            return (one.Start >= two.Start && one.Start <= two.End) 
-                || (one.End >= two.Start && one.End >= two.End)
-                || (two.Start >= one.Start && two.Start <= one.End) 
-                || (two.End >= one.Start && two.End >= one.End);  
-        }
-
-        private List<Interval> ShallowDuplicate()
-        {
-            var copyList = new List<Interval>();
-            list.ForEach(interval => copyList.Add(interval));
-            return copyList;
-        }
-
-        private List<Interval> SortByEntity()
-        {
-
-            var listCopy = ShallowDuplicate();
-            var sortedList = new List<Interval>();
-
-            while (listCopy.Any())
-            {
-                Interval interval = listCopy.ElementAt(0);
-                listCopy.Remove(interval);
-
-                int size = sortedList.Count();
-                if (size == 0)
-                    sortedList.Add(interval);
-                else
-                {
-                    for (int i = 0; i <= size; i++)
-                    {
-                        if (i == size)
-                        {
-                            sortedList.Add(interval);
-                            break;
-                        }
-
-                        // we have found the place to insert a new entity
-                        if (sortedList.ElementAt(i).Entity.CompareTo(interval.Entity) > 0)
-                        {
-                            sortedList.Insert(i, interval);
-                            break;
-                        }
-
-                        // we have found the entity already in the list
-                        if (sortedList.ElementAt(i).Entity.Equals(interval.Entity))
-                        {
-                            // skip to the end of the instructor's intervals
-                            while (i < size && sortedList.ElementAt(i).Entity.Equals(interval.Entity))
-                                i++;
-                            sortedList.Insert(i, interval);
-                            break;
-                        }
-                    }
-                }
-            }
-            return sortedList;
-        }
-
-        private List<Interval> SortByStartTime()
-        {
-
-            List<Interval> listCopy = new List<Interval>();
-            List<Interval> sortedList = new List<Interval>();
-
-            // duplicate semester so we don't ruin it
-            for (int x = 0; x < list.Count(); x++)
-            {
-                Interval interval = list.ElementAt(x);
-                listCopy.Add(interval);
-            }
-
-            while (listCopy.Any())
-            {
-                Interval interval = listCopy.ElementAt(0);
-                listCopy.Remove(interval);
-
-                int size = sortedList.Count();
-                if (size == 0)
-                    sortedList.Add(interval);
-                else
-                {
-                    for (int i = 0; i <= size; i++)
-                    {
-                        if (i == size)
-                        {
-                            sortedList.Add(interval);
-                            break;
-                        }
-
-                        // we have found the place to insert a new start time
-                        if (sortedList.ElementAt(i).Start >= interval.Start)
-                        {
-                            sortedList.Insert(i, interval);
-                            break;
-                        }
-                    }
-                }
-            }
-            return sortedList;
+            list.Sort((x, y) => x.Entity == y.Entity ? x.Start.CompareTo(y.Start) : string.Compare(x.Entity, y.Entity));
         }
     }
 }
