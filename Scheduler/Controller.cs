@@ -7,7 +7,20 @@ namespace Scheduler
     {
         private Semester localSemester;
 
-        public void OpenLocalFile(IGui gui)
+        private string localFilename = "";
+        private string KSISFilename = "";
+
+        public string GetLocalFilename()
+        {
+            return localFilename;
+        }
+        public string GetKSISFilename()
+        {
+            return KSISFilename;
+        }
+
+
+        public string OpenLocalFile(IGui gui)
         {
             localSemester = new Semester(gui);
             OpenFileDialog ofd = new OpenFileDialog();
@@ -19,15 +32,17 @@ namespace Scheduler
                 {
                     localSemester.LocalRead(ofd.FileName);
                     localSemester.FileName = ofd.FileName;
+                    localFilename = ofd.FileName;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            return ofd.FileName;
         }
 
-        public void VerifyLocalFile(IGui gui)
+        public string VerifyLocalFile(IGui gui)
         {
             if (localSemester == null)
             {
@@ -47,16 +62,19 @@ namespace Scheduler
                     {
                         KSISsemester.KSISread(ofd.FileName);
                         localSemester.VerifyAgainst(KSISsemester);
+                        KSISFilename = ofd.FileName;
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+                return ofd.FileName;
             }
+            return "";
         }
 
-        public void ConvertToKSISFile(IGui gui)
+        public void ConvertKSISFileToLocal(IGui gui)
         {
             Semester KSISsemester = new Semester(gui);
             var ofd = new OpenFileDialog();
@@ -68,13 +86,18 @@ namespace Scheduler
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {   // read KSIS file
                     KSISsemester.KSISread(ofd.FileName);
+                    KSISFilename = ofd.FileName;
 
                     // save to local file
                     var sfd = new SaveFileDialog();
                     sfd.Title = "Save to new local file";
                     sfd.Filter = "CSV Files|*.csv";
                     sfd.ShowDialog();
-                    if (sfd.FileName != "") KSISsemester.Save(sfd.FileName);
+                    if (sfd.FileName != "")
+                    {
+                        localFilename = sfd.FileName;
+                        KSISsemester.Save(sfd.FileName);
+                    }
                 }
             }
             catch (Exception ex)

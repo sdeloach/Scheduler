@@ -33,22 +33,34 @@ namespace Scheduler
         {
             OutputTextViewer.AppendText(s + '\n');
         }
+        public void SetLocalFile(string s)
+        {
+            textBox1.AppendText(s);
+        }
+        public void SetKSISFile(string s)
+        {
+            textBox2.AppendText(s);
+        }
 
         // File Submenu
 
         private void OpenLocalFile(object sender, EventArgs e)
         {
             controller.OpenLocalFile(this);
+            SetLocalFile(controller.GetLocalFilename());
         }
 
         private void VerifyLocalFile(object sender, EventArgs e)
         {
             controller.VerifyLocalFile(this);
+            SetKSISFile(controller.GetKSISFilename());
         }
 
         private void ConvertToKSISFile(object sender, EventArgs e)
         {
-            controller.ConvertToKSISFile(this);
+            controller.ConvertKSISFileToLocal(this);
+            SetLocalFile(controller.GetLocalFilename());
+            SetKSISFile(controller.GetKSISFilename());
         }
 
         private void Exit(object sender, EventArgs e)
