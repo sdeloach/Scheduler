@@ -10,12 +10,14 @@ namespace Scheduler
         private IGui gui;
         private bool PrintFullSchedule = false;
 
+        // string constants
         const string OneSpace = "&nbsp;";
         const string TwoSpaces = "&ensp;";
         const string StartMark = "<span style=\"background-color: #FFFF00\">";
         const string EndMark = "</span>";
         const string Tab = "&emsp;";
-
+        const string StartNote = "<span style=\"background-color: #D2B4DE\">";
+        const string EndNote = "</span>";
 
         public HTMLInstructorSchedulePrinter(IGui gui)
         {
@@ -63,23 +65,39 @@ namespace Scheduler
                     {
                         Section sec = semester.ElementAt(x);
 
-                        // skip sections we are not interested in scheduling
-                        if (PrintFullSchedule)
-                        {
-                            if (!sec.Instructor.Any())
-                                continue;
-                        }
-                        else
-                            if ((!semester.IsVerified() && sec.HasBeenDeleted)
-                                    || sec.IsHidden
-                                    || !sec.Instructor.Any()
+                        // skip sections we are not interested in seeing
+
+                        if (!sec.HasBeenDeleted) // print all sections that have been deleted regardless of number
+                            if (!sec.Instructor.Any()
                                     || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
                                     || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
                                     || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
-                                    || (sec.CatalogNbr.Equals("690"))
+                                    || (sec.CatalogNbr.Equals("690") && sec.TopicDescr.Equals(" "))
                                     || (sec.CatalogNbr.Equals("798") && sec.TopicDescr.Equals("Top/Vary By Student"))
                                     || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
-                            continue;
+                                continue; //skip all the 80s, 798s, etc.
+
+                        //for (int x = 0; x < semester.Size(); x++)
+                        //{
+                        //Section sec = semester.ElementAt(x);
+
+                        //// skip sections we are not interested in scheduling
+                        //if (PrintFullSchedule)
+                        //{
+                        //    if (!sec.Instructor.Any())
+                        //        continue;
+                        //}
+                        //else
+                        //    if ((!semester.IsVerified() && sec.HasBeenDeleted)
+                        //            || sec.IsHidden
+                        //            || !sec.Instructor.Any()
+                        //            || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
+                        //            || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
+                        //            || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
+                        //            || (sec.CatalogNbr.Equals("690"))
+                        //            || (sec.CatalogNbr.Equals("798") && sec.TopicDescr.Equals("Top/Vary By Student"))
+                        //            || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
+                        //    continue;
 
                         // print out lines for sections of interest
                         if (!sec.Instructor.Equals(lastInstructor))
@@ -104,8 +122,13 @@ namespace Scheduler
                             printer.WriteLine("</strong><br>");
                         }
 
+                        // highlight sections that were removed from the current semester
                         if (sec.HasBeenDeleted)
-                            printer.Write("<span style=\"background-color: #A9A9A9\">");
+                            printer.Write("<span style=\"text-decoration: line-through\">");
+
+                        // highlight sections that are listed as "hidden" in the current semester
+                        if (sec.IsHidden)
+                            printer.Write("<span style=\"color:blue; font-style: italic\">");
 
                         // format section number
                         string section = Utility.PadRightWithString(sec.SectionName, 3);

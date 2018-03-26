@@ -30,10 +30,10 @@ namespace Scheduler
                 {
                     string lastCatalogNbr = "";
                     string lastSection = "";
-
-                    for (int iRoom = 0; iRoom < roomList.Length; iRoom++)
+                    
+                    foreach (var room in roomList)
                     {
-                        string filename = Configuration.ICSDIRECTORY + semester.Name + " - " + roomList[iRoom] + ".ics";
+                        string filename = Configuration.ICSDIRECTORY + semester.Name + " - " + room + ".ics";
                         using (System.IO.StreamWriter printer = new System.IO.StreamWriter(filename, false))
                         {
                             // print header
@@ -80,9 +80,9 @@ namespace Scheduler
                                 {
                                     int cNum = int.Parse(catNumber);
                                     int ctcNum = int.Parse(ctc);
-                                    if ((!roomList[iRoom].Equals("graduate") && !roomList[iRoom].Equals("undergraduate"))
-                                            || (roomList[iRoom].Equals("graduate") && IsGraduateCourse(cNum) && IsGraduateCourse(ctcNum))
-                                            || (roomList[iRoom].Equals("undergraduate") && IisUnderGraduateCourse(cNum) && IisUnderGraduateCourse(ctcNum)))
+                                    if ((!room.Equals("graduate") && !room.Equals("undergraduate"))
+                                            || (room.Equals("graduate") && IsGraduateCourse(cNum) && IsGraduateCourse(ctcNum))
+                                            || (room.Equals("undergraduate") && IisUnderGraduateCourse(cNum) && IisUnderGraduateCourse(ctcNum)))
                                     {
                                         if (cNum > ctcNum)
                                             continue; // skip courses whose number is greater than their cotaught course
@@ -92,7 +92,7 @@ namespace Scheduler
                                 }
 
                                 // skip sections we are not interested in scheduling
-                                if (NonPrintedSection(sec, roomList[iRoom]))
+                                if (NonPrintedSection(sec, room))
                                     continue; // do not print these sections
                                 else
                                 {
@@ -176,43 +176,43 @@ namespace Scheduler
 
             string startDay = GetDay(startDate); // should be "Monday", "Tuesday", etc.
 
-            int x = -1;
-            if (startDay.ToUpper().Equals("MONDAY")) x = 1;
-            if (startDay.ToUpper().Equals("TUESDAY")) x = 2;
-            if (startDay.ToUpper().Equals("WEDNESDAY")) x = 3;
-            if (startDay.ToUpper().Equals("THURSDAY")) x = 4;
-            if (startDay.ToUpper().Equals("FRIDAY")) x = 5;
+            int startDayInt = -1;
+            if (startDay.ToUpper().Equals("MONDAY")) startDayInt = 1;
+            if (startDay.ToUpper().Equals("TUESDAY")) startDayInt = 2;
+            if (startDay.ToUpper().Equals("WEDNESDAY")) startDayInt = 3;
+            if (startDay.ToUpper().Equals("THURSDAY")) startDayInt = 4;
+            if (startDay.ToUpper().Equals("FRIDAY")) startDayInt = 5;
 
-            var y = new List<int>(0);
-            if (daysOfWeek.ToUpper().Contains("MO")) y.Add(1);
-            if (daysOfWeek.ToUpper().Contains("TU")) y.Add(2);
-            if (daysOfWeek.ToUpper().Contains("WE")) y.Add(3);
-            if (daysOfWeek.ToUpper().Contains("TH")) y.Add(4);
-            if (daysOfWeek.ToUpper().Contains("FR")) y.Add(5);
+            var meetingDaysList = new List<int>(0);
+            if (daysOfWeek.ToUpper().Contains("MO")) meetingDaysList.Add(1);
+            if (daysOfWeek.ToUpper().Contains("TU")) meetingDaysList.Add(2);
+            if (daysOfWeek.ToUpper().Contains("WE")) meetingDaysList.Add(3);
+            if (daysOfWeek.ToUpper().Contains("TH")) meetingDaysList.Add(4);
+            if (daysOfWeek.ToUpper().Contains("FR")) meetingDaysList.Add(5);
 
             // if the class starts of the first day of the semester just return that day
-            for (int i = 0; i < y.Count; i++)
+            for (int i = 0; i < meetingDaysList.Count; i++)
             {
-                if (y.ElementAt(i) == x)
+                if (meetingDaysList.ElementAt(i) == startDayInt)
                     return startDate;
             }
 
             // otherwise, if course start later in the same week as semester starts
             int diff = 0;
-            if (y.Count > 0)
+            if (meetingDaysList.Count > 0)
             {
-                for (int i = 0; i < y.Count; i++)
+                for (int i = 0; i < meetingDaysList.Count; i++)
                 {
-                    if (x < y.ElementAt(i))
+                    if (startDayInt < meetingDaysList.ElementAt(i))
                     {
-                        diff = y.ElementAt(i) - x;
+                        diff = meetingDaysList.ElementAt(i) - startDayInt;
                         break;
                     }
                 }
 
                 // otherwise, course start the week after the semester starts
-                if (x > y.ElementAt(y.Count - 1))
-                    diff = 7 - (x - y.ElementAt(y.Count - 1));
+                if (startDayInt > meetingDaysList.ElementAt(meetingDaysList.Count - 1))
+                    diff = 7 - (startDayInt - meetingDaysList.ElementAt(meetingDaysList.Count - 1));
             }
 
             return AddDaysToDate(startDate, diff);
@@ -308,8 +308,8 @@ namespace Scheduler
         {
             if (room.Equals("other"))
             {
-                for (int i = 0; i < roomList.Length - 1; i++)
-                    if (facility.Equals(roomList[i]))
+                foreach (var rm in roomList)
+                    if (facility.Equals(rm))
                         return false;
                 return true;
             }

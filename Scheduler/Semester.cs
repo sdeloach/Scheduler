@@ -112,10 +112,14 @@ namespace Scheduler
             return semesterCopy;
         }
 
-        public Semester SortByInstructor()
+        public Semester SortByInstructor() // and then by catalog number and section
         {
             var semesterCopy = this.ShallowDuplicate();
-            semesterCopy.semesterList.Sort((x, y) => x.Instructor.CompareTo(y.Instructor));
+            //semesterCopy.semesterList.Sort((x, y) => x.Instructor.CompareTo(y.Instructor));
+            semesterCopy.semesterList.Sort((x, y) => 
+                x.Instructor == y.Instructor ? 
+                    (x.CatalogNbr == y.CatalogNbr ? string.Compare(x.SectionName, y.SectionName) : string.Compare(x.CatalogNbr, y.CatalogNbr))
+                    :  string.Compare(x.Instructor, y.Instructor));
             return semesterCopy;
         }
 
@@ -126,12 +130,12 @@ namespace Scheduler
             return semesterCopy;
         }
 
-        public Semester SortByCatalogNbr()
+        public Semester SortByCatalogNbr() // and then by section
         {
             var semesterCopy = this.ShallowDuplicate();
             //semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr.CompareTo(y.CatalogNbr));
-            semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr == y.CatalogNbr ? 
-                string.Compare(x.SectionName, y.SectionName) 
+            semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr == y.CatalogNbr ?
+                string.Compare(x.SectionName, y.SectionName)
                 : string.Compare(x.CatalogNbr, y.CatalogNbr));
             return semesterCopy;
         }
