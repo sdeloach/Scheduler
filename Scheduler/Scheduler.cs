@@ -16,8 +16,9 @@ namespace Scheduler
         // 1.2.1 - bug fixes
         // 1.2.2 - bug fixes
         // 1.2.3 - fix sort of sections to sort 1) by catalog number and then 2) by section name
+        // 1.3   - added filename text boxes to GUI
 
-        private const string version = "1.2.3";
+        private const string version = "1.3.0";
         private const string verdate = "March 26, 2018";
 
         // The viewer only calls controller methods directly
