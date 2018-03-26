@@ -39,7 +39,7 @@ namespace Scheduler
             string standardMeetingStartDt = s.ElementAt(0).MeetingStartDt;
             string standardMeetingEndDt = s.ElementAt(0).MeetingEndDt;
 
-            // sort by instructor 
+            // sort by catalog number 
             Semester semester = s.SortByCatalogNbr();
 
             // construct the output filename
@@ -62,25 +62,18 @@ namespace Scheduler
                     for (int x = 0; x < semester.Size(); x++)
                     {
                         Section sec = semester.ElementAt(x);
+                        
+                        // skip sections we are not interested in seeing
 
-                        // skip sections we are not interested in scheduling
-                        if (PrintFullSchedule)
-                            if (!sec.Instructor.Any()) continue; // skip
-
-                        if (sec.HasBeenDeleted || sec.HasBeenChanged)
-                            ;
-                        else
-                        {
-                            if ((!semester.IsVerified() && sec.IsHidden)
-                                    || !sec.Instructor.Any()
+                        if (!sec.HasBeenDeleted) // print all sections that have been deleted regardless of number
+                            if (!sec.Instructor.Any()
                                     || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
                                     || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
                                     || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
                                     || (sec.CatalogNbr.Equals("690") && sec.TopicDescr.Equals(" "))
                                     || (sec.CatalogNbr.Equals("798") && sec.TopicDescr.Equals("Top/Vary By Student"))
                                     || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
-                                continue; //skip
-                        }
+                                            continue; //skip all the 80s, 798s, etc.
 
                         // print out lines for sections of interest
                         if (!sec.CatalogNbr.Equals(lastCatalogNbr) || (sec.CatalogNbr.Equals(lastCatalogNbr) && !sec.TopicDescr.Equals(lastTopicDescr)))

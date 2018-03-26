@@ -15,8 +15,8 @@ namespace Scheduler
         // 1.2   - converted to C#
         // 1.2.1 - bug fixes
 
-        private const string version = "1.2.1";
-        private const string verdate = "March 16, 2018";
+        private const string version = "1.2.2";
+        private const string verdate = "March 26, 2018";
 
         // The viewer only calls controller methods directly
         private Controller controller = new Controller();

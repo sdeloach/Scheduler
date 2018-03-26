@@ -12,7 +12,7 @@ namespace Scheduler
         private IGui gui;
         private List<Section> semesterList = new List<Section>(0);
         private bool Verified = false;
-        
+
         public Semester(IGui gui)
         {
             this.gui = gui;
@@ -52,7 +52,7 @@ namespace Scheduler
 
             //create interval list to check overlaps
             IntervalList list = new IntervalList(gui);
-            
+
             try
             {
                 for (int i = 0; i < semesterByInstructor.Size(); i++)
@@ -132,8 +132,8 @@ namespace Scheduler
             semesterCopy.semesterList.Sort((x, y) => x.CatalogNbr.CompareTo(y.CatalogNbr));
             return semesterCopy;
         }
-        
-        private void CompareToSemester(Semester s)
+
+        private void CompareToSemester(Semester comparisonSemester)
         {
 
             if (semesterList.Count() <= 0)
@@ -143,58 +143,54 @@ namespace Scheduler
             }
 
             // look for sections in s but not semester
-            for (int j = 0; j < s.Size(); j++)
+            int j = 0;
+            foreach (var comparisonSection in comparisonSemester.semesterList)
             {
                 bool found = false;
-                for (int i = 0; i < semesterList.Count(); i++)
-                {
-                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr)
-                            && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
+                foreach (var section in semesterList)
+                    if (section.CatalogNbr.Equals(comparisonSection.CatalogNbr) && section.SectionName.Equals(comparisonSection.SectionName))
                     {
                         found = true;
                         break;
                     }
-                }
 
                 // add section to semester to denote problem
                 if (!found)
                 {
-                    Section sec = new Section(s.ElementAt(j).Subject, s.ElementAt(j).CatalogNbr, s.ElementAt(j).ClassDescr,
-                            s.ElementAt(j).SectionName, s.ElementAt(j).Instructor, s.ElementAt(j).Consent, s.ElementAt(j).EnrlCap,
-                            s.ElementAt(j).TopicDescr, s.ElementAt(j).MeetingStartDt, s.ElementAt(j).MeetingEndDt,
-                            s.ElementAt(j).FacilityId, s.ElementAt(j).MeetingTimeStart, s.ElementAt(j).MeetingTimeEnd,
-                            s.ElementAt(j).Mon, s.ElementAt(j).Tues, s.ElementAt(j).Wed, s.ElementAt(j).Thurs,
-                            s.ElementAt(j).Fri, s.ElementAt(j).Sat, s.ElementAt(j).Sun, s.ElementAt(j).UnitsMin,
-                            s.ElementAt(j).UnitsMax, s.ElementAt(j).ClassAssnComponent, s.ElementAt(j).MyNotes,
-                            s.ElementAt(j).Hidden);
-                    semesterList.Insert(j++, sec);
+                    Section sec = new Section(comparisonSection.Subject, comparisonSection.CatalogNbr,
+                        comparisonSection.ClassDescr, comparisonSection.SectionName, comparisonSection.Instructor,
+                        comparisonSection.Consent, comparisonSection.EnrlCap, comparisonSection.TopicDescr,
+                        comparisonSection.MeetingStartDt, comparisonSection.MeetingEndDt,
+                        comparisonSection.FacilityId, comparisonSection.MeetingTimeStart,
+                        comparisonSection.MeetingTimeEnd, comparisonSection.Mon, comparisonSection.Tues,
+                        comparisonSection.Wed, comparisonSection.Thurs, comparisonSection.Fri,
+                        comparisonSection.Sat, comparisonSection.Sun, comparisonSection.UnitsMin,
+                        comparisonSection.UnitsMax, comparisonSection.ClassAssnComponent, "", "");
+                    semesterList.Insert(0, sec);
+                    //semesterList.Add(comparisonSection);
                     sec.HasBeenDeleted = true;
                 }
+                j++;
             }
 
             // look for sections in semester but not s
-            for (int i = 0; i < semesterList.Count(); i++)
+
+            foreach (var section in semesterList)
             {
-                for (int j = 0; j < s.Size(); j++)
-                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
-                        break;
-                Section sec = new Section();
-                semesterList.ElementAt(i).FlagChangesFromSection(sec);
+                foreach (var comparisonSection in comparisonSemester.semesterList)
+                    if (section.CatalogNbr.Equals(comparisonSection.CatalogNbr) && section.SectionName.Equals(comparisonSection.SectionName))
+                        break; // it was found in comparision section
+                section.FlagChangesFromSection(new Section());
             }
 
-            // check to ensure sections that match are valid
-            for (int i = 0; i < semesterList.Count; i++)
-            {
-                for (int j = 0; j < s.Size(); j++)
-                {
-                    if (semesterList.ElementAt(i).CatalogNbr.Equals(s.ElementAt(j).CatalogNbr) && semesterList.ElementAt(i).SectionName.Equals(s.ElementAt(j).SectionName))
+            // reset verification flags against the correct section
+            foreach (var section in semesterList)
+                foreach (var comparisonSection in comparisonSemester.semesterList)
+                    if (section.CatalogNbr.Equals(comparisonSection.CatalogNbr) && section.SectionName.Equals(comparisonSection.SectionName))
                     {
-                        if (semesterList.ElementAt(i).FlagChangesFromSection(s.ElementAt(j)))
-                            break;
-
+                        section.FlagChangesFromSection(comparisonSection);
+                        break;
                     }
-                }
-            }
         }
 
         public int Size()
@@ -206,7 +202,7 @@ namespace Scheduler
         {
             return semesterList.ElementAt(j);
         }
-        
+
         // convert string in form "12:00 AM" or 3:45 PM" to 1200 or 1545 integers
         private int ConvertTimeToInt(string s)
         {
@@ -226,11 +222,12 @@ namespace Scheduler
             }
         }
 
+        // Retrun true if semester has been verified against KSIS semester
         public bool IsVerified()
         {
             return this.Verified;
         }
-        
+
         public void Add(Section s)
         {
             semesterList.Add(s);

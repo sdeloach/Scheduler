@@ -10,7 +10,7 @@ namespace Scheduler
         [STAThread]
         static void Main()
         {
-            // reads configuration and loads into Configuration class
+            // reads configuration and loads variables into static Configuration class
             
             string configFilename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Scheduler\\bin\\config.properties";
             var c = new ConfigurationReader();

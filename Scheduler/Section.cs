@@ -31,7 +31,7 @@
         public string Hidden { get; set; } = ""; // determines if we should hide section - local only
 
         public bool HasBeenDeleted { get; set; } = false;
-        public bool HasBeenChanged { get; set; } = false;
+        public bool HasNotBeenChanged { get; set; } = false;
         public bool IsHidden { get; set; } = false;
         public bool STRMVer { get; set; } = true;
         private bool SubjectVer { get; set; } = true;
@@ -163,10 +163,10 @@
             UnitsMaxVer = UnitsMax.Equals(verSec.UnitsMax);
             ClassAssnComponentVer = ClassAssnComponent.Equals(verSec.ClassAssnComponent);
 
-            HasBeenChanged = SubjectVer && CatalogNbrVer && ClassDescrVer && SectionVer && ConsentVer && EnrlCapVer && TopicDescrVer
+            HasNotBeenChanged = SubjectVer && CatalogNbrVer && ClassDescrVer && SectionVer && ConsentVer && EnrlCapVer && TopicDescrVer
                                 && MeetingStartDtVer && MeetingEndDtVer && FacilityIdVer && MeetingTimeStartVer && MeetingTimeEndVer && MonVer && TuesVer
                                 && WedVer && ThursVer && FriVer && SatVer && SunVer && InstructorVer && UnitsMinVer && UnitsMaxVer && ClassAssnComponentVer;
-            return HasBeenChanged;
+            return HasNotBeenChanged;
         }
     }
 }
