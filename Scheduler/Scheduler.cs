@@ -17,17 +17,18 @@ namespace Scheduler
         // 1.2.2 - bug fixes
         // 1.2.3 - fix sort of sections to sort 1) by catalog number and then 2) by section name
         // 1.3   - added filename text boxes to GUI
+        // 1.3.1 - added ability to store and save previous file names
 
-        private const string version = "1.3.0";
-        private const string verdate = "March 26, 2018";
+        private const string version = "1.3.1";
+        private const string verdate = "March 27, 2018";
 
         // The viewer only calls controller methods directly
-        private Controller controller = new Controller();
+        private Controller controller;
 
         public Viewer()
         {
             InitializeComponent();
-            WriteLine("Scheduler version " + version + "  " + verdate);
+            controller = new Controller(this);
         }
 
         public void WriteLine(string s)
@@ -39,12 +40,21 @@ namespace Scheduler
             textBox1.AppendText(s);
         }
 
+        public void ClearLocalFile()
+        {
+            textBox1.Clear();
+        }
         public void SetKSISFile(string s)
         {
             textBox2.AppendText(s);
         }
 
         public void ClearKSISFile()
+        {
+            OutputTextViewer.Clear();
+        }
+
+        public void ClearTextBox()
         {
             textBox2.Clear();
         }
@@ -53,22 +63,17 @@ namespace Scheduler
 
         private void OpenLocalFile(object sender, EventArgs e)
         {
-            controller.OpenLocalFile(this);
-            SetLocalFile(controller.GetLocalFilename());
-            ClearKSISFile();
+            controller.OpenLocalFile();
         }
 
         private void VerifyLocalFile(object sender, EventArgs e)
         {
-            controller.VerifyLocalFile(this);
-            SetKSISFile(controller.GetKSISFilename());
+            controller.VerifyLocalFile();
         }
 
         private void ConvertToKSISFile(object sender, EventArgs e)
         {
-            controller.ConvertKSISFileToLocal(this);
-            SetLocalFile(controller.GetLocalFilename());
-            SetKSISFile(controller.GetKSISFilename());
+            controller.ConvertKSISFileToLocal();
         }
 
         private void Exit(object sender, EventArgs e)
@@ -80,17 +85,17 @@ namespace Scheduler
 
         private void ProduceLineSchedule(object sender, EventArgs e)
         {
-            controller.ProduceLineSchedule(this);
+            controller.ProduceLineSchedule();
         }
 
         private void ProduceInstructorSchedule(object sender, EventArgs e)
         {
-            controller.ProduceInstructorSchedule(this);
+            controller.ProduceInstructorSchedule();
         }
 
         private void ProduceCalendarEvents(object sender, EventArgs e)
         {
-            controller.ProduceCalendarEvents(this);
+            controller.ProduceCalendarEvents();
         }
 
         // Open Submenu
@@ -115,6 +120,11 @@ namespace Scheduler
         private void ShowAbout(object sender, EventArgs e)
         {
             WriteLine("Scheduler version " + version + "  " + verdate);
+        }
+
+        private void Clear(object sender, EventArgs e)
+        {
+            controller.Clear();
         }
     }
 }

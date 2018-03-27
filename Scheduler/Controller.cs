@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Scheduler
@@ -6,21 +7,76 @@ namespace Scheduler
     class Controller
     {
         private Semester localSemester;
+        private string localFileName = "";
+        private string KSISFileName = "";
+        private const string configFileName = "datafiles.config";
+        private IGui gui;
 
-        private string localFilename = "";
-        private string KSISFilename = "";
-
-        public string GetLocalFilename()
+        public Controller(IGui gui)
         {
-            return localFilename;
+            this.gui = gui;
+            ReadFileNames();
+            gui.SetLocalFile(localFileName);
+            gui.SetKSISFile(KSISFileName);
+            WriteFileNames();
         }
-        public string GetKSISFilename()
+
+        private void ReadFileNames()
         {
-            return KSISFilename;
+            StreamReader readFile = null;
+            try
+            {
+                // open configuration file
+                readFile = new StreamReader(configFileName);
+
+                // the first line is the local file name
+                localFileName = readFile.ReadLine();
+                // read in the semeseter from the file name
+                if (!localFileName.Equals(""))
+                {
+                    localSemester = new Semester(gui);
+                    localSemester.LocalRead(localFileName);
+                    localSemester.FileName = localFileName;
+                    gui.SetLocalFile(localFileName);
+                }
+
+                // the second line is the KSIS file name
+                KSISFileName = readFile.ReadLine();
+                if (!KSISFileName.Equals(""))
+                {
+                    Semester KSISsemester = new Semester(gui);
+                    KSISsemester.KSISread(KSISFileName);
+                    localSemester.VerifyAgainst(KSISsemester);
+                    gui.SetKSISFile(KSISFileName);
+                }
+
+                // save filenames to file
+                readFile.Close();
+                WriteFileNames();
+            }
+            catch (Exception e)
+            {
+                localFileName = "";
+                KSISFileName = "";
+            }
+        }
+        private void WriteFileNames()
+        {
+            StreamWriter file = null;
+            try
+            {
+                file = new StreamWriter(configFileName);
+                file.WriteLine(localFileName);
+                file.WriteLine(KSISFileName);
+                file.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
-
-        public string OpenLocalFile(IGui gui)
+        public void OpenLocalFile()
         {
             localSemester = new Semester(gui);
             OpenFileDialog ofd = new OpenFileDialog();
@@ -32,17 +88,19 @@ namespace Scheduler
                 {
                     localSemester.LocalRead(ofd.FileName);
                     localSemester.FileName = ofd.FileName;
-                    localFilename = ofd.FileName;
+                    gui.SetLocalFile(ofd.FileName);
+                    localFileName = ofd.FileName;
+                    gui.ClearKSISFile();
+                    WriteFileNames();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            return ofd.FileName;
         }
 
-        public string VerifyLocalFile(IGui gui)
+        public void VerifyLocalFile()
         {
             if (localSemester == null)
             {
@@ -62,19 +120,30 @@ namespace Scheduler
                     {
                         KSISsemester.KSISread(ofd.FileName);
                         localSemester.VerifyAgainst(KSISsemester);
-                        KSISFilename = ofd.FileName;
+                        gui.SetKSISFile(ofd.FileName);
+                        KSISFileName = ofd.FileName;
+                        WriteFileNames();
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                return ofd.FileName;
             }
-            return "";
         }
 
-        public void ConvertKSISFileToLocal(IGui gui)
+        internal void Clear()
+        {
+            localSemester = null;
+            localFileName = "";
+            KSISFileName = "";
+            gui.ClearLocalFile();
+            gui.ClearKSISFile();
+            gui.ClearTextBox();
+            WriteFileNames();
+        }
+
+        public void ConvertKSISFileToLocal()
         {
             Semester KSISsemester = new Semester(gui);
             var ofd = new OpenFileDialog();
@@ -86,7 +155,9 @@ namespace Scheduler
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {   // read KSIS file
                     KSISsemester.KSISread(ofd.FileName);
-                    KSISFilename = ofd.FileName;
+                    gui.SetKSISFile(ofd.FileName);
+                    KSISFileName = ofd.FileName;
+                    WriteFileNames();
 
                     // save to local file
                     var sfd = new SaveFileDialog();
@@ -95,7 +166,9 @@ namespace Scheduler
                     sfd.ShowDialog();
                     if (sfd.FileName != "")
                     {
-                        localFilename = sfd.FileName;
+                        gui.SetLocalFile(sfd.FileName);
+                        localFileName = sfd.FileName;
+                        WriteFileNames();
                         KSISsemester.Save(sfd.FileName);
                     }
                 }
@@ -113,7 +186,7 @@ namespace Scheduler
 
         // Produce submenu
 
-        public void ProduceLineSchedule(IGui gui)
+        public void ProduceLineSchedule()
         {
             if (localSemester == null)
             {
@@ -127,7 +200,7 @@ namespace Scheduler
             }
         }
 
-        public void ProduceInstructorSchedule(IGui gui)
+        public void ProduceInstructorSchedule()
         {
             if (localSemester == null)
             {
@@ -141,7 +214,7 @@ namespace Scheduler
             }
         }
 
-        public void ProduceCalendarEvents(IGui gui)
+        public void ProduceCalendarEvents()
         {
             CalendarPrinter calendarPrinter = new CalendarPrinter(gui);
             calendarPrinter.Print(localSemester);
