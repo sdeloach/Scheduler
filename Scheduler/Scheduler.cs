@@ -38,9 +38,15 @@ namespace Scheduler
         {
             textBox1.AppendText(s);
         }
+
         public void SetKSISFile(string s)
         {
             textBox2.AppendText(s);
+        }
+
+        public void ClearKSISFile()
+        {
+            textBox2.Clear();
         }
 
         // File Submenu
@@ -49,6 +55,7 @@ namespace Scheduler
         {
             controller.OpenLocalFile(this);
             SetLocalFile(controller.GetLocalFilename());
+            ClearKSISFile();
         }
 
         private void VerifyLocalFile(object sender, EventArgs e)
