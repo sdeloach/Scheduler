@@ -177,7 +177,7 @@ namespace Scheduler
                                 + (sec.FacilityIdVer ? "" : EndMark);
 
                         string nonStd = standardMeetingStartDt.Equals(sec.MeetingStartDt) && standardMeetingEndDt.Equals(sec.MeetingEndDt) ?
-                                "" : ((sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "   [" : TwoSpaces + StartMark + "]")
+                                "" : ((sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "   [" : TwoSpaces + StartMark + "[")
                                             + sec.MeetingStartDt + "-" + sec.MeetingEndDt
                                             + ((sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "]" : "]" + EndMark);
 
