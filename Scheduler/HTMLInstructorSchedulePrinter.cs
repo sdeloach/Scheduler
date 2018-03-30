@@ -77,28 +77,6 @@ namespace Scheduler
                                     || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
                                 continue; //skip all the 80s, 798s, etc.
 
-                        //for (int x = 0; x < semester.Size(); x++)
-                        //{
-                        //Section sec = semester.ElementAt(x);
-
-                        //// skip sections we are not interested in scheduling
-                        //if (PrintFullSchedule)
-                        //{
-                        //    if (!sec.Instructor.Any())
-                        //        continue;
-                        //}
-                        //else
-                        //    if ((!semester.IsVerified() && sec.HasBeenDeleted)
-                        //            || sec.IsHidden
-                        //            || !sec.Instructor.Any()
-                        //            || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
-                        //            || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
-                        //            || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
-                        //            || (sec.CatalogNbr.Equals("690"))
-                        //            || (sec.CatalogNbr.Equals("798") && sec.TopicDescr.Equals("Top/Vary By Student"))
-                        //            || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
-                        //    continue;
-
                         // print out lines for sections of interest
                         if (!sec.Instructor.Equals(lastInstructor))
                         {
@@ -143,8 +121,8 @@ namespace Scheduler
                         component = sec.ClassAssnComponentVer ? component : StartMark + component + EndMark;
 
                         // format credits
-                        string credits = (sec.UnitsMin.Equals(sec.UnitsMax) ? sec.UnitsMin
-                                : sec.UnitsMin + "-" + Utility.PadFrontWithString(sec.UnitsMax, 5));
+                        string credits = (sec.UnitsMin.Equals(sec.UnitsMax) ? sec.UnitsMin : sec.UnitsMin + "-" + sec.UnitsMax);
+                        credits = Utility.PadRightWithString(credits, 5);
                         credits = sec.UnitsMinVer && sec.UnitsMaxVer ? credits : StartMark + credits + EndMark;
 
                         // format days of the week
@@ -162,13 +140,13 @@ namespace Scheduler
                                 + Utility.PadFrontWithString(sec.MeetingTimeEnd, 8) + (sec.MeetingTimeEndVer ? "" : EndMark);
 
                         if (times.Equals(StartMark + "12:00 AM" + EndMark + "-" + StartMark + "12:00 AM" + EndMark))
-                            times = StartMark + "     By Appointment   " + EndMark;
+                            times = Utility.PadRightWithString(StartMark + "By Appointment" + EndMark, 17);
                         if (times.Equals("12:00 AM-12:00 AM"))
-                            times = "     By Appointment   ";
+                            times = Utility.PadRightWithString("By Appointment", 17);
 
                         // format faculty name
                         string faculty = sec.Instructor;
-                        faculty = faculty.Substring(0, faculty.Length > 15 ? 15 : faculty.Length - 1);
+                        faculty = faculty.Substring(0, faculty.Length > 15 ? 15 : faculty.Length);
                         faculty = Utility.PadRightWithString(faculty, 16);
                         faculty = (sec.InstructorVer ? faculty : StartMark + faculty + EndMark);
 
