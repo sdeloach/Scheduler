@@ -8,7 +8,7 @@ namespace Scheduler
     class CalendarPrinter : IPrinter
     {
         private IGui gui;
-        private string[] roomList = { "DUE1114", "DUE1116", "DUE1117", "other", "graduate", "undergraduate", "service" };
+        private string[] roomList = { "DUE1114", "DUE1116", "DUE1117", "other", "graduate", "undergraduate", "preprofessional", "professional", "service" };
 
         public CalendarPrinter(IGui gui)
         {
@@ -82,7 +82,7 @@ namespace Scheduler
                                     int ctcNum = int.Parse(ctc);
                                     if ((!room.Equals("graduate") && !room.Equals("undergraduate"))
                                             || (room.Equals("graduate") && IsGraduateCourse(cNum) && IsGraduateCourse(ctcNum))
-                                            || (room.Equals("undergraduate") && IisUnderGraduateCourse(cNum) && IisUnderGraduateCourse(ctcNum)))
+                                            || (room.Equals("undergraduate") && IsUnderGraduateCourse(cNum) && IsUnderGraduateCourse(ctcNum)))
                                     {
                                         if (cNum > ctcNum)
                                             continue; // skip courses whose number is greater than their cotaught course
@@ -165,7 +165,9 @@ namespace Scheduler
                                 || (!room.Equals(sec.FacilityId) && !IsOtherRoom(sec.FacilityId, room))
                                 // For graduate, undergraduate, and service listings
                                 && !((room.Equals("graduate") && IsGraduateCourse(catNbr))
-                                      || (room.Equals("undergraduate") && IisUnderGraduateCourse(catNbr) && !IsServiceCourse(catNbr))
+                                      || (room.Equals("preprofessional") && IsPreprofessionalCourse(catNbr))
+                                      || (room.Equals("professional") && IsProfessionalCourse(catNbr))
+                                      || (room.Equals("undergraduate") && IsUnderGraduateCourse(catNbr) && !IsServiceCourse(catNbr))
                                       || (room.Equals("service") && IsServiceCourse(catNbr)));
         }
 
@@ -321,9 +323,18 @@ namespace Scheduler
             return catNbr > 599;
         }
 
-        private bool IisUnderGraduateCourse(int catNbr)
+        private bool IsUnderGraduateCourse(int catNbr)
         {
             return catNbr < 700;
+        }
+
+        private bool IsPreprofessionalCourse(int catNbr)
+        {
+            return (catNbr == 115 || catNbr == 200 || catNbr == 300 || catNbr == 301 || catNbr == 241 || catNbr == 015);
+        }
+        private bool IsProfessionalCourse(int catNbr)
+        {
+            return IsUnderGraduateCourse(catNbr) && !IsPreprofessionalCourse(catNbr) && !IsServiceCourse(catNbr);
         }
 
         private bool IsServiceCourse(int catNbr)

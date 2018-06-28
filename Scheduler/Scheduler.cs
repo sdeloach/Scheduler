@@ -18,9 +18,15 @@ namespace Scheduler
         // 1.2.3 - fix sort of sections to sort 1) by catalog number and then 2) by section name
         // 1.3   - added filename text boxes to GUI
         // 1.3.1 - added ability to store and save previous file names
+        // 1.4   - added professional and preprofessional calendar outputs
+        // 1.4.1 - fixed overlap detection to be more robust
+        // 1.4.2 - fixed highlighting on schedule and instructor printers
+        // 1.4.3 - fixed criteria for skipping sections from KSIS file (checking instructor vs. monday);
+        //         fixed bug for ending IsHidden highlighting in HTMLInstructorPrinter
+        //1.5    - added Reload button
 
-        private const string version = "1.3.1";
-        private const string verdate = "March 27, 2018";
+        private const string version = "1.5";
+        private const string verdate = "June 28, 2018";
 
         // The viewer only calls controller methods directly
         private Controller controller;
@@ -51,7 +57,7 @@ namespace Scheduler
 
         public void ClearKSISFile()
         {
-            OutputTextViewer.Clear();
+            textBox2.Clear();
         }
 
         public void ClearTextBox()
@@ -125,6 +131,11 @@ namespace Scheduler
         private void Clear(object sender, EventArgs e)
         {
             controller.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            controller.Reload();
         }
     }
 }

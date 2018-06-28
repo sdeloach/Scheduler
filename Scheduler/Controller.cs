@@ -90,6 +90,7 @@ namespace Scheduler
                     localSemester.FileName = ofd.FileName;
                     gui.SetLocalFile(ofd.FileName);
                     localFileName = ofd.FileName;
+                    KSISFileName = "";
                     gui.ClearKSISFile();
                     WriteFileNames();
                 }
@@ -141,6 +142,21 @@ namespace Scheduler
             gui.ClearKSISFile();
             gui.ClearTextBox();
             WriteFileNames();
+        }
+        
+        public void Reload()
+        {
+            if (!localFileName.Equals(""))
+            {
+                localSemester.LocalRead(localFileName);
+                localSemester.FileName = localFileName;
+                if (!KSISFileName.Equals(""))
+                {
+                    Semester KSISsemester = new Semester(gui);
+                    KSISsemester.KSISread(KSISFileName);
+                    localSemester.VerifyAgainst(KSISsemester);
+                }
+            }
         }
 
         public void ConvertKSISFileToLocal()
@@ -267,5 +283,6 @@ namespace Scheduler
         {
             Utility.RunProcess(Configuration.WEBBROWSER, document);
         }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Scheduler
+﻿using System;
+
+namespace Scheduler
 {
     public class Section
     {
@@ -166,6 +168,7 @@
             HasNotBeenChanged = SubjectVer && CatalogNbrVer && ClassDescrVer && SectionVer && ConsentVer && EnrlCapVer && TopicDescrVer
                                 && MeetingStartDtVer && MeetingEndDtVer && FacilityIdVer && MeetingTimeStartVer && MeetingTimeEndVer && MonVer && TuesVer
                                 && WedVer && ThursVer && FriVer && SatVer && SunVer && InstructorVer && UnitsMinVer && UnitsMaxVer && ClassAssnComponentVer;
+
             return HasNotBeenChanged;
         }
     }

@@ -184,10 +184,12 @@ namespace Scheduler
 
             foreach (var section in semesterList)
             {
+                bool found = false;
                 foreach (var comparisonSection in comparisonSemester.semesterList)
                     if (section.CatalogNbr.Equals(comparisonSection.CatalogNbr) && section.SectionName.Equals(comparisonSection.SectionName))
-                        break; // it was found in comparision section
-                section.FlagChangesFromSection(new Section());
+                        found = true;
+                if (!found)
+                    section.FlagChangesFromSection(new Section());
             }
 
             // reset verification flags against the correct section
@@ -195,8 +197,8 @@ namespace Scheduler
                 foreach (var comparisonSection in comparisonSemester.semesterList)
                     if (section.CatalogNbr.Equals(comparisonSection.CatalogNbr) && section.SectionName.Equals(comparisonSection.SectionName))
                     {
-                        section.FlagChangesFromSection(comparisonSection);
-                        break;
+                        if (section.FlagChangesFromSection(comparisonSection))
+                            break;
                     }
         }
 

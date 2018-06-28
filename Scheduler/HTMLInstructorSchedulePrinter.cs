@@ -110,20 +110,20 @@ namespace Scheduler
 
                         // format section number
                         string section = Utility.PadRightWithString(sec.SectionName, 3);
-                        section = sec.SectionVer ? section : StartMark + section + EndMark;
+                        section = sec.IsHidden || sec.SectionVer ? section : StartMark + section + EndMark;
 
                         //format enrollment cap
                         string enrlCap = Utility.PadFrontWithString(sec.EnrlCap, 3);
-                        enrlCap = (sec.EnrlCapVer ? enrlCap : StartMark + enrlCap + EndMark);
+                        enrlCap = (sec.IsHidden || sec.EnrlCapVer ? enrlCap : StartMark + enrlCap + EndMark);
 
                         // format class association component
                         string component = Utility.PadRightWithString(sec.ClassAssnComponent, 4);
-                        component = sec.ClassAssnComponentVer ? component : StartMark + component + EndMark;
+                        component = sec.IsHidden || sec.ClassAssnComponentVer ? component : StartMark + component + EndMark;
 
                         // format credits
                         string credits = (sec.UnitsMin.Equals(sec.UnitsMax) ? sec.UnitsMin : sec.UnitsMin + "-" + sec.UnitsMax);
                         credits = Utility.PadRightWithString(credits, 5);
-                        credits = sec.UnitsMinVer && sec.UnitsMaxVer ? credits : StartMark + credits + EndMark;
+                        credits = sec.IsHidden || (sec.UnitsMinVer && sec.UnitsMaxVer) ? credits : StartMark + credits + EndMark;
 
                         // format days of the week
                         string days = (sec.Mon.Equals("Y")) ? "M" : OneSpace;
@@ -131,13 +131,13 @@ namespace Scheduler
                         days += (sec.Wed.Equals("Y")) ? "W" : OneSpace;
                         days += (sec.Thurs.Equals("Y")) ? "U" : OneSpace;
                         days += (sec.Fri.Equals("Y")) ? "F" : OneSpace;
-                        days = (sec.MonVer && sec.TuesVer && sec.WedVer && sec.ThursVer && sec.FriVer
-                                && sec.SatVer && sec.SunVer) ? days : StartMark + days + EndMark;
+                        days = (sec.IsHidden || (sec.MonVer && sec.TuesVer && sec.WedVer && sec.ThursVer && sec.FriVer
+                                && sec.SatVer && sec.SunVer)) ? days : StartMark + days + EndMark;
 
                         // format times of classes
-                        string times = (sec.MeetingTimeStartVer ? "" : StartMark) + Utility.PadFrontWithString(sec.MeetingTimeStart, 8)
-                                + (sec.MeetingTimeStartVer ? "" : EndMark) + "-" + (sec.MeetingTimeEndVer ? "" : StartMark)
-                                + Utility.PadFrontWithString(sec.MeetingTimeEnd, 8) + (sec.MeetingTimeEndVer ? "" : EndMark);
+                        string times = (sec.IsHidden || sec.MeetingTimeStartVer ? "" : StartMark) + Utility.PadFrontWithString(sec.MeetingTimeStart, 8)
+                                + (sec.IsHidden || sec.MeetingTimeStartVer ? "" : EndMark) + "-" + (sec.IsHidden || sec.MeetingTimeEndVer ? "" : StartMark)
+                                + Utility.PadFrontWithString(sec.MeetingTimeEnd, 8) + (sec.IsHidden || sec.MeetingTimeEndVer ? "" : EndMark);
 
                         if (times.Equals(StartMark + "12:00 AM" + EndMark + "-" + StartMark + "12:00 AM" + EndMark))
                             times = Utility.PadRightWithString(StartMark + "By Appointment" + EndMark, 17);
@@ -148,22 +148,22 @@ namespace Scheduler
                         string faculty = sec.Instructor;
                         faculty = faculty.Substring(0, faculty.Length > 15 ? 15 : faculty.Length);
                         faculty = Utility.PadRightWithString(faculty, 16);
-                        faculty = (sec.InstructorVer ? faculty : StartMark + faculty + EndMark);
+                        faculty = (sec.IsHidden || sec.InstructorVer ? faculty : StartMark + faculty + EndMark);
 
                         // format building and classroom number
-                        string facility = (sec.FacilityIdVer ? "" : StartMark) + Utility.PadRightWithString(sec.FacilityId, 8)
-                                + (sec.FacilityIdVer ? "" : EndMark);
+                        string facility = (sec.IsHidden || sec.FacilityIdVer ? "" : StartMark) + Utility.PadRightWithString(sec.FacilityId, 8)
+                                + (sec.IsHidden || sec.FacilityIdVer ? "" : EndMark);
 
                         string nonStd = standardMeetingStartDt.Equals(sec.MeetingStartDt) && standardMeetingEndDt.Equals(sec.MeetingEndDt) ?
-                                "" : ((sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "   [" : TwoSpaces + StartMark + "[")
+                                "" : (sec.IsHidden || (sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "   [" : TwoSpaces + StartMark + "[")
                                             + sec.MeetingStartDt + "-" + sec.MeetingEndDt
-                                            + ((sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "]" : "]" + EndMark);
+                                            + (sec.IsHidden || (sec.MeetingStartDtVer && sec.MeetingEndDtVer) ? "]" : "]" + EndMark);
 
                         // print line
                         printer.WriteLine(Tab + Tab + section + Tab + enrlCap + Tab + component + Tab + credits + Tab + days + Tab + times + Tab
                                 + facility + Tab + faculty + Tab + nonStd);
 
-                        if (sec.HasBeenDeleted)
+                        if (sec.HasBeenDeleted || sec.IsHidden)
                             printer.Write("</span>");
 
                     }
