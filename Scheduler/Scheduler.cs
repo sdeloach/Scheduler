@@ -24,9 +24,10 @@ namespace Scheduler
         // 1.4.3 - fixed criteria for skipping sections from KSIS file (checking instructor vs. monday);
         //         fixed bug for ending IsHidden highlighting in HTMLInstructorPrinter
         //1.5    - added Reload button
+        //1.6    - added ability to print all sections and to print all dates
 
-        private const string version = "1.5";
-        private const string verdate = "June 28, 2018";
+        private const string version = "1.6";
+        private const string verdate = "October 11, 2018";
 
         // The viewer only calls controller methods directly
         private Controller controller;
@@ -60,9 +61,9 @@ namespace Scheduler
             textBox2.Clear();
         }
 
-        public void ClearTextBox()
+        public void ClearOutputTextViewer()
         {
-            textBox2.Clear();
+            OutputTextViewer.Clear();
         }
 
         // File Submenu
@@ -136,6 +137,16 @@ namespace Scheduler
         private void button2_Click(object sender, EventArgs e)
         {
             controller.Reload();
+        }
+
+        private void PrintAllSection_CheckboxChange(object sender, EventArgs e)
+        {
+            controller.printAllSections = !controller.printAllSections;
+        }
+
+        private void PrintAllTimes_CheckboxChange(object sender, EventArgs e)
+        {
+            controller.printAllTimes = !controller.printAllTimes;
         }
     }
 }

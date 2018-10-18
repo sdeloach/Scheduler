@@ -12,6 +12,10 @@ namespace Scheduler
         private const string configFileName = "datafiles.config";
         private IGui gui;
 
+        public bool printAllSections { get; set; } = false;
+        public bool printAllTimes { get; set; } = false;
+
+
         public Controller(IGui gui)
         {
             this.gui = gui;
@@ -140,7 +144,7 @@ namespace Scheduler
             KSISFileName = "";
             gui.ClearLocalFile();
             gui.ClearKSISFile();
-            gui.ClearTextBox();
+            gui.ClearOutputTextViewer();
             WriteFileNames();
         }
         
@@ -211,7 +215,7 @@ namespace Scheduler
             else
             {
                 HTMLLineSchedulePrinter schedulePrinter = new HTMLLineSchedulePrinter(gui);
-                string outputFilename = schedulePrinter.Print(localSemester);
+                string outputFilename = schedulePrinter.Print(localSemester, printAllSections, printAllTimes);
                 ViewInWebbrowser(outputFilename);
             }
         }
@@ -225,7 +229,7 @@ namespace Scheduler
             else
             {
                 HTMLInstructorSchedulePrinter schedulePrinter = new HTMLInstructorSchedulePrinter(gui);
-                string outputFilename = schedulePrinter.Print(localSemester);
+                string outputFilename = schedulePrinter.Print(localSemester, printAllSections, printAllTimes);
                 ViewInWebbrowser(outputFilename);
             }
         }
@@ -233,7 +237,7 @@ namespace Scheduler
         public void ProduceCalendarEvents()
         {
             CalendarPrinter calendarPrinter = new CalendarPrinter(gui);
-            calendarPrinter.Print(localSemester);
+            calendarPrinter.Print(localSemester, true, true);
         }
 
         // Open Submenu

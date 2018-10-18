@@ -15,7 +15,7 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public string Print(Semester semester)
+        public string Print(Semester semester, bool printAllSections, bool printAllDates)
         {
             if (semester == null)
             {

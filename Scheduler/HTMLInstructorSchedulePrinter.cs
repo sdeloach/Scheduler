@@ -24,7 +24,7 @@ namespace Scheduler
             this.gui = gui;
         }
 
-        public string Print(Semester s)
+        public string Print(Semester s, bool printAllSections, bool printAllDates)
         {
             if (s.Size() <= 0)
             {
@@ -36,12 +36,17 @@ namespace Scheduler
             string lastCatalogNbr = "";
             string lastInstructor = "";
 
+            string standardMeetingStartDt = "";
+            string standardMeetingEndDt = "";
+            
             // making dangerous assumption that "standard" semester start and end dates are identical to the first section
-            string standardMeetingStartDt = s.ElementAt(0).MeetingStartDt;
-            string standardMeetingEndDt = s.ElementAt(0).MeetingEndDt;
+            if (!printAllDates) {
+                standardMeetingStartDt = s.ElementAt(0).MeetingStartDt;
+                standardMeetingEndDt = s.ElementAt(0).MeetingEndDt;
+            }
 
-            // sort by instructor 
-            Semester semester = s.SortByInstructor();
+        // sort by instructor 
+        Semester semester = s.SortByInstructor();
 
             // contruct file name
             string filename = s.FileName.Substring(0, s.FileName.Length - 4) + "_instructor.html";
@@ -65,17 +70,18 @@ namespace Scheduler
                     {
                         Section sec = semester.ElementAt(x);
 
-                        // skip sections we are not interested in seeing
+                        // skip sections we are not interested in seeing if printAllSections if false
 
-                        if (!sec.HasBeenDeleted) // print all sections that have been deleted regardless of number
-                            if (!sec.Instructor.Any()
-                                    || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
-                                    || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
-                                    || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
-                                    || (sec.CatalogNbr.Equals("690") && sec.TopicDescr.Equals(" "))
-                                    || (sec.CatalogNbr.Equals("798") && sec.TopicDescr.Equals("Top/Vary By Student"))
-                                    || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
-                                continue; //skip all the 80s, 798s, etc.
+                        if (!printAllSections)
+                            if (!sec.HasBeenDeleted) // print all sections that have been deleted regardless of number
+                                if (!sec.Instructor.Any()
+                                        || sec.CatalogNbr.Equals("999") || sec.CatalogNbr.Equals("990")
+                                        || sec.CatalogNbr.Equals("899") || sec.CatalogNbr.Equals("897")
+                                        || sec.CatalogNbr.Equals("898") || sec.CatalogNbr.Equals("895")
+                                        || (sec.CatalogNbr.Equals("690") && sec.TopicDescr.Equals(" "))
+                                        || (sec.CatalogNbr.Equals("798") && sec.TopicDescr.Equals("Top/Vary By Student"))
+                                        || (sec.CatalogNbr.Equals("890") && sec.TopicDescr.Equals("Top/Vary By Student")))
+                                    continue; //skip all the 80s, 798s, etc.
 
                         // print out lines for sections of interest
                         if (!sec.Instructor.Equals(lastInstructor))

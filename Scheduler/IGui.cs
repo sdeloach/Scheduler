@@ -12,6 +12,6 @@
 
         void ClearKSISFile();
 
-        void ClearTextBox();
+        void ClearOutputTextViewer();
     }
 }

@@ -58,6 +58,8 @@
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.PrintAll = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -267,11 +269,35 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // PrintAll
+            // 
+            this.PrintAll.AutoSize = true;
+            this.PrintAll.Location = new System.Drawing.Point(229, 5);
+            this.PrintAll.Name = "PrintAll";
+            this.PrintAll.Size = new System.Drawing.Size(61, 17);
+            this.PrintAll.TabIndex = 8;
+            this.PrintAll.Text = "Print All";
+            this.PrintAll.UseVisualStyleBackColor = true;
+            this.PrintAll.CheckedChanged += new System.EventHandler(this.PrintAllSection_CheckboxChange);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(304, 4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(75, 17);
+            this.checkBox1.TabIndex = 9;
+            this.checkBox1.Text = "PrintDates";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.PrintAllTimes_CheckboxChange);
+            // 
             // Viewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 399);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.PrintAll);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
@@ -322,5 +348,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox PrintAll;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
